@@ -25,12 +25,14 @@
       <img src="@/assets/images/Group-3.png" v-show="sentryShow" />
       <img src="@/assets/images/Group-6.png" v-show="gateShow" />
       <img src="@/assets/images/Group-5.png" v-show="sensorShow"/>
-      <img src="@/assets/images/Group 27.png" v-show="sensorWindow"/>
-      <img src="@/assets/images/Group 29.png" v-show="gateWindow"/>
-      <img src="@/assets/images/Group 31.png" v-show="cameraWindow"/>
-      <img src="@/assets/images/Group 35.png" v-show="sentryWindow"/>
-      <img src="@/assets/images/Group 33.png" v-show="essentialWindow"/>
-      <img src="@/assets/images/image 7.png" v-show="centerWindow"/>
+      <!--效果图-->
+      <img :src="sensorDetail?require('@/assets/images/Group 27.png'):require('@/assets/images/Group 28.png')" v-show="sensorWindow" @click="changeDetail(0)"/>
+      <img :src="gateDetail?require('@/assets/images/Group 29.png'):require('@/assets/images/Group 30.png')" v-show="gateWindow" @click="changeDetail(1)"/>
+      <img :src="cameraDetail?require('@/assets/images/Group 31.png'):require('@/assets/images/Group 32.png')" v-show="cameraWindow" @click="changeDetail(2)"/>
+      <img :src="sentryDetail?require('@/assets/images/Group 35.png'):require('@/assets/images/Group 36.png')" v-show="sentryWindow" @click="changeDetail(3)"/>
+      <img :src="essentialDetail?require('@/assets/images/Group 33.png'):require('@/assets/images/Group 34.png')" v-show="essentialWindow" @click="changeDetail(4)"/>
+      <img src="@/assets/images/image 7.png" v-show="centerWindow" @click="changeDetail(5)"/>
+
     </div>
 
     <!--左边-->
@@ -41,8 +43,8 @@
            <img src="@/assets/images/select.png"/>
          </div>
          <div class="left_comprehensive_body" :class="[topClose?'close':'']">
-           <div class="left_comprehensive_content" :class="[topClose?'close':'']"  @mouseenter="Stop()" @mouseleave="ScrollUp()">
-               <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index">
+           <div class="left_comprehensive_content" :class="[topClose?'close':'']"  @mouseenter="Stop()" @mouseleave="ScrollUp()" @scroll="paperScroll()">
+               <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index" @click="leftCarShow=true">
                  <div>【<span :style="{color:(item.isRed?'red':'')}">{{item.name}}</span>】</div>
                  <div>{{item.time}}</div>
                  <div>{{item.work}}</div>
@@ -181,7 +183,11 @@
          </div>
        </div>
      </div>
-    <div class="content_left_close" :class="[leftClose?'close':'']"  @click="leftClose=!leftClose">
+     <div class="content_left_img" v-show="leftCarShow">
+       <div class="content_close" @click="leftCarShow=false"></div>
+       <img src="@/assets/images/showCar.png"/>
+     </div>
+     <div class="content_left_close" :class="[leftClose?'close':'']"  @click="leftClose=!leftClose">
       <img src="@/assets/images/goleft.png" v-if="!leftClose">
       <img src="@/assets/images/leftClose.png" v-else>
     </div>
@@ -227,11 +233,17 @@ export default {
   name: 'campScreen',
   data () {
     return {
+      sensorDetail: true,
       sensorWindow: false,
+      gateDetail: true,
       gateWindow: false,
+      cameraDetail: true,
       cameraWindow: false,
+      sentryDetail: true,
       sentryWindow: false,
+      essentialDetail: true,
       essentialWindow: false,
+      centerDetail: true,
       centerWindow: false,
       sentryShow: true,
       cameraShow: true,
@@ -242,6 +254,7 @@ export default {
       comprehensiveDetailShow: false,
       comprehensiveStatus: 0,
       comprehensiveDetailStatus: 0,
+      leftCarShow: false,
       checkOK: require('@/assets/images/u21.png'),
       checkCancel: require('@/assets/images/u40.png'),
       Frame14: require('@/assets/images/Frame-14.png'),
@@ -266,7 +279,7 @@ export default {
       timer: null, // 时间
       intnum: null,
       activeIndex: 0, // 滚动
-      videoShow: true,
+      videoShow: false,
       videoSrc: '/video/join.mp4',
       comprehensiveList: [
         { name: '人员出入', isRed: false, time: '10.46', work: '东门进入访客章司', type: 3 },
@@ -319,6 +332,21 @@ export default {
         this.nowDate = TimeFormat(date)
       }, 1000)
     },
+    changeDetail (val) {
+      if (val === 0) {
+        this.sensorDetail = !this.sensorDetail
+      } else if (val === 1) {
+        this.gateDetail = !this.gateDetail
+      } else if (val === 2) {
+        this.cameraDetail = !this.cameraDetail
+      } else if (val === 3) {
+        this.sentryDetail = !this.sentryDetail
+      } else if (val === 4) {
+        this.essentialDetail = !this.essentialDetail
+      } else if (val === 5) {
+        this.centerDetail = !this.centerDetail
+      }
+    },
     ScrollUp () {
       this.intnum = setInterval(_ => {
         if (this.activeIndex < this.comprehensiveList.length) {
@@ -361,6 +389,10 @@ export default {
       this.activeIndex = 0
       this.ScrollUp()
     },
+    paperScroll () {
+      this.Stop()
+      this.activeIndex = 0
+    },
     /**
      * 关闭/打开右侧区域
      */
@@ -378,7 +410,7 @@ export default {
         this.rightClose = false
         this.bottomClose = false
         this.leftClose = false
-      },500)
+      }, 500)
     }
   }
 }
@@ -597,6 +629,11 @@ export default {
       top: 13.94%;
       bottom: 47.96%;
     }
+    .seeDetail:nth-child(1) {
+      width:30px ;
+      height: 30px;
+      background: #333333;
+    }
   }
   .content_left {
     position: absolute;
@@ -747,6 +784,7 @@ export default {
           background-size: 100% 100%;
           padding: 0 20px;
           overflow: hidden;
+          overflow-y:scroll;
           /*animation: scaleout 0.5s;*/
           transition: all 0.5s ;
           &.close{
@@ -778,6 +816,7 @@ export default {
             }
           }
         }
+        .left_comprehensive_content::-webkit-scrollbar {display:none}
       }
 
       .left_comprehensive_body_two {
@@ -898,6 +937,22 @@ export default {
       display: none;
     }
 
+  }
+  .content_left_img {
+    position: absolute;
+    width: 1078px;
+    height: 628px;
+    left: 421px;
+    top: 219px;
+    z-index: 5;
+    .content_close {
+      position: absolute;
+      top: 22px;
+      right: 14px;
+      z-index: 7;
+      width: 30px;
+      height: 30px;
+    }
   }
   .content_left_close {
     position: absolute;
