@@ -1,11 +1,11 @@
 <template>
-  <div id="lineEcharts" style="width: 420px;height:230px;
+  <div id="monthEcharts" style="width: 420px;height:230px;
   margin-top: 10px;margin-right: 20px;"></div>
 </template>
 
 <script>
   export default {
-    name: 'brokenLine',
+    name: 'month',
     data() {
       return {
         option: {
@@ -16,9 +16,8 @@
             x: 'right',
             // y 设置垂直安放位置，默认全图顶端，可选值：'top' ¦ 'bottom' ¦ 'center' ¦ {number}（y坐标，单位px）
             y: 'top',
-            data: ['单位车辆', '外来车辆']
+            data: ['人员', '车辆', '枪支', '设备', '周界']
           },
-
           // //  图表距边框的距离,可选值：'百分比'¦ {number}（单位px）
           grid: {
             top: '14%', // 等价于 y: '16%'
@@ -48,14 +47,13 @@
             },
             // boundaryGap值为false的时候，折线第一个点在y轴上
             boundaryGap: false,
-            data: ['02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00',]
+            data: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30']
           },
-
           yAxis: {
             type: 'value',
             min: 0, // 设置y轴刻度的最小值
-            max: 100, // 设置y轴刻度的最大值
-            splitNumber: 0, // 设置y轴刻度间隔个数
+            max: 250, // 设置y轴刻度的最大值
+            splitNumber: 5, // 设置y轴刻度间隔个数
             axisLine: {
               lineStyle: {
                 // 设置y轴颜色
@@ -69,12 +67,31 @@
               }
             },
           },
-
           series: [
-
             {
-              name: '单位车辆',
-              data: [9, 20, 8, 7, 40, 48, 54, 20, 20, 36, 6, 20],
+              name: '人员',
+              data: [0, 20, 40, 70, 90, 80, 110, 105, 70, 60, 70, 60, 35, 35, 60],
+              type: 'line',
+              // 设置折线上圆点大小
+              symbolSize: 4,
+              color: ['#0FEA8A'],
+              symbol: 'circle',
+              itemStyle: {
+                normal: {
+                  // 拐点上显示数值
+                  label: {
+                    show: false
+                  },
+                  lineStyle: {
+                    width: 1,
+                    type: 'solid'  //'dotted'虚线 'solid'实线
+                  },
+                }
+              }
+            },
+            {
+              name: '车辆',
+              data: [80, 100, 120, 150, 170, 160, 190, 185, 150, 140, 150, 140, 115, 115, 140],
               type: 'line',
               // 设置折线上圆点大小
               symbolSize: 4,
@@ -93,10 +110,9 @@
                 }
               }
             },
-
             {
-              name: '外来车辆',
-              data: [1, 1, 2, 3, 4, 8, 18, 14, 10, 7, 5, 3, 3, 2],
+              name: '枪支',
+              data: [60, 80, 100, 130, 150, 140, 170, 165, 130, 120, 130, 120, 95, 95, 120],
               type: 'line',
               // 设置折线上圆点大小
               symbolSize: 4,
@@ -115,16 +131,56 @@
                 }
               }
             },
+            {
+              name: '设备',
+              data: [40, 60, 80, 110, 130, 120, 150, 145, 110, 100, 110, 100, 75, 75, 100],
+              type: 'line',
+              // 设置折线上圆点大小
+              symbolSize: 4,
+              color: ['#FF8C00'],
+              symbol: 'circle',
+              itemStyle: {
+                normal: {
+                  // 拐点上显示数值
+                  label: {
+                    show: false
+                  },
+                  lineStyle: {
+                    width: 1,
+                    type: 'solid'  //'dotted'虚线 'solid'实线
+                  },
+                }
+              }
+            },
+            {
+              name: '周界',
+              data: [20, 40, 60, 90, 110, 100, 130, 125, 90, 80, 90, 80, 55, 55, 80],
+              type: 'line',
+              // 设置折线上圆点大小
+              symbolSize: 4,
+              color: ['#9B6BFF'],
+              symbol: 'circle',
+              itemStyle: {
+                normal: {
+                  // 拐点上显示数值
+                  label: {
+                    show: false
+                  },
+                  lineStyle: {
+                    width: 1,
+                    type: 'solid'  //'dotted'虚线 'solid'实线
+                  },
+                }
+              }
+            },
 
           ],
-
-          color: ['#33B1FF', '#FF2756']
+          color: ['#0FEA8A', '#33B1FF', '#FF2756', '#FF8C00', '#9B6BFF']
         }
-
       }
     },
     mounted() {
-      const myChart = this.$echarts.init(document.getElementById('lineEcharts')) // 使用刚指定的配置项和数据显示图表。
+      const myChart = this.$echarts.init(document.getElementById('monthEcharts')) // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(this.option)
     }
   }
