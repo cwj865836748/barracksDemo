@@ -62,6 +62,7 @@
       </div>
       <div class="content-footer-month">
         <zy-title text="月安全形势"/>
+        <Month/>
       </div>
       <div class="content-footer-personnel">
         <zy-title text="人员管理"/>
@@ -139,6 +140,7 @@
       </div>
       <div class="content-footer-bullet">
         <zy-title text="枪弹管理"/>
+        <Bullet/>
       </div>
       <div class="content-footer-vehicle">
         <zy-title text="车辆管理"/>
@@ -146,7 +148,48 @@
       </div>
       <div class="content-footer-device">
         <zy-title text="设备运维"/>
-        <div ref="myChart_pie1" :style="{width: '160px', height: '160px'}"></div>
+        <div class="content-footer-device-box">
+          <div class="flex-row  flex-y-center">
+            <div ref="myChart_pie1" :style="{width: '100px', height: '100px'}" class="flex-grow-0"></div>
+            <div class="flex-grow-1 flex-row" style="justify-content:space-between;padding: 0 20px ">
+              <div class="sb-item">
+                <span class="ry"></span>
+                <span class="title">摄像机</span>
+                <div class="num">120台</div>
+              </div>
+              <div class="sb-item">
+                <span class="ry" style="background: #0FEA8A;"></span>
+                <span class="title">人行道闸</span>
+                <div class="num">32台</div>
+              </div>
+              <div class="sb-item">
+                <span class="ry" style="background: #0F71EA;"></span>
+                <span class="title">车行道闸</span>
+                <div class="num">8台</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-row flex-y-center" style="margin-top: 10px">
+            <div ref="myChart_pie2" :style="{width: '100px', height: '100px'}"></div>
+            <div class="flex-grow-1 flex-row" style="justify-content:space-between;padding: 0 20px ">
+              <div class="sb-item">
+                <span class="ry" style="background: #F94137"></span>
+                <span class="title">摄像机故障</span>
+                <div class="num">10台</div>
+              </div>
+              <div class="sb-item">
+                <span class="ry" style="background: #FF8C00;"></span>
+                <span class="title">人行故障</span>
+                <div class="num">18台</div>
+              </div>
+              <div class="sb-item">
+                <span class="ry" style="background: #E81168;"></span>
+                <span class="title">车行故障</span>
+                <div class="num">4台</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -175,7 +218,7 @@
 
     <!--右边-->
     <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoShow=false"/>
-
+    <div class="back-btn" @click="$router.push('/')">返回</div>
   </div>
 </template>
 
@@ -183,10 +226,13 @@
   import {TimeFormat} from '@/utils/utils'
   import Plain from '@/components/echarts/plain'
   import Pie from '@/components/echarts/pie'
+  import Month from '@/components/echarts/month'
   import brokenLine from '@/components/echarts/brokenLine'
+  import Bullet from '@/components/echarts/bullet'
+
   import earthVideo from '@/components/earthVideo/earthVideo'
   import zyTitle from '@/components/title/index'
-  import 'echarts-liquidfill/src/liquidFill.js';
+  // import 'echarts-liquidfill/src/liquidFill.js';
 
   export default {
     name: 'situationMap',
@@ -203,7 +249,7 @@
       }
     },
     components: {
-      Plain, Pie, brokenLine, earthVideo,
+      Plain, Pie, brokenLine, Month, Bullet, earthVideo,
       zyTitle
     },
 
@@ -214,6 +260,7 @@
     },
     mounted() {
       this.drawPie1();
+      this.drawPie2();
     },
     beforeDestroy() {
       clearInterval(this.timer)
@@ -238,39 +285,39 @@
         var scale = 1;
         var echartData = [{
           value: parseInt(120),
-          name: '供配电'
+          name: '摄像机'
         },
           {
-            value: parseInt(32),
-            name: '暖通'
+            value: parseInt(8),
+            name: '车行道闸'
           },
           {
-            value: parseInt(8),
-            name: '给排水'
+            value: parseInt(32),
+            name: '人行道闸'
           }
         ]
 
         var option = {
-          backgroundColor: '#050e28',
+          // backgroundColor: 'rgba(0,0,0,0)',
 
           title: [{
-            text: '550台',
-            left: '30%',
-            top: '10%',
-            padding: [70, 0],
+            text: '160台',
+            left: '24%',
+            top: '20%',
+            padding: [14, 0],
             textStyle: {
               color: '#fff',
-              fontSize: 40 * scale,
+              fontSize: 20 * scale,
               align: 'center'
             },
           }, {
             text: '设备总数',
-            left: '33%',
-            top: '35%',
-            padding: [55, 0],
+            left: '22%',
+            top: '42%',
+            padding: [15, 0],
             textStyle: {
               color: '#fff',
-              fontSize: 24 * scale,
+              fontSize: 14 * scale,
               align: 'center'
             },
           }],
@@ -278,7 +325,7 @@
 //						name: '设备总数',
             type: 'pie', //环形图的type和饼图相同
             // center: ['30%', '50%'],
-            radius: ['75%', '100%'], //饼图的半径，第一个为内半径，第二个为外半径
+            radius: ['66%', '100%'], //饼图的半径，第一个为内半径，第二个为外半径
             avoidLabelOverlap: false,
             hoverAnimation: false,
             color: ['rgba(0, 255, 252, 1)', 'rgba(15, 113, 234, 1)', 'rgba(15, 234, 138, 1)'],
@@ -288,7 +335,7 @@
                 position: 'center',
                 textStyle: {
                   color: '#fff',
-                  fontSize: 40 * scale,
+                  fontSize: 20 * scale,
 //									align: 'center',
                   fontWeight: 'bold',
                   margin: [0, 0, 0, 5]
@@ -311,7 +358,94 @@
               }
             },
             itemStyle: {
-              borderWidth: 17,
+              borderWidth: 7,
+              borderColor: "#050e28"
+            },
+            data: echartData
+          }]
+        };
+        myChart.setOption(option);
+      },
+      drawPie2() {
+
+        var myChart = this.$echarts.init(this.$refs['myChart_pie2']);
+        var scale = 1;
+        var echartData = [{
+          value: parseInt(18),
+          name: '摄像机'
+        },
+          {
+            value: parseInt(4),
+            name: '车行道闸'
+          },
+          {
+            value: parseInt(10),
+            name: '人行道闸'
+          }
+        ]
+
+        var option = {
+          // backgroundColor: 'rgba(0,0,0,0)',
+
+          title: [{
+            text: '32台',
+            left: '28%',
+            top: '20%',
+            padding: [14, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 20 * scale,
+              align: 'center'
+            },
+          }, {
+            text: '故障总数',
+            left: '22%',
+            top: '42%',
+            padding: [15, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 14 * scale,
+              align: 'center'
+            },
+          }],
+          series: [{
+//						name: '设备总数',
+            type: 'pie', //环形图的type和饼图相同
+            // center: ['30%', '50%'],
+            radius: ['66%', '100%'], //饼图的半径，第一个为内半径，第二个为外半径
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            color: ['rgba(249,65,55, 1)', 'rgba(232,17,104, 1)', 'rgba(255,140,0, 1)'],
+            label: {
+              normal: { //正常的样式
+                show: false,
+                position: 'center',
+                textStyle: {
+                  color: '#fff',
+                  fontSize: 20 * scale,
+//									align: 'center',
+                  fontWeight: 'bold',
+                  margin: [0, 0, 0, 5]
+                },
+                formatter: function (name) {
+                  var target = 0;
+                  for (var j = 0; j < echartData.length; j++) {
+                    target += echartData[j].value
+                  }
+                  // console.log(target)
+                  var arr = target + "台";
+                  return arr
+
+                },
+              },
+            }, //提示文字
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            itemStyle: {
+              borderWidth: 7,
               borderColor: "#050e28"
             },
             data: echartData
@@ -625,10 +759,11 @@
       &-bullet {
         width: 450px;
         height: 290px;
-        background: green;
         position: absolute;
         top: 335px;
         right: 20px;
+        border: 2px solid #000D62;
+        background: rgba(2, 0, 40, 0.7);
       }
 
       &-vehicle {
@@ -649,6 +784,32 @@
         right: 20px;
         border: 2px solid #000D62;
         background: rgba(2, 0, 40, 0.7);
+
+        &-box {
+          padding: 10px 20px;
+
+          .sb-item {
+            .ry {
+              width: 10px;
+              height: 10px;
+              display: inline-block;
+              background: #00FFFC;
+              border-radius: 50%;
+              margin-right: 5px;
+            }
+            .title {
+              font-size: 14px;
+              color: #9B9B9B;
+            }
+            .num {
+              color: #FFFFFF;
+              font-size: 14px;
+              font-weight: bold;
+              margin-top: 10px;
+              margin-left: 10px;
+            }
+          }
+        }
       }
 
     }
@@ -661,5 +822,19 @@
     to {
       -webkit-transform: rotate(360deg);
     }
+  }
+
+  .back-btn {
+    position: absolute;
+    top: 96px;
+    right: 24px;
+    width: 88px;
+    line-height: 36px;
+    font-size: 16px;
+    color: #FFF;
+    text-align: center;
+    background: #0049FF;
+    border-radius: 2px;
+    cursor: pointer;
   }
 </style>
