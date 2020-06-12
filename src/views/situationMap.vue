@@ -76,139 +76,117 @@
         <zy-title text="设备运维"/>
       </div>
     </div>
-
-    <!--左边-->
-    <!--<div class="content_left">-->
-    <!--<div class="content_left_one">-->
-    <!--<div class="myContent">-->
-    <!--<div>每天安全形势</div>-->
-    <!--<Plain/>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="content_left_one">-->
-    <!--<div class="myContent">-->
-    <!--<div>人员管理</div>-->
-    <!--<Pie/>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="content_left_one">-->
-    <!--<div class="myContent">-->
-    <!--<div>车辆管理</div>-->
-    <!--<brokenLine/>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--中间-->
-
-    <!--右边-->
     <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoShow=false"/>
 
   </div>
 </template>
 
 <script>
-  import {TimeFormat} from '@/utils/utils'
-  import Plain from '@/components/echarts/plain'
-  import Pie from '@/components/echarts/pie'
-  import brokenLine from '@/components/echarts/brokenLine'
-  import earthVideo from '@/components/earthVideo/earthVideo'
-  import zyTitle from '@/components/title/index'
-  import 'echarts-liquidfill/src/liquidFill.js';
+import { TimeFormat } from '@/utils/utils'
+import Plain from '@/components/echarts/plain'
+import Pie from '@/components/echarts/pie'
+import brokenLine from '@/components/echarts/brokenLine'
+import earthVideo from '@/components/earthVideo/earthVideo'
+import zyTitle from '@/components/title/index'
+import 'echarts-liquidfill/src/liquidFill.js'
 
-  export default {
-    name: 'situationMap',
-    data() {
-      return {
-        nowDate: '',
-        timer: null,
-        intnum: null,
-        camp: 'A',
-        campShow: false,// 下拉
-        videoShow: false,
-        temp: 10
-      }
-    },
-    components: {
-      Plain, Pie, brokenLine, earthVideo,
-      zyTitle
-    },
+export default {
+  name: 'situationMap',
+  data () {
+    return {
+      nowDate: '',
+      timer: null,
+      intnum: null,
+      camp: 'A',
+      campShow: false, // 下拉
+      videoShow: false,
+      temp: 10
+    }
+  },
+  components: {
+    Plain,
+    Pie,
+    brokenLine,
+    earthVideo,
+    zyTitle
+  },
 
-    created() {
-      this.getDate()
-      // this.drawTemperature();
+  created () {
+    this.getDate()
+    // this.drawTemperature();
+  },
+  mounted () {
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
+    this.timer = null
+  },
+  methods: {
+    getDate () {
+      this.timer = setInterval(() => { // 创建定时器
+        var date = new Date()
+        this.nowDate = TimeFormat(date)
+      }, 1000)
     },
-    mounted() {
+    chooseCamp (val) {
+      this.videoSrc = `/video/${this.camp}${val}.mp4`
+      this.videoShow = true
+      this.camp = val
+      this.campShow = false
     },
-    beforeDestroy() {
-      clearInterval(this.timer)
-      this.timer = null
-    },
-    methods: {
-      getDate() {
-        this.timer = setInterval(() => { // 创建定时器
-          var date = new Date()
-          this.nowDate = TimeFormat(date)
-        }, 1000)
-      },
-      chooseCamp(val) {
-        this.videoSrc = `/video/${this.camp}${val}.mp4`
-        this.videoShow = true
-        this.camp = val
-        this.campShow = false
-      },
-      drawTemperature() {
-        let myChart = this.$echarts.init(document.getElementById('temperatrue-echarts'));
-        // window.console.log(this.temp)
-        var value = parseInt(this.temp) / 100;
-        var value1 = this.temp;
-        var data = [{
-          value: value,
-          amplitude: '5%',
-          waveLength: '80%',
-          itemStyle: {
-            color: 'rgba(52, 130, 250, 0.9)'
-          }
-        }, {
-          value: value,
-          amplitude: '5%',
-          waveLength: '80%',
-          itemStyle: {
-            color: 'rgba(52, 130, 250, 0.9)'
-          }
-        }];
-        var option = {
-          series: [{
-            type: 'liquidFill',
-            radius: '95%',
-            // cent  er: ['50%', '40%'],
-            data: data,
-            outline: {
-              show: false,
-              borderDistance: 0,
-            },
-            backgroundStyle: {
-              borderWidth: 5,
-              borderColor: 'rgba(53, 133, 255, 1)',
-              color: 'rgba(9, 14, 47, 0.76)'
-            },
-            label: {
-              normal: {
-                formatter: function () {
-                  return value1;
-                },
-                textStyle: {
-                  fontSize: 64,
-                  color: 'rgba(255, 255, 255, 1)'
-                }
+    drawTemperature () {
+      const myChart = this.$echarts.init(document.getElementById('temperatrue-echarts'))
+      // window.console.log(this.temp)
+      var value = parseInt(this.temp) / 100
+      var value1 = this.temp
+      var data = [{
+        value: value,
+        amplitude: '5%',
+        waveLength: '80%',
+        itemStyle: {
+          color: 'rgba(52, 130, 250, 0.9)'
+        }
+      }, {
+        value: value,
+        amplitude: '5%',
+        waveLength: '80%',
+        itemStyle: {
+          color: 'rgba(52, 130, 250, 0.9)'
+        }
+      }]
+      var option = {
+        series: [{
+          type: 'liquidFill',
+          radius: '95%',
+          // cent  er: ['50%', '40%'],
+          data: data,
+          outline: {
+            show: false,
+            borderDistance: 0
+          },
+          backgroundStyle: {
+            borderWidth: 5,
+            borderColor: 'rgba(53, 133, 255, 1)',
+            color: 'rgba(9, 14, 47, 0.76)'
+          },
+          label: {
+            normal: {
+              formatter: function () {
+                return value1
+              },
+              textStyle: {
+                fontSize: 64,
+                color: 'rgba(255, 255, 255, 1)'
               }
-            },
+            }
+          }
 
-          }]
-        };
-        myChart.setOption(option);
-      },
+        }]
+      }
+      myChart.setOption(option)
     }
   }
+}
 </script>
 
 <style lang="scss" scoped type="text/scss">
@@ -465,6 +443,5 @@
 
     }
   }
-
 
 </style>
