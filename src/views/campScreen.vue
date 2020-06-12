@@ -36,7 +36,7 @@
     <!--左边-->
      <div class="content_left" :class="[leftClose?'close':'']">
        <div class="left_comprehensive">
-         <div class="left_comprehensive_top" @click="comprehensiveShow=!comprehensiveShow">
+         <div class="left_comprehensive_top" @click="comprehensiveCloseShow">
            <span>综合动态</span>
            <img src="@/assets/images/select.png"/>
          </div>
@@ -50,7 +50,7 @@
            </div>
          </div>
          <div class="left_comprehensive_checkbox" v-show="comprehensiveShow">
-           <div :class="[comprehensiveStatus===0?'all':'']" @mouseover="changeStatus('status',0)" @click="getStatus('all')">全部动态</div>
+           <div :class="[comprehensiveStatus===0?'all':'']" style="cursor:pointer;" @mouseover="changeStatus('status',0)" @click="getStatus('all')">全部动态</div>
            <div :class="[comprehensiveStatus===1?'select':'']" @mouseover="changeStatus('status',1)">报警动态</div>
            <div :class="[comprehensiveStatus===2?'select':'']" @mouseover="changeStatus('status',2)">出入动态</div>
          </div>
@@ -75,7 +75,8 @@
          <div class="left_comprehensive_top">
           <span>值班信息</span>
          </div>
-         <div class="left_comprehensive_body_two" :class="[topClose?'close':'']">
+         <div class="left_comprehensive_body_two" :class="[topClose?'close':'',topCloseBottom?'closeBottom':'']">
+           <div :class="[topCloseBottom?'left_body':'']">
            <div class="left_status">值班动态</div>
            <div class="personal">
              <div><img src="@/assets/images/Group.png"/>值班首长：张三</div>
@@ -83,6 +84,7 @@
              <div><img src="@/assets/images/Group.png"/>值班人员：李四</div>
              <div><img src="@/assets/images/Group.png"/>值班人员：王五</div>
            </div>
+           <div class="left_border"/>
            <div class="left_status">人员信息</div>
            <div class="personMessage">
              <div class="personDetail">
@@ -114,6 +116,7 @@
                <div>300人</div>
              </div>
            </div>
+           <div class="left_border"/>
            <div class="left_status">车辆信息</div>
            <div class="personMessage">
              <div class="personDetail">
@@ -145,8 +148,9 @@
                <div>2辆</div>
              </div>
            </div>
+           <div class="left_border"/>
            <div class="left_status">枪支信息</div>
-           <div class="personMessage">
+           <div class="personMessage personMessage_q">
              <div class="personDetail">
                <div>编制枪支</div>
                <div class="lineColor">
@@ -168,24 +172,18 @@
                </div>
                <div>100支</div>
              </div>
-             <div class="personDetail">
-               <div>访客枪支</div>
-               <div class="lineColor">
-                 <div class="blue" style="width: 65%"></div>
-               </div>
-               <div>80支</div>
-             </div>
            </div>
-           <div class="topClose1">
-             <img src="@/assets/images/goup.png">
            </div>
          </div>
-
+         <div class="topClose" @click="topCloseBottom=!topCloseBottom">
+           <img src="@/assets/images/goup.png" v-if="!topCloseBottom">
+           <img src="@/assets/images/gobottom.png" v-else>
+         </div>
        </div>
      </div>
     <div class="content_left_close" :class="[leftClose?'close':'']"  @click="leftClose=!leftClose">
       <img src="@/assets/images/goleft.png" v-if="!leftClose">
-      <img src="@/assets/images/goright.png" v-else>
+      <img src="@/assets/images/leftClose.png" v-else>
     </div>
     <!--右边-->
      <div class="content_right" :class="[rightClose?'close':'']">
@@ -200,7 +198,7 @@
      </div>
      <div class="content_right_close" :class="[rightClose?'close':'']" @click="handleRightClose">
        <img src="@/assets/images/goright.png" v-if="!rightClose">
-       <img src="@/assets/images/goleft.png" v-else>
+       <img src="@/assets/images/rightClose.png" v-else>
      </div>
     <!--下边-->
      <div class="content_bottom" :class="[bottomClose?'close':'']">
@@ -218,7 +216,7 @@
     <div class="bottom_close_up" :class="[bottomClose?'close':'']" @click="bottomClose=!bottomClose">
       <img src="@/assets/images/goup.png">
     </div>
-    <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoShow=false"/>
+    <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoCloseShow"/>
   </div>
 </template>
 
@@ -268,7 +266,7 @@ export default {
       timer: null, // 时间
       intnum: null,
       activeIndex: 0, // 滚动
-      videoShow: false,
+      videoShow: true,
       videoSrc: '/video/join.mp4',
       comprehensiveList: [
         { name: '人员出入', isRed: false, time: '10.46', work: '东门进入访客章司', type: 3 },
@@ -289,7 +287,8 @@ export default {
       rightClose: false,
       bottomClose: false,
       leftClose: false,
-      topClose: false
+      topClose: false,
+      topCloseBottom: false
     }
   },
   components: {
@@ -337,6 +336,9 @@ export default {
       this.videoShow = true
       this.camp = val
       this.campShow = false
+      this.rightClose = true
+      this.bottomClose = true
+      this.leftClose = true
     },
     changeStatus (type, val) {
       if (type === 'status') {
@@ -364,6 +366,19 @@ export default {
      */
     handleRightClose () {
       this.rightClose = !this.rightClose
+    },
+    comprehensiveCloseShow () {
+      this.comprehensiveShow = !this.comprehensiveShow
+      this.comprehensiveDetailShow = false
+    },
+    videoCloseShow () {
+      this.videoShow = false
+
+      setTimeout(() => {
+        this.rightClose = false
+        this.bottomClose = false
+        this.leftClose = false
+      },500)
     }
   }
 }
@@ -405,7 +420,7 @@ export default {
       position: absolute;
       z-index: 10;
       top: 66px;
-      left: 152px;
+      left: 128px;
       .camp_icon {
         font-family: Microsoft YaHei UI;
         font-style: normal;
@@ -418,6 +433,7 @@ export default {
         align-items: center;
         justify-content: center;
         position: relative;
+        cursor: pointer;
       }
       .icon {
         color: #FFFFFF;
@@ -460,6 +476,7 @@ export default {
       line-height: 30px;
       letter-spacing: 0.1em;
       color: #FFFFFF;
+      cursor: pointer;
       img {
         margin-left: 10px;
       }
@@ -472,6 +489,7 @@ export default {
     background-size: 100% 100%;
     img {
       position: absolute;
+      cursor: pointer;
     }
     img:nth-child(1){
       left: 26.25%;
@@ -604,6 +622,7 @@ export default {
         font-weight: bold;
         font-size: 24px;
         line-height: 30px;
+        cursor: pointer;
         img {
           margin-left: 10px;
         }
@@ -621,7 +640,8 @@ export default {
         box-sizing: border-box;
         position: absolute;
         top: 54px;
-        left: 158px;
+        left: 103px;
+        z-index:10;
         div {
           height: 57px;
           font-family: Microsoft YaHei UI;
@@ -699,12 +719,14 @@ export default {
       .absolute2{
         position: absolute;
         top: 112px;
-        left: 338px;
+        left: 284px;
+        cursor: pointer;
       }
       .absolute3{
         position: absolute;
         top: 168px;
-        left: 338px;
+        left: 284px;
+        cursor: pointer;
       }
       .left_comprehensive_body {
         width: 400px;
@@ -767,8 +789,15 @@ export default {
         position: relative;
         overflow: hidden;
         overflow-y: scroll;
+        transition: all 0.5s;
         &.close{
           height: 782px;
+        }
+        &.closeBottom{
+          height: 0;
+        }
+        .left_body {
+          display: none;
         }
         .left_status {
           width: 100%;
@@ -780,7 +809,14 @@ export default {
           font-size: 24px;
           line-height: 30px;
           color: #FFFFFF;
-          margin-bottom: 10px;
+          margin-bottom: 12px;
+        }
+        .left_border {
+          background: url("../assets/images/border-1.png") no-repeat;
+          background-size: 100% 100%;
+          width: 100%;
+          height: 8px;
+          margin: 12px 0;
         }
         .personal {
           display: flex;
@@ -796,7 +832,6 @@ export default {
           background-size: 100% 100%;
           color: #FFFFFF;
           align-items: center;
-          margin-bottom: 25px;
           div {
             height: 50px;
             display: flex;
@@ -808,15 +843,14 @@ export default {
           }
         }
         .personMessage {
-          background-color: #020028;
+          background: url("../assets/images/bg-2.png") no-repeat;
+          background-size: 100% 100%;
           height: 157px;
           width: 361px;
-          border: 1px solid #00137F;
           padding:0 10px;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
-          margin-bottom: 40px;
           .personDetail {
             display: flex;
             font-family: Microsoft YaHei UI;
@@ -845,18 +879,20 @@ export default {
             }
           }
         }
+        .personMessage_q {
+          background: url("../assets/images/bg-3.png") no-repeat;
+          background-size: 100% 100%;
+          height: 123px;
+        }
       }
       .topClose {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         bottom: -5px;
+        cursor: pointer;
       }
-      .topClose1 {
-        position: fixed;
-        left: 178px;
-        bottom: 26px;
-      }
+
     }
     .left_comprehensive_body_two::-webkit-scrollbar{
       display: none;
@@ -869,8 +905,8 @@ export default {
     height: 80px;
     left: 420px;
     top: 533px;
-    background: rgba(3, 4, 40, 0.9);
     transition: all 0.5s;
+    cursor: pointer;
     &.close{
       left: 0px;
     }
@@ -881,8 +917,7 @@ export default {
     height: 928px;
     left: 1752px;
     top: 122px;
-    background: #020028;
-    opacity: 0.7;
+    background: rgba(2,0,40,0.7);
     border: 1px solid #00137F;
     box-sizing: border-box;
     display: flex;
@@ -890,6 +925,9 @@ export default {
     justify-content: space-around;
     flex-direction: column;
     transition: all 0.5s;
+    img {
+      cursor: pointer;
+    }
     &.close{
       left: 1920px;
     }
@@ -900,8 +938,8 @@ export default {
     height: 80px;
     left: 1714px;
     top: 543px;
-    background: rgba(3, 4, 40, 0.9);
     transition: all 0.5s;
+    cursor: pointer;
     &.close{
       left: 1880px;
     }
@@ -914,9 +952,9 @@ export default {
     top: 970px;
     display: flex;
     border: 1px solid #00137F;
-    background: #020028;
-    opacity: 0.7;
+    background: rgba(2,0,40,0.7);
     transition: all 0.5s;
+    border-radius: 0 10px 10px 0;
 
     &.close{
       top: 1080px;
@@ -938,12 +976,16 @@ export default {
       .checkbox_one {
         display: flex;
         align-items: center;
+        cursor: pointer;
+       img {
+         margin-right: 10px;
+       }
       }
     }
     .bottom_close {
       width: 38px;
-      height: 80px;
-      background: rgba(3, 4, 40, 0.9);
+      cursor: pointer;
+
     }
   }
   .bottom_close_up {
@@ -951,6 +993,7 @@ export default {
     top:1080px;
     left: 72%;
     transition: all 0.5s;
+    cursor: pointer;
     &.close{
       top: 1040px;
       transition-delay: 0.5s;
