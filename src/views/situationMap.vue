@@ -3,8 +3,14 @@
     <!--头部-->
     <div class="content_head">
       <img src="@/assets/images/head.png"/>
-      <div class="head_camp">{{camp}}<img src="@/assets/images/select.png"/></div>
+      <div class="head_text">XX营区安全管控综合态势图</div>
+      <div class="head_camp" @click="campShow=!campShow">{{camp}}营区<img src="@/assets/images/select.png"/></div>
       <div class="head_date">{{nowDate}}</div>
+      <div class="head_choose" v-show="campShow">
+        <div :class="['camp_icon',camp==='A'?'icon':'']"  @click="chooseCamp('A')">A营区</div>
+        <div :class="['camp_icon',camp==='B'?'icon':'']"  @click="chooseCamp('B')">B营区</div>
+        <div :class="['camp_icon',camp==='C'?'icon':'']"  @click="chooseCamp('C')">C营区</div>
+      </div>
     </div>
     <!--左边-->
     <div class="content_left">
@@ -29,6 +35,8 @@
     </div>
     <!--中间-->
     <!--右边-->
+    <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoShow=false"/>
+
   </div>
 </template>
 
@@ -37,6 +45,7 @@ import { TimeFormat } from '@/utils/utils'
 import Plain from '@/components/echarts/plain'
 import Pie from '@/components/echarts/pie'
 import brokenLine from '@/components/echarts/brokenLine'
+import earthVideo from '@/components/earthVideo/earthVideo'
 
 export default {
   name: 'situationMap',
@@ -45,11 +54,13 @@ export default {
       nowDate: '',
       timer: null,
       intnum: null,
-      camp: 'A营区'
+      camp: 'A',
+      campShow: false,// 下拉
+      videoShow:false
     }
   },
   components: {
-    Plain, Pie, brokenLine
+    Plain, Pie, brokenLine, earthVideo
   },
 
   created () {
@@ -67,6 +78,12 @@ export default {
         var date = new Date()
         this.nowDate = TimeFormat(date)
       }, 1000)
+    },
+    chooseCamp (val) {
+      this.videoSrc = `/video/${this.camp}${val}.mp4`
+      this.videoShow = true
+      this.camp = val
+      this.campShow = false
     }
   }
 }
@@ -80,6 +97,59 @@ export default {
     .content_head {
       width: 100%;
       height: 120px;
+      .head_text {
+        position: absolute;
+        height: 46px;
+        left: 766px;
+        top: 24px;
+
+        font-family: Microsoft YaHei UI;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 36px;
+        line-height: 46px;
+        /* identical to box height */
+
+        text-align: center;
+        letter-spacing: 0.15em;
+
+        color: #FFFFFF;
+      }
+      .head_choose {
+        width: 106px;
+        height: 147px;
+        background: url("../assets/images/u10.png") no-repeat;
+        background-size: 100% 100%;
+        position: absolute;
+        z-index: 10;
+        top: 66px;
+        left: 152px;
+        .camp_icon {
+          font-family: Microsoft YaHei UI;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 24px;
+          line-height: 30px;
+          color: #616079;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+        .icon {
+          color: #FFFFFF;
+        }
+        .icon::before {
+          content: '';
+          width: 2px;
+          height: 15.9px;
+          display: block;
+          background-color: #34E3FE;
+          position: absolute;
+          left: 15px;
+        }
+      }
       .head_date {
         position: absolute;
         width: 213px;
@@ -132,6 +202,12 @@ export default {
          color: #FFFFFF;
        }
      }
+    }
+    .myEarthVideo {
+      position: fixed;
+      top:0;
+      left: 0;
+      z-index: 999;
     }
   }
 </style>

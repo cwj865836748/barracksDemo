@@ -3,6 +3,7 @@
     <!--头部-->
      <div class="content_head">
        <img src="@/assets/images/head.png"/>
+       <div class="head_text">XX营区安全管理平台</div>
        <div class="head_camp" @click="campShow=!campShow">{{camp}}营区<img src="@/assets/images/select.png"/></div>
        <div class="head_date">{{nowDate}}</div>
        <div class="head_choose" v-show="campShow">
@@ -378,6 +379,24 @@ export default {
     width: 100%;
     height: 120px;
     position: relative;
+    .head_text {
+      position: absolute;
+      height: 46px;
+      left: 766px;
+      top: 24px;
+
+      font-family: Microsoft YaHei UI;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 36px;
+      line-height: 46px;
+      /* identical to box height */
+
+      text-align: center;
+      letter-spacing: 0.15em;
+
+      color: #FFFFFF;
+    }
     .head_choose {
       width: 106px;
       height: 147px;
@@ -422,7 +441,6 @@ export default {
 
       font-family: PingFang SC;
       font-style: normal;
-      font-weight: 600;
       font-size: 20px;
       line-height: 28px;
       color: #FFFFFF;
@@ -691,8 +709,7 @@ export default {
       .left_comprehensive_body {
         width: 400px;
         height: 352px;
-        background: #403556;
-        opacity: 0.7;
+        background: rgba(64,53,86,0.7);
         padding: 10px;
         border: 1px solid #012578;
         transition: all 0.5s;
@@ -704,25 +721,14 @@ export default {
           width:100% ;
           height: 100%;
           box-sizing: border-box;
-          background: #020028;
-          border: 1px solid #264A98;
+          background: url("../assets/images/topBg.png") no-repeat;
+          background-size: 100% 100%;
           padding: 0 20px;
           overflow: hidden;
           /*animation: scaleout 0.5s;*/
           transition: all 0.5s ;
           &.close{
             height: 0;
-            border: 0;
-            /*animation: scaleout 0.5s;*/
-            /*@keyframes scaleout {*/
-            /*  0% {*/
-            /*    height: 0;*/
-            /*    display: none;*/
-            /*  } 100% {*/
-            /*                    height: 0;*/
-            /*      display: none;*/
-            /*    }*/
-            /*}*/
           }
           .detail{
             width: 100%;
@@ -755,8 +761,7 @@ export default {
       .left_comprehensive_body_two {
         width: 400px;
         height: 468px;
-        background: #403556;
-        opacity: 0.7;
+        background: rgba(64,53,86,0.7);
         border: 1px solid #00137F;
         padding: 20px;
         position: relative;
@@ -764,17 +769,7 @@ export default {
         overflow-y: scroll;
         &.close{
           height: 782px;
-          /*left: 0px;*/
-          /*animation: scaleout 2.5s infinite ease-in-out;*/
-          /*@keyframes scaleout {*/
-          /*  0% {*/
-
-          /*  } 100% {*/
-          /*         height: 20px;*/
-          /*    }*/
-          /*}*/
         }
-
         .left_status {
           width: 100%;
           padding-left:5px;
@@ -786,7 +781,6 @@ export default {
           line-height: 30px;
           color: #FFFFFF;
           margin-bottom: 10px;
-          opacity: 1;
         }
         .personal {
           display: flex;
@@ -798,12 +792,10 @@ export default {
           font-size: 18px;
           line-height: 23px;
           /* identical to box height */
-          background-color: #020028;
+          background: url("../assets/images/bg-1.png") no-repeat;
+          background-size: 100% 100%;
           color: #FFFFFF;
-
           align-items: center;
-          border: 2px solid #033797;
-
           margin-bottom: 25px;
           div {
             height: 50px;
