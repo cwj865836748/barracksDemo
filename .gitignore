@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+/wisdom_barracks_html
 
 # local env files
 .env.local
