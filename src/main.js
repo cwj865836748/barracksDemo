@@ -12,7 +12,6 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = { get, post }
 Vue.prototype.$echarts = echarts
 Vue.prototype.$video = Videojs
-
 new Vue({
   router,
   store,

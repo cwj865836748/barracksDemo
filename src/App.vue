@@ -8,44 +8,44 @@
 </template>
 
 <script>
-  import $ from 'jquery'
+import $ from 'jquery'
 
-  export default {
-    name: 'App',
-    data() {
-      return {
-        windowWidth: $(window).width(),
-        windowHight: $(window).height()
-      }
-    },
-    mounted() {
-      // const that = this
-      // that.resizeDiv()
-      // window.onresize = () => {
-      //   return (() => {
-      //     that.windowWidth = $(window).width()
-      //     that.windowHight = $(window).height()
-      //     that.resizeDiv()
-      //   })()
-      // }
-    },
-    methods: {
-      resizeDiv() {
-        const scaleX = this.windowWidth / 1920 // 设备默认宽度为810px
-        const scaleY = this.windowHight / 1080 // 设备默认高度为340px
-        // 按设备比例缩放div的比例
-        const scaleFunc = 'scale(' + scaleX + ',' + scaleY + ')'
-        $('body').css({
-          transform: scaleFunc, // 缩放比例
-          '-ms-transform': scaleFunc, /* IE 9 */
-          '-moz-transform': scaleFunc, /* Firefox */
-          '-webkit-transform': scaleFunc, /* Safari 和 Chrome */
-          '-o-transform': scaleFunc /* Opera */
-        })
-        $('body').show()
-      }
+export default {
+  name: 'App',
+  data () {
+    return {
+      windowWidth: $(window).width(),
+      windowHight: $(window).height()
+    }
+  },
+  mounted () {
+    // const that = this
+    // that.resizeDiv()
+    // window.onresize = () => {
+    //   return (() => {
+    //     that.windowWidth = $(window).width()
+    //     that.windowHight = $(window).height()
+    //     that.resizeDiv()
+    //   })()
+    // }
+  },
+  methods: {
+    resizeDiv () {
+      const scaleX = this.windowWidth / 1920 // 设备默认宽度为810px
+      const scaleY = this.windowHight / 1080 // 设备默认高度为340px
+      // 按设备比例缩放div的比例
+      const scaleFunc = 'scale(' + scaleX + ',' + scaleY + ')'
+      $('body').css({
+        transform: scaleFunc, // 缩放比例
+        '-ms-transform': scaleFunc, /* IE 9 */
+        '-moz-transform': scaleFunc, /* Firefox */
+        '-webkit-transform': scaleFunc, /* Safari 和 Chrome */
+        '-o-transform': scaleFunc /* Opera */
+      })
+      $('body').show()
     }
   }
+}
 </script>
 
 <style lang="scss">

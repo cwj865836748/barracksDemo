@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     name: 'campScreen',
     component: () => import('../views/campScreen.vue'),
-    meta: { title: '首页', keepAlive: false, auth: false }
+    meta: { title: '首页', keepAlive: true, auth: false }
   },
   {
     path: '/situationMap',

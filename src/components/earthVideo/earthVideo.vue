@@ -3,6 +3,7 @@
     <video
       ref="myVideo"
       class="video-js"
+      muted controls autoplay preload="auto"
     >
       <source
         :src=videoSrc

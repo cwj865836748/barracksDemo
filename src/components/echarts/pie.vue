@@ -8,6 +8,29 @@ export default {
   data () {
     return {
       roundOption: {
+        title: [{
+          text: '共出入',
+          left: '49%',
+          top: '33%',
+          padding: [14, 0],
+          textStyle: {
+            color: '#fff',
+            fontSize: 18,
+            align: 'center',
+            fontWeight:'normal'
+          }
+        }, {
+          text: '70人',
+          left: '49%',
+          top: '42%',
+          padding: [15, 0],
+          textStyle: {
+            color: '#fff',
+            fontSize: 26,
+            align: 'center',
+            fontWeight:'normal'
+          }
+        }],
         tooltip: {
           trigger: 'item',
           formatter: ' {b}：{c} '
@@ -23,17 +46,17 @@ export default {
           x: 'left',
           data: ['视频广告', '其他']
         },
-        graphic: { // 图形中间文字
-          type: 'text',
-          left: '46%',
-          top: 'center',
-          style: {
-            text: '共出入\n70人',
-            textAlign: 'center',
-            fill: '#fff',
-            fontSize: 26
-          }
-        },
+        // graphic: { // 图形中间文字
+        //   type: 'text',
+        //   left: '46%',
+        //   top: 'center',
+        //   style: {
+        //     text: '共出入\n70人',
+        //     textAlign: 'center',
+        //     fill: '#fff',
+        //     fontSize: 26
+        //   }
+        // },
         series: [
 
           {
@@ -48,7 +71,10 @@ export default {
               }
 
             },
-
+            itemStyle: {
+              borderWidth: 7,
+              borderColor: '#050e28'
+            },
             label: {
               normal: {
                 // \n\n可让文字居于牵引线上方，很关键

@@ -5,8 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    camp: 'A'
   },
   mutations: {
+    updateCamp (state, val) {
+      state.camp = val
+    }
   },
   actions: {
   },
