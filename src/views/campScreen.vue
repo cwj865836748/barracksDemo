@@ -393,7 +393,7 @@
       },
       videoCloseShow() {
         this.videoShow = false
-
+        console.log('---')
         setTimeout(() => {
           this.rightClose = false
           this.bottomClose = false
