@@ -31,25 +31,30 @@
             <span class="desc">较昨日上升20%</span>
           </div>
           <div class="flex-row content-footer-today-box-footer  ">
-            <div class="flex-grow-1 flex-col flex-x-center flex-y-center">
+            <div class="flex-grow-1 flex-col flex-x-center flex-y-center item">
+              <div class="num">30%</div>
               <img src="../assets/images/qiu.png" alt="" width="108" height="108">
               <span>人行安全形势</span>
             </div>
-            <div class="flex-grow-1 flex-col flex-x-center flex-y-center">
+            <div class="flex-grow-1 flex-col flex-x-center flex-y-center item">
+              <div class="num">30%</div>
               <img src="../assets/images/qiu.png" alt="" width="108" height="108">
-              <span>人行安全形势</span>
+              <span>车辆安全形势</span>
             </div>
-            <div class="flex-grow-1 flex-col flex-x-center">
+            <div class="flex-grow-1 flex-col flex-x-center flex-y-center item">
+              <div class="num">30%</div>
               <img src="../assets/images/qiu.png" alt="" width="108" height="108">
-              <span>人行安全形势</span>
+              <span>枪支安全形势</span>
             </div>
-            <div class="flex-grow-1 flex-col flex-x-center">
+            <div class="flex-grow-1 flex-col flex-x-center flex-y-center item">
+              <div class="num">30%</div>
               <img src="../assets/images/qiu.png" alt="" width="108" height="108">
-              <span>人行安全形势</span>
+              <span>设备安全形势</span>
             </div>
-            <div class="flex-grow-1 flex-col flex-x-center">
+            <div class="flex-grow-1 flex-col flex-x-center flex-y-center item">
+              <div class="num">30%</div>
               <img src="../assets/images/qiu.png" alt="" width="108" height="108">
-              <span>人行安全形势</span>
+              <span>周界安全形势</span>
             </div>
 
           </div>
@@ -63,7 +68,74 @@
         <Pie/>
       </div>
       <div class="content-footer-vedio">
-        <zy-title text="周安全形势"/>
+        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==4">
+          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
+            <img src="../assets/images/vedio1.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
+            <img src="../assets/images/vedio2.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
+            <img src="../assets/images/vedio4.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
+            <img src="../assets/images/vedio3.png" alt="">
+          </div>
+        </div>
+        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16">
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/vedio1.png" alt="" class="img1">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/vedio2.png" alt="" class="img1">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/vedio3.png" alt="" class="img1">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/vedio4.png" alt="" class="img1">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+            <img src="../assets/images/xz.png" alt="">
+          </div>
+        </div>
+        <div class="content-footer-vedio-footer flex-row flex-x-center">
+          <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">2*2</div>
+          <div class="btn" :class="[vedioNum==16?'active':'']" @click="vedioNum = 16">4*4</div>
+        </div>
       </div>
       <div class="content-footer-bullet">
         <zy-title text="枪弹管理"/>
@@ -74,6 +146,7 @@
       </div>
       <div class="content-footer-device">
         <zy-title text="设备运维"/>
+        <div ref="myChart_pie1" :style="{width: '160px', height: '160px'}"></div>
       </div>
     </div>
 
@@ -125,7 +198,8 @@
         camp: 'A',
         campShow: false,// 下拉
         videoShow: false,
-        temp: 10
+        temp: 10,
+        vedioNum: 4
       }
     },
     components: {
@@ -135,9 +209,11 @@
 
     created() {
       this.getDate()
+
       // this.drawTemperature();
     },
     mounted() {
+      this.drawPie1();
     },
     beforeDestroy() {
       clearInterval(this.timer)
@@ -156,53 +232,89 @@
         this.camp = val
         this.campShow = false
       },
-      drawTemperature() {
-        let myChart = this.$echarts.init(document.getElementById('temperatrue-echarts'));
-        // window.console.log(this.temp)
-        var value = parseInt(this.temp) / 100;
-        var value1 = this.temp;
-        var data = [{
-          value: value,
-          amplitude: '5%',
-          waveLength: '80%',
-          itemStyle: {
-            color: 'rgba(52, 130, 250, 0.9)'
+      drawPie1() {
+
+        var myChart = this.$echarts.init(this.$refs['myChart_pie1']);
+        var scale = 1;
+        var echartData = [{
+          value: parseInt(120),
+          name: '供配电'
+        },
+          {
+            value: parseInt(32),
+            name: '暖通'
+          },
+          {
+            value: parseInt(8),
+            name: '给排水'
           }
-        }, {
-          value: value,
-          amplitude: '5%',
-          waveLength: '80%',
-          itemStyle: {
-            color: 'rgba(52, 130, 250, 0.9)'
-          }
-        }];
+        ]
+
         var option = {
+          backgroundColor: '#050e28',
+
+          title: [{
+            text: '550台',
+            left: '30%',
+            top: '10%',
+            padding: [70, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 40 * scale,
+              align: 'center'
+            },
+          }, {
+            text: '设备总数',
+            left: '33%',
+            top: '35%',
+            padding: [55, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 24 * scale,
+              align: 'center'
+            },
+          }],
           series: [{
-            type: 'liquidFill',
-            radius: '95%',
-            // cent  er: ['50%', '40%'],
-            data: data,
-            outline: {
-              show: false,
-              borderDistance: 0,
-            },
-            backgroundStyle: {
-              borderWidth: 5,
-              borderColor: 'rgba(53, 133, 255, 1)',
-              color: 'rgba(9, 14, 47, 0.76)'
-            },
+//						name: '设备总数',
+            type: 'pie', //环形图的type和饼图相同
+            // center: ['30%', '50%'],
+            radius: ['75%', '100%'], //饼图的半径，第一个为内半径，第二个为外半径
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            color: ['rgba(0, 255, 252, 1)', 'rgba(15, 113, 234, 1)', 'rgba(15, 234, 138, 1)'],
             label: {
-              normal: {
-                formatter: function () {
-                  return value1;
-                },
+              normal: { //正常的样式
+                show: false,
+                position: 'center',
                 textStyle: {
-                  fontSize: 64,
-                  color: 'rgba(255, 255, 255, 1)'
-                }
+                  color: '#fff',
+                  fontSize: 40 * scale,
+//									align: 'center',
+                  fontWeight: 'bold',
+                  margin: [0, 0, 0, 5]
+                },
+                formatter: function (name) {
+                  var target = 0;
+                  for (var j = 0; j < echartData.length; j++) {
+                    target += echartData[j].value
+                  }
+                  // console.log(target)
+                  var arr = target + "台";
+                  return arr
+
+                },
+              },
+            }, //提示文字
+            labelLine: {
+              normal: {
+                show: false
               }
             },
-
+            itemStyle: {
+              borderWidth: 17,
+              borderColor: "#050e28"
+            },
+            data: echartData
           }]
         };
         myChart.setOption(option);
@@ -402,6 +514,22 @@
             }
           }
           &-footer {
+            margin-top: 20px;
+            span {
+              font-size: 18px;
+              color: #ffffff;
+              line-height: 24px;
+              margin-top: 6px;
+            }
+            .item {
+              position: relative;
+              .num {
+                position: absolute;
+                top: 20px;
+                font-size: 16px;
+                color: #ffffff;
+              }
+            }
           }
         }
       }
@@ -429,10 +557,69 @@
       &-vedio {
         width: 920px;
         height: 605px;
-        background: green;
         position: absolute;
         top: 335px;
         left: 500px;
+        &-list {
+          &-item {
+            width: 450px;
+            height: 270px;
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 14px;
+            border: 2px solid #000D62;
+            background: rgba(2, 0, 40, 0.7);
+            &:nth-child(even) {
+              margin-right: 0;
+            }
+          }
+        }
+
+        &-list {
+          &-item16 {
+            width: 220px;
+            height: 130px;
+            float: left;
+            margin-right: 13px;
+            margin-bottom: 12px;
+            border: 2px solid #000D62;
+            background: rgba(2, 0, 40, 0.7);
+            &:nth-child(4n) {
+              margin-right: 0;
+            }
+            img {
+              width: 24px;
+              height: 24px;
+              animation: rotation 3s linear infinite;
+            }
+            .img1 {
+              width: 206px;
+              height: 114px;
+              animation: none;
+            }
+          }
+        }
+
+        &-footer {
+          .btn {
+            width: 90px;
+            line-height: 35px;
+            font-size: 16px;
+            color: #ffffff;
+            background: #08062D;
+            border: 1px solid #0029FF;
+            border-radius: 2px;
+            text-align: center;
+            cursor: pointer;
+            &:first-child {
+              margin-right: 24px;
+            }
+            &.active {
+              background: #0049FF;
+              cursor: auto;
+            }
+          }
+        }
       }
 
       &-bullet {
@@ -457,14 +644,22 @@
       &-device {
         width: 450px;
         height: 290px;
-        background: green;
         position: absolute;
         bottom: 20px;
         right: 20px;
+        border: 2px solid #000D62;
+        background: rgba(2, 0, 40, 0.7);
       }
 
     }
   }
 
-
+  @-webkit-keyframes rotation {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
 </style>

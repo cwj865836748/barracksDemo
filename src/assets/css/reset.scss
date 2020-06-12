@@ -270,3 +270,14 @@ button {
 .text-center {
   text-align: center;
 }
+
+/*清浮动*/
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
