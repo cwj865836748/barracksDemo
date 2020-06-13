@@ -13,27 +13,32 @@
        </div>
      </div>
     <!--背景-->
-    <div class="content_bg" :style="{backgroundImage:`url(${require(`@/assets/images/${camp}.png`)})`}" >
-      <img src="@/assets/images/Group-5.png" v-show="sensorShow" @click="sensorWindow=!sensorWindow"/>
-      <img src="@/assets/images/Group-6.png" v-show="gateShow" @click="gateWindow=!gateWindow"/>
-      <img src="@/assets/images/Group-3.png" v-show="sentryShow" @click="sentryWindow=!sentryWindow"/>
-      <img src="@/assets/images/Group-2.png" v-show="cameraShow" @click="cameraWindow=!cameraWindow"/>
-      <img src="@/assets/images/Group-4.png" v-show="essentialShow" @click="essentialWindow=!essentialWindow"/>
-      <img src="@/assets/images/Group-1.png" @click="centerWindow=!centerWindow"/>
-      <img src="@/assets/images/Group-4.png" v-show="essentialShow"/>
-      <img src="@/assets/images/Group-2.png" v-show="cameraShow" />
-      <img src="@/assets/images/Group-3.png" v-show="sentryShow" />
-      <img src="@/assets/images/Group-6.png" v-show="gateShow" />
-      <img src="@/assets/images/Group-5.png" v-show="sensorShow"/>
-      <!--效果图-->
-      <img :src="sensorDetail?require('@/assets/images/Group 27.png'):require('@/assets/images/Group 28.png')" v-show="sensorWindow" @click="changeDetail(0)"/>
-      <img :src="gateDetail?require('@/assets/images/Group 29.png'):require('@/assets/images/Group 30.png')" v-show="gateWindow" @click="changeDetail(1)"/>
-      <img :src="cameraDetail?require('@/assets/images/Group 31.png'):require('@/assets/images/Group 32.png')" v-show="cameraWindow" @click="changeDetail(2)"/>
-      <img :src="sentryDetail?require('@/assets/images/Group 36.png'):require('@/assets/images/Group 35.png')" v-show="sentryWindow" @click="changeDetail(3)"/>
-      <img :src="essentialDetail?require('@/assets/images/Group 33.png'):require('@/assets/images/Group 34.png')" v-show="essentialWindow" @click="changeDetail(4)"/>
-      <img src="@/assets/images/image 7.png" v-show="centerWindow" @click="changeDetail(5)"/>
-
+    <div class="content_bg" >
+      <mapa :list="aList" v-if="camp==='A'" key="mapa" :lng="115.750556" :lat="39.603056" :zoom="16"/>
+      <mapa :list="bList" v-if="camp==='B'" key="mapb" :lng="115.764722" :lat="39.603611" :zoom="17"/>
+      <mapa :list="cList" v-if="camp==='C'" key="mapc" :lng="115.766111" :lat="39.605833" :zoom="17"/>
     </div>
+    <!--<div class="content_bg" :style="{backgroundImage:`url(${require(`@/assets/images/${camp}.png`)})`}" >-->
+      <!--<img src="@/assets/images/Group-5.png" v-show="sensorShow" @click="sensorWindow=!sensorWindow"/>-->
+      <!--<img src="@/assets/images/Group-6.png" v-show="gateShow" @click="gateWindow=!gateWindow"/>-->
+      <!--<img src="@/assets/images/Group-3.png" v-show="sentryShow" @click="sentryWindow=!sentryWindow"/>-->
+      <!--<img src="@/assets/images/Group-2.png" v-show="cameraShow" @click="cameraWindow=!cameraWindow"/>-->
+      <!--<img src="@/assets/images/Group-4.png" v-show="essentialShow" @click="essentialWindow=!essentialWindow"/>-->
+      <!--<img src="@/assets/images/Group-1.png" @click="centerWindow=!centerWindow"/>-->
+      <!--<img src="@/assets/images/Group-4.png" v-show="essentialShow"/>-->
+      <!--<img src="@/assets/images/Group-2.png" v-show="cameraShow" />-->
+      <!--<img src="@/assets/images/Group-3.png" v-show="sentryShow" />-->
+      <!--<img src="@/assets/images/Group-6.png" v-show="gateShow" />-->
+      <!--<img src="@/assets/images/Group-5.png" v-show="sensorShow"/>-->
+      <!--&lt;!&ndash;效果图&ndash;&gt;-->
+      <!--<img :src="sensorDetail?require('@/assets/images/Group 27.png'):require('@/assets/images/Group 28.png')" v-show="sensorWindow" @click="changeDetail(0)"/>-->
+      <!--<img :src="gateDetail?require('@/assets/images/Group 29.png'):require('@/assets/images/Group 30.png')" v-show="gateWindow" @click="changeDetail(1)"/>-->
+      <!--<img :src="cameraDetail?require('@/assets/images/Group 31.png'):require('@/assets/images/Group 32.png')" v-show="cameraWindow" @click="changeDetail(2)"/>-->
+      <!--<img :src="sentryDetail?require('@/assets/images/Group 36.png'):require('@/assets/images/Group 35.png')" v-show="sentryWindow" @click="changeDetail(3)"/>-->
+      <!--<img :src="essentialDetail?require('@/assets/images/Group 33.png'):require('@/assets/images/Group 34.png')" v-show="essentialWindow" @click="changeDetail(4)"/>-->
+      <!--<img src="@/assets/images/image 7.png" v-show="centerWindow" @click="changeDetail(5)"/>-->
+
+    <!--</div>-->
 
     <!--左边-->
      <div class="content_left" :class="[leftClose?'close':'']">
@@ -230,6 +235,7 @@
 <script>
 import { TimeFormat } from '@/utils/utils'
 import earthVideo from '@/components/earthVideo/earthVideo'
+import mapa from '@/components/map/mapa'
 export default {
   name: 'campScreen',
   data () {
@@ -303,11 +309,178 @@ export default {
       bottomClose: false,
       leftClose: false,
       topClose: false,
-      topCloseBottom: false
+      topCloseBottom: false,
+        aList:[
+            {
+                type:0, //0军营 1哨兵 2摄像头 3传感器
+                lng:115.750556, //经度
+                lat:39.603056, //纬度
+                imgUrl:require('../assets/i/yq.png'),
+                isShow :true,
+                tkImg:require('../assets/img/yqtk.png')
+            },
+            {
+                type:1,
+                lng:115.766667, //经度
+                lat:39.603056, //纬度
+                imgUrl:require('../assets/i/sb.png'),
+                isShow :true,
+                tkImg:require('../assets/img/sbtk.png'),
+                tkImgDetail:require('../assets/img/sbtkxq.png'),
+            },
+            {
+                type:2,
+                lng:115.766944, //经度
+                lat:39.6025, //纬度
+                imgUrl:require('../assets/i/sxt.png'),
+                isShow :true,
+                tkImg:require('../assets/img/sxttk.png'),
+                tkImgDetail:require('../assets/img/sxttkxq.png'),
+            },
+            {
+                type:3,
+                lng:115.7675, //经度
+                lat:39.6025, //纬度
+                imgUrl:require('../assets/i/cgq.png'),
+                isShow :true,
+                tkImg:require('../assets/img/cgqtk.png'),
+                tkImgDetail:require('../assets/img/cgqtkxq.png'),
+            },
+            {
+                type:4,
+                lng:115.766389, //经度
+                lat:39.603056, //纬度
+                imgUrl:require('../assets/i/dz.png'),
+                isShow :true,
+                tkImg:require('../assets/img/dztk.png'),
+                tkImgDetail:require('../assets/img/dztkxq.png'),
+            },
+            {
+                type:5,
+                lng:115.767778, //经度
+                lat:39.603611, //纬度
+                imgUrl:require('../assets/i/ys.png'),
+                isShow :true,
+                tkImg:require('../assets/img/ystk.png'),
+                tkImgDetail:require('../assets/img/ystkxq.png'),
+            },
+        ],
+        bList:[
+            {
+                type:0, //0军营 1哨兵 2摄像头 3传感器
+                lng:115.764722, //经度
+                lat:39.603611, //纬度
+                imgUrl:require('../assets/i/yq.png'),
+                isShow :true,
+                tkImg:require('../assets/img/yqtk.png')
+            },
+            {
+                type:1,
+                lng:115.765833, //经度
+                lat:39.603611, //纬度
+                imgUrl:require('../assets/i/sb.png'),
+                isShow :true,
+                tkImg:require('../assets/img/sbtk.png'),
+                tkImgDetail:require('../assets/img/sbtkxq.png'),
+            },
+            {
+                type:2,
+                lng:115.764444, //经度
+                lat:39.603056, //纬度
+                imgUrl:require('../assets/i/sxt.png'),
+                isShow :true,
+                tkImg:require('../assets/img/sxttk.png'),
+                tkImgDetail:require('../assets/img/sxttkxq.png'),
+            },
+            {
+                type:3,
+                lng:115.763889, //经度
+                lat:39.603611, //纬度
+                imgUrl:require('../assets/i/cgq.png'),
+                isShow :true,
+                tkImg:require('../assets/img/cgqtk.png'),
+                tkImgDetail:require('../assets/img/cgqtkxq.png'),
+            },
+            {
+                type:4,
+                lng:115.765556, //经度
+                lat:39.603611, //纬度
+                imgUrl:require('../assets/i/dz.png'),
+                isShow :true,
+                tkImg:require('../assets/img/dztk.png'),
+                tkImgDetail:require('../assets/img/dztkxq.png'),
+            },
+            {
+                type:5,
+                lng:115.764722, //经度
+                lat:39.604167, //纬度
+                imgUrl:require('../assets/i/ys.png'),
+                isShow :true,
+                tkImg:require('../assets/img/ystk.png'),
+                tkImgDetail:require('../assets/img/ystkxq.png'),
+            },
+        ],
+        cList:[
+            {
+                type:0, //0军营 1哨兵 2摄像头 3传感器
+                lng:115.766111, //经度
+                lat:39.605833, //纬度
+                imgUrl:require('../assets/i/yq.png'),
+                isShow :true,
+                tkImg:require('../assets/img/yqtk.png')
+            },
+            {
+                type:1,
+                lng:115.766667, //经度
+                lat:39.603056, //纬度
+                imgUrl:require('../assets/i/sb.png'),
+                isShow :true,
+                tkImg:require('../assets/img/sbtk.png'),
+                tkImgDetail:require('../assets/img/sbtkxq.png'),
+            },
+            {
+                type:2,
+                lng:115.766111, //经度
+                lat:39.605278, //纬度
+                imgUrl:require('../assets/i/sxt.png'),
+                isShow :true,
+                tkImg:require('../assets/img/sxttk.png'),
+                tkImgDetail:require('../assets/img/sxttkxq.png'),
+            },
+            {
+                type:3,
+                lng:115.765278, //经度
+                lat:39.604722, //纬度
+                imgUrl:require('../assets/i/cgq.png'),
+                isShow :true,
+                tkImg:require('../assets/img/cgqtk.png'),
+                tkImgDetail:require('../assets/img/cgqtkxq.png'),
+            },
+            {
+                type:4,
+                lng:115.765833, //经度
+                lat:39.605, //纬度
+                imgUrl:require('../assets/i/dz.png'),
+                isShow :true,
+                tkImg:require('../assets/img/dztk.png'),
+                tkImgDetail:require('../assets/img/dztkxq.png'),
+            },
+            {
+                type:5,
+                lng:115.765, //经度
+                lat:39.605278, //纬度
+                imgUrl:require('../assets/i/ys.png'),
+                isShow :true,
+                tkImg:require('../assets/img/ystk.png'),
+                tkImgDetail:require('../assets/img/ystkxq.png'),
+            },
+        ],
+
     }
   },
   components: {
-    earthVideo
+    earthVideo,
+      mapa
   },
   computed: {
     comprehensiveTop () {
@@ -365,6 +538,7 @@ export default {
       clearInterval(this.intnum)
     },
     chooseCamp (val) {
+        if (val==this.camp) return
       this.videoKey++
       this.videoSrc = `/video/${this.camp}${val}.mp4`
       this.videoShow = true
@@ -418,7 +592,34 @@ export default {
         this.leftClose = false
       }, 500)
     }
-  }
+  },
+    watch:{
+      'sentryShow'(){
+          this.aList[1].isShow = this.sentryShow
+          this.bList[1].isShow = this.sentryShow
+          this.cList[1].isShow = this.sentryShow
+      },
+        'cameraShow'(){
+            this.aList[2].isShow = this.cameraShow
+            this.bList[2].isShow = this.cameraShow
+            this.cList[2].isShow = this.cameraShow
+        },
+        'sensorShow'(){
+            this.aList[3].isShow = this.sensorShow
+            this.bList[3].isShow = this.sensorShow
+            this.cList[3].isShow = this.sensorShow
+        },
+        'gateShow'(){
+            this.aList[4].isShow = this.gateShow
+            this.bList[4].isShow = this.gateShow
+            this.cList[4].isShow = this.gateShow
+        },
+        'essentialShow'(){
+            this.aList[5].isShow = this.essentialShow
+            this.bList[5].isShow = this.essentialShow
+            this.cList[5].isShow = this.essentialShow
+        },
+    },
 }
 </script>
 
@@ -1017,6 +1218,7 @@ export default {
     background: rgba(2,0,40,0.7);
     transition: all 0.5s;
     border-radius: 0 10px 10px 0;
+    z-index: 999;
 
     &.close{
       top: 1080px;
