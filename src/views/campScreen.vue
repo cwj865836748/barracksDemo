@@ -310,6 +310,7 @@ export default {
       leftClose: false,
       topClose: false,
       topCloseBottom: false,
+
         aList:[
             {
                 type:0, //0军营 1哨兵 2摄像头 3传感器
