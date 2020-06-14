@@ -50,7 +50,7 @@
          <div class="left_comprehensive_body" :class="[topClose?'close':'']">
            <div class="left_comprehensive_content" :class="[topClose?'close':'']"  @mouseenter="Stop()" @mouseleave="ScrollUp()" @scroll="paperScroll()">
                <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index" @click="leftCarShow=true">
-                 <div>【<span :style="{color:(item.isRed?'red':'')}">{{item.name}}</span>】</div>
+                 <div>【<span :style="{color:item.color}">{{item.name}}</span>】</div>
                  <div>{{item.time}}</div>
                  <div>{{item.work}}</div>
                </div>
@@ -290,18 +290,17 @@ export default {
       videoShow: true,
       videoSrc: '/video/join.mp4',
       comprehensiveList: [
-        { name: '人员出入', isRed: false, time: '10.46', work: '东门进入访客章司', type: 3 },
-        { name: '普通报警', isRed: true, time: '10.59', work: '东门进入访客李维', type: 0 },
-        { name: '物资出入', isRed: false, time: '11.40', work: '东门进入后勤物资', type: 5 },
-        { name: '特急报警', isRed: true, time: '13.00', work: '李维从东门进', type: 2 },
-        { name: '车辆出入', isRed: false, time: '13.30', work: '东门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', isRed: true, time: '15.41', work: '东门进入访客章司', type: 1 },
-        { name: '人员出入', isRed: false, time: '16.46', work: '东门进入访客章司', type: 3 },
-        { name: '普通报警', isRed: true, time: '16.59', work: '东门进入访客李维', type: 0 },
-        { name: '物资出入', isRed: false, time: '17.40', work: '东门进入后勤物资', type: 5 },
-        { name: '特急报警', isRed: true, time: '18.00', work: '李维从东门进', type: 2 },
-        { name: '车辆出入', isRed: false, time: '19.30', work: '东门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', isRed: true, time: '20.41', work: '东门进入访客章司', type: 1 }
+        { name: '人员出入', color: '#fff', time: '10.46', work: '东门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '10.59', work: '东门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '11.40', work: '东门进入后勤物资', type: 5 },
+        { name: '特急报警', color: 'red', time: '13.00', work: '李维从东门进', type: 2 },
+        { name: '车辆出入', color: '#fff', time: '13.30', work: '东门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '15.41', work: '东门进入访客章司', type: 1 },
+        { name: '人员出入', color: '#fff', time: '16.46', work: '东门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '16.59', work: '东门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '17.40', work: '东门进入后勤物资', type: 5 },
+        { name: '车辆出入', color: '#fff', time: '19.30', work: '东门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '20.41', work: '东门进入访客章司', type: 1 }
       ],
       comprehensiveLists: [],
       rightPic: -1,
@@ -311,177 +310,177 @@ export default {
       topClose: false,
       topCloseBottom: false,
 
-        aList:[
-            {
-                type:0, //0军营 1哨兵 2摄像头 3传感器
-                lng:115.750556, //经度
-                lat:39.603056, //纬度
-                imgUrl:require('../assets/i/yq.png'),
-                isShow :true,
-                tkImg:require('../assets/img/yqtk.png')
-            },
-            {
-                type:1,
-                lng:115.766667, //经度
-                lat:39.603056, //纬度
-                imgUrl:require('../assets/i/sb.png'),
-                isShow :true,
-                tkImg:require('../assets/img/sbtk.png'),
-                tkImgDetail:require('../assets/img/sbtkxq.png'),
-            },
-            {
-                type:2,
-                lng:115.766944, //经度
-                lat:39.6025, //纬度
-                imgUrl:require('../assets/i/sxt.png'),
-                isShow :true,
-                tkImg:require('../assets/img/sxttk.png'),
-                tkImgDetail:require('../assets/img/sxttkxq.png'),
-            },
-            {
-                type:3,
-                lng:115.7675, //经度
-                lat:39.6025, //纬度
-                imgUrl:require('../assets/i/cgq.png'),
-                isShow :true,
-                tkImg:require('../assets/img/cgqtk.png'),
-                tkImgDetail:require('../assets/img/cgqtkxq.png'),
-            },
-            {
-                type:4,
-                lng:115.766389, //经度
-                lat:39.603056, //纬度
-                imgUrl:require('../assets/i/dz.png'),
-                isShow :true,
-                tkImg:require('../assets/img/dztk.png'),
-                tkImgDetail:require('../assets/img/dztkxq.png'),
-            },
-            {
-                type:5,
-                lng:115.767778, //经度
-                lat:39.603611, //纬度
-                imgUrl:require('../assets/i/ys.png'),
-                isShow :true,
-                tkImg:require('../assets/img/ystk.png'),
-                tkImgDetail:require('../assets/img/ystkxq.png'),
-            },
-        ],
-        bList:[
-            {
-                type:0, //0军营 1哨兵 2摄像头 3传感器
-                lng:115.764722, //经度
-                lat:39.603611, //纬度
-                imgUrl:require('../assets/i/yq.png'),
-                isShow :true,
-                tkImg:require('../assets/img/yqtk.png')
-            },
-            {
-                type:1,
-                lng:115.765833, //经度
-                lat:39.603611, //纬度
-                imgUrl:require('../assets/i/sb.png'),
-                isShow :true,
-                tkImg:require('../assets/img/sbtk.png'),
-                tkImgDetail:require('../assets/img/sbtkxq.png'),
-            },
-            {
-                type:2,
-                lng:115.764444, //经度
-                lat:39.603056, //纬度
-                imgUrl:require('../assets/i/sxt.png'),
-                isShow :true,
-                tkImg:require('../assets/img/sxttk.png'),
-                tkImgDetail:require('../assets/img/sxttkxq.png'),
-            },
-            {
-                type:3,
-                lng:115.763889, //经度
-                lat:39.603611, //纬度
-                imgUrl:require('../assets/i/cgq.png'),
-                isShow :true,
-                tkImg:require('../assets/img/cgqtk.png'),
-                tkImgDetail:require('../assets/img/cgqtkxq.png'),
-            },
-            {
-                type:4,
-                lng:115.765556, //经度
-                lat:39.603611, //纬度
-                imgUrl:require('../assets/i/dz.png'),
-                isShow :true,
-                tkImg:require('../assets/img/dztk.png'),
-                tkImgDetail:require('../assets/img/dztkxq.png'),
-            },
-            {
-                type:5,
-                lng:115.764722, //经度
-                lat:39.604167, //纬度
-                imgUrl:require('../assets/i/ys.png'),
-                isShow :true,
-                tkImg:require('../assets/img/ystk.png'),
-                tkImgDetail:require('../assets/img/ystkxq.png'),
-            },
-        ],
-        cList:[
-            {
-                type:0, //0军营 1哨兵 2摄像头 3传感器
-                lng:115.766111, //经度
-                lat:39.605833, //纬度
-                imgUrl:require('../assets/i/yq.png'),
-                isShow :true,
-                tkImg:require('../assets/img/yqtk.png')
-            },
-            {
-                type:1,
-                lng:115.766667, //经度
-                lat:39.603056, //纬度
-                imgUrl:require('../assets/i/sb.png'),
-                isShow :true,
-                tkImg:require('../assets/img/sbtk.png'),
-                tkImgDetail:require('../assets/img/sbtkxq.png'),
-            },
-            {
-                type:2,
-                lng:115.766111, //经度
-                lat:39.605278, //纬度
-                imgUrl:require('../assets/i/sxt.png'),
-                isShow :true,
-                tkImg:require('../assets/img/sxttk.png'),
-                tkImgDetail:require('../assets/img/sxttkxq.png'),
-            },
-            {
-                type:3,
-                lng:115.765278, //经度
-                lat:39.604722, //纬度
-                imgUrl:require('../assets/i/cgq.png'),
-                isShow :true,
-                tkImg:require('../assets/img/cgqtk.png'),
-                tkImgDetail:require('../assets/img/cgqtkxq.png'),
-            },
-            {
-                type:4,
-                lng:115.765833, //经度
-                lat:39.605, //纬度
-                imgUrl:require('../assets/i/dz.png'),
-                isShow :true,
-                tkImg:require('../assets/img/dztk.png'),
-                tkImgDetail:require('../assets/img/dztkxq.png'),
-            },
-            {
-                type:5,
-                lng:115.765, //经度
-                lat:39.605278, //纬度
-                imgUrl:require('../assets/i/ys.png'),
-                isShow :true,
-                tkImg:require('../assets/img/ystk.png'),
-                tkImgDetail:require('../assets/img/ystkxq.png'),
-            },
-        ],
+      aList: [
+        {
+          type: 0, // 0军营 1哨兵 2摄像头 3传感器
+          lng: 115.750556, // 经度
+          lat: 39.603056, // 纬度
+          imgUrl: require('../assets/i/yq.png'),
+          isShow: true,
+          tkImg: require('../assets/img/yqtk.png')
+        },
+        {
+          type: 1,
+          lng: 115.766667, // 经度
+          lat: 39.603056, // 纬度
+          imgUrl: require('../assets/i/sb.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sbtk.png'),
+          tkImgDetail: require('../assets/img/sbtkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.766944, // 经度
+          lat: 39.6025, // 纬度
+          imgUrl: require('../assets/i/sxt.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 3,
+          lng: 115.7675, // 经度
+          lat: 39.6025, // 纬度
+          imgUrl: require('../assets/i/cgq.png'),
+          isShow: true,
+          tkImg: require('../assets/img/cgqtk.png'),
+          tkImgDetail: require('../assets/img/cgqtkxq.png')
+        },
+        {
+          type: 4,
+          lng: 115.766389, // 经度
+          lat: 39.603056, // 纬度
+          imgUrl: require('../assets/i/dz.png'),
+          isShow: true,
+          tkImg: require('../assets/img/dztk.png'),
+          tkImgDetail: require('../assets/img/dztkxq.png')
+        },
+        {
+          type: 5,
+          lng: 115.767778, // 经度
+          lat: 39.603611, // 纬度
+          imgUrl: require('../assets/i/ys.png'),
+          isShow: true,
+          tkImg: require('../assets/img/ystk.png'),
+          tkImgDetail: require('../assets/img/ystkxq.png')
+        }
+      ],
+      bList: [
+        {
+          type: 0, // 0军营 1哨兵 2摄像头 3传感器
+          lng: 115.764722, // 经度
+          lat: 39.603611, // 纬度
+          imgUrl: require('../assets/i/yq.png'),
+          isShow: true,
+          tkImg: require('../assets/img/yqtk.png')
+        },
+        {
+          type: 1,
+          lng: 115.765833, // 经度
+          lat: 39.603611, // 纬度
+          imgUrl: require('../assets/i/sb.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sbtk.png'),
+          tkImgDetail: require('../assets/img/sbtkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.764444, // 经度
+          lat: 39.603056, // 纬度
+          imgUrl: require('../assets/i/sxt.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 3,
+          lng: 115.763889, // 经度
+          lat: 39.603611, // 纬度
+          imgUrl: require('../assets/i/cgq.png'),
+          isShow: true,
+          tkImg: require('../assets/img/cgqtk.png'),
+          tkImgDetail: require('../assets/img/cgqtkxq.png')
+        },
+        {
+          type: 4,
+          lng: 115.765556, // 经度
+          lat: 39.603611, // 纬度
+          imgUrl: require('../assets/i/dz.png'),
+          isShow: true,
+          tkImg: require('../assets/img/dztk.png'),
+          tkImgDetail: require('../assets/img/dztkxq.png')
+        },
+        {
+          type: 5,
+          lng: 115.764722, // 经度
+          lat: 39.604167, // 纬度
+          imgUrl: require('../assets/i/ys.png'),
+          isShow: true,
+          tkImg: require('../assets/img/ystk.png'),
+          tkImgDetail: require('../assets/img/ystkxq.png')
+        }
+      ],
+      cList: [
+        {
+          type: 0, // 0军营 1哨兵 2摄像头 3传感器
+          lng: 115.766111, // 经度
+          lat: 39.605833, // 纬度
+          imgUrl: require('../assets/i/yq.png'),
+          isShow: true,
+          tkImg: require('../assets/img/yqtk.png')
+        },
+        {
+          type: 1,
+          lng: 115.766667, // 经度
+          lat: 39.603056, // 纬度
+          imgUrl: require('../assets/i/sb.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sbtk.png'),
+          tkImgDetail: require('../assets/img/sbtkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.766111, // 经度
+          lat: 39.605278, // 纬度
+          imgUrl: require('../assets/i/sxt.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 3,
+          lng: 115.765278, // 经度
+          lat: 39.604722, // 纬度
+          imgUrl: require('../assets/i/cgq.png'),
+          isShow: true,
+          tkImg: require('../assets/img/cgqtk.png'),
+          tkImgDetail: require('../assets/img/cgqtkxq.png')
+        },
+        {
+          type: 4,
+          lng: 115.765833, // 经度
+          lat: 39.605, // 纬度
+          imgUrl: require('../assets/i/dz.png'),
+          isShow: true,
+          tkImg: require('../assets/img/dztk.png'),
+          tkImgDetail: require('../assets/img/dztkxq.png')
+        },
+        {
+          type: 5,
+          lng: 115.765, // 经度
+          lat: 39.605278, // 纬度
+          imgUrl: require('../assets/i/ys.png'),
+          isShow: true,
+          tkImg: require('../assets/img/ystk.png'),
+          tkImgDetail: require('../assets/img/ystkxq.png')
+        }
+      ]
 
     }
   },
   components: {
     earthVideo,
-      mapa
+    mapa
   },
   computed: {
     comprehensiveTop () {
@@ -539,7 +538,7 @@ export default {
       clearInterval(this.intnum)
     },
     chooseCamp (val) {
-        if (val==this.camp) return
+      if (val == this.camp) return
       this.videoKey++
       this.videoSrc = `/video/${this.camp}${val}.mp4`
       this.videoShow = true
@@ -594,33 +593,33 @@ export default {
       }, 500)
     }
   },
-    watch:{
-      'sentryShow'(){
-          this.aList[1].isShow = this.sentryShow
-          this.bList[1].isShow = this.sentryShow
-          this.cList[1].isShow = this.sentryShow
-      },
-        'cameraShow'(){
-            this.aList[2].isShow = this.cameraShow
-            this.bList[2].isShow = this.cameraShow
-            this.cList[2].isShow = this.cameraShow
-        },
-        'sensorShow'(){
-            this.aList[3].isShow = this.sensorShow
-            this.bList[3].isShow = this.sensorShow
-            this.cList[3].isShow = this.sensorShow
-        },
-        'gateShow'(){
-            this.aList[4].isShow = this.gateShow
-            this.bList[4].isShow = this.gateShow
-            this.cList[4].isShow = this.gateShow
-        },
-        'essentialShow'(){
-            this.aList[5].isShow = this.essentialShow
-            this.bList[5].isShow = this.essentialShow
-            this.cList[5].isShow = this.essentialShow
-        },
+  watch: {
+    'sentryShow' () {
+      this.aList[1].isShow = this.sentryShow
+      this.bList[1].isShow = this.sentryShow
+      this.cList[1].isShow = this.sentryShow
     },
+    'cameraShow' () {
+      this.aList[2].isShow = this.cameraShow
+      this.bList[2].isShow = this.cameraShow
+      this.cList[2].isShow = this.cameraShow
+    },
+    'sensorShow' () {
+      this.aList[3].isShow = this.sensorShow
+      this.bList[3].isShow = this.sensorShow
+      this.cList[3].isShow = this.sensorShow
+    },
+    'gateShow' () {
+      this.aList[4].isShow = this.gateShow
+      this.bList[4].isShow = this.gateShow
+      this.cList[4].isShow = this.gateShow
+    },
+    'essentialShow' () {
+      this.aList[5].isShow = this.essentialShow
+      this.bList[5].isShow = this.essentialShow
+      this.cList[5].isShow = this.essentialShow
+    }
+  }
 }
 </script>
 
