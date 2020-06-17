@@ -55,6 +55,7 @@ export default {
     /*display: none; !**先隐藏，缩放后再显示，防止闪烁**!*/
     width: 1920px;
     height: 1080px;
+    overflow: hidden;
     /*transform-origin: left top;// 缩放基点*/
     /*-ms-transform-origin: left top;*/
     /*-moz-transform-origin: left top;*/

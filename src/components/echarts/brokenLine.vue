@@ -1,66 +1,79 @@
 <template>
-  <div id="lineEcharts" style="width: 420px;height:230px;
-  margin-top: 10px;margin-right: 20px;"></div>
+  <div id="brokenLine" style="width: 450px;height:260px;"></div>
+
 </template>
 
 <script>
-  export default {
-    name: 'brokenLine',
-    data() {
-      return {
-        option: {
-          legend: {
-            // orient 设置布局方式，默认水平布局，可选值：'horizontal'（水平） ¦ 'vertical'（垂直）
-            orient: 'horizontal',
-            // x 设置水平安放位置，默认全图居中，可选值：'center' ¦ 'left' ¦ 'right' ¦ {number}（x坐标，单位px）
-            x: 'right',
-            // y 设置垂直安放位置，默认全图顶端，可选值：'top' ¦ 'bottom' ¦ 'center' ¦ {number}（y坐标，单位px）
-            y: 'top',
-            data: ['单位车辆', '外来车辆']
+export default {
+  name: 'plain',
+  data () {
+    return {
+      option: {
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+
+          y: 30,
+          x2: 5,
+          y2: 70,
+          borderWidth: 1
+        },
+        xAxis: [{
+          type: 'category',
+          nameGap: 15,
+          boundaryGap: true,
+          data: ['军人车辆', '内部车辆', '访客车辆', '其他车辆', '黑名单车辆'],
+          axisLabel: {
+            interval: 0,
+            textStyle: {
+              // 文字样式
+              color: '#FFFFFF',
+              fontSize: '14',
+              padding: [4, 4]
+            },
+            formatter: function (params) {
+              var newParamsName = ''
+              var paramsNameNumber = params.length
+              var provideNumber = paramsNameNumber === 4 ? 2 : 3 // 一行显示几个字
+              var rowNumber = Math.ceil(paramsNameNumber / provideNumber)
+              if (paramsNameNumber > provideNumber) {
+                for (var p = 0; p < rowNumber; p++) {
+                  var tempStr = ''
+                  var start = p * provideNumber
+                  var end = start + provideNumber
+                  if (p == rowNumber - 1) {
+                    tempStr = params.substring(start, paramsNameNumber)
+                  } else {
+                    tempStr = params.substring(start, end) + '\n'
+                  }
+                  newParamsName += tempStr
+                }
+              } else {
+                newParamsName = params
+              }
+              return newParamsName
+            }
           },
 
-          // //  图表距边框的距离,可选值：'百分比'¦ {number}（单位px）
-          grid: {
-            top: '14%', // 等价于 y: '16%'
-            // left: '3%',
-            right: '4%',
-            // bottom: '3%',
-            // containLabel: true
+          axisLine: {
+            lineStyle: {
+              color: '#0A2A83' // 左边线的颜色
+            }
           },
-          xAxis: {
-            type: 'category',
-            axisLine: {
-              lineStyle: {
-                // 设置x轴颜色
-                color: '#0060FF'
-              }
-            },
-            splitLine: { // gird区域中的分割线
-              show: true, // 是否显示
-              lineStyle: {
-                color: '#0A2A83'
-              }
-            },
-            // 设置X轴数据旋转倾斜
-            axisLabel: {
-              rotate: 30, // 旋转角度
-              interval: 0 // 设置X轴数据间隔几个显示一个，为0表示都显示
-            },
-            // boundaryGap值为false的时候，折线第一个点在y轴上
-            boundaryGap: false,
-            data: ['02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00',]
-          },
+          axisTick: {
+            show: false
+          }
 
-          yAxis: {
+        }],
+
+        yAxis: [
+          {
             type: 'value',
-            min: 0, // 设置y轴刻度的最小值
-            max: 100, // 设置y轴刻度的最大值
-            splitNumber: 0, // 设置y轴刻度间隔个数
+            nameGap: 15,
+            boundaryGap: true,
             axisLine: {
-              lineStyle: {
-                // 设置y轴颜色
-                color: '#0060FF'
-              }
+              show: false
             },
             splitLine: { // gird区域中的分割线
               show: true, // 是否显示
@@ -68,66 +81,49 @@
                 color: '#0A2A83'
               }
             },
-          },
+            axisLabel: {
+              textStyle: {
+                color: '#0060FF',
+                fontSize: 12
+              }
+            }
+          }
+        ],
+        series: [
+          {
+            type: 'bar',
+            data: [30, 40, 81, 50, 2],
+            barWidth: 16,
+            barGap: '100%',
 
-          series: [
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  var colorList = ['#33B1FF', '#0FEA8A', '#9B6BFF', '#FF8C00', '#FF2756']
+                  return colorList[params.dataIndex]
+                },
 
-            {
-              name: '单位车辆',
-              data: [9, 20, 8, 7, 40, 48, 54, 20, 20, 36, 6, 20],
-              type: 'line',
-              // 设置折线上圆点大小
-              symbolSize: 4,
-              color: ['#33B1FF'],
-              symbol: 'circle',
-              itemStyle: {
-                normal: {
-                  // 拐点上显示数值
-                  label: {
-                    show: false
+                label: {
+                  show: true, // 开启显示
+                  position: 'top', // 在上方显示
+                  textStyle: { // 数值样式
+                    color: '#fff',
+                    fontSize: 9
                   },
-                  lineStyle: {
-                    width: 1,
-                    type: 'solid'  //'dotted'虚线 'solid'实线
-                  },
+                  formatter: '{c}辆'
                 }
               }
-            },
-
-            {
-              name: '外来车辆',
-              data: [1, 1, 2, 3, 4, 8, 18, 14, 10, 7, 5, 3, 3, 2],
-              type: 'line',
-              // 设置折线上圆点大小
-              symbolSize: 4,
-              color: ['#FF2756'],
-              symbol: 'circle',
-              itemStyle: {
-                normal: {
-                  // 拐点上显示数值
-                  label: {
-                    show: false
-                  },
-                  lineStyle: {
-                    width: 1,
-                    type: 'solid'  //'dotted'虚线 'solid'实线
-                  },
-                }
-              }
-            },
-
-          ],
-
-          color: ['#33B1FF', '#FF2756']
-        }
-
+            }
+          }
+        ]
       }
-    },
-    mounted() {
-      const myChart = this.$echarts.init(document.getElementById('lineEcharts')) // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(this.option)
     }
+  },
+  mounted () {
+    const myChart = this.$echarts.init(document.getElementById('brokenLine')) // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(this.option)
   }
+}
 </script>
 
 <style scoped>

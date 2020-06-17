@@ -8,13 +8,11 @@
     "test": "vue-cli-service build --mode test"
   },
   "dependencies": {
-    "animate.css": "^4.1.0",
     "axios": "^0.19.2",
     "babel-plugin-component": "^1.1.1",
     "compression-webpack-plugin": "^4.0.0",
     "core-js": "^3.6.4",
     "echarts": "^4.8.0",
-    "echarts-liquidfill": "^2.0.6",
     "element-ui": "^2.13.2",
     "jquery": "^3.5.1",
     "js-table2excel": "^1.0.3",

@@ -7,7 +7,6 @@ import './plugins/elementUi'
 import echarts from 'echarts'
 import Videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import 'animate.css'
 Vue.config.productionTip = false
 Vue.prototype.$axios = { get, post }
 Vue.prototype.$echarts = echarts

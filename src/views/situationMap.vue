@@ -4,13 +4,24 @@
     <div class="content_head">
       <img src="@/assets/images/head.png"/>
       <div class="head_text">XX营区安全管控综合态势图</div>
-      <div class="head_camp" @click="campShow=!campShow">{{camp}}营区<img src="@/assets/images/select.png"/></div>
-      <div class="head_date">{{nowDate}}</div>
-      <div class="head_choose" v-show="campShow">
-        <div :class="['camp_icon',camp==='A'?'icon':'']" @click="chooseCamp('A')">A营区</div>
-        <div :class="['camp_icon',camp==='B'?'icon':'']" @click="chooseCamp('B')">B营区</div>
-        <div :class="['camp_icon',camp==='C'?'icon':'']" @click="chooseCamp('C')">C营区</div>
+      <div class="head_camp">
+        <el-select v-model="campName" filterable placeholder="请选择" @change="chooseCamp" :popper-append-to-body="false">
+          <el-option
+            v-for="item in campList"
+            :key="item.name"
+            :label="`${item.name}营区`"
+            :value="item.name"
+          >
+          </el-option>
+        </el-select>
+        <!--         <img src="@/assets/images/select.png"/>-->
       </div>
+      <div class="head_date">{{nowDate}}</div>
+<!--      <div class="head_choose" v-show="campShow">-->
+<!--        <div :class="['camp_icon',camp==='A'?'icon':'']" @click="chooseCamp('A')">A营区</div>-->
+<!--        <div :class="['camp_icon',camp==='B'?'icon':'']" @click="chooseCamp('B')">B营区</div>-->
+<!--        <div :class="['camp_icon',camp==='C'?'icon':'']" @click="chooseCamp('C')">C营区</div>-->
+<!--      </div>-->
     </div>
 
     <div class="content-footer">
@@ -192,31 +203,6 @@
         </div>
       </div>
     </div>
-
-    <!--左边-->
-    <!--<div class="content_left">-->
-    <!--<div class="content_left_one">-->
-    <!--<div class="myContent">-->
-    <!--<div>每天安全形势</div>-->
-    <!--<Plain/>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="content_left_one">-->
-    <!--<div class="myContent">-->
-    <!--<div>人员管理</div>-->
-    <!--<Pie/>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="content_left_one">-->
-    <!--<div class="myContent">-->
-    <!--<div>车辆管理</div>-->
-    <!--<brokenLine/>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--中间-->
-
-    <!--右边-->
     <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoShow=false"/>
     <div class="back-btn" @click="$router.go(-1)">返回</div>
   </div>
@@ -232,7 +218,6 @@ import Bullet from '@/components/echarts/bullet'
 
 import earthVideo from '@/components/earthVideo/earthVideo'
 import zyTitle from '@/components/title/index'
-// import 'echarts-liquidfill/src/liquidFill.js';
 
 export default {
   name: 'situationMap',
@@ -242,10 +227,26 @@ export default {
       timer: null,
       intnum: null,
       camp: this.$store.state.camp,
+      campList: [
+        { name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056 },
+        { name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611 },
+        { name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833 }
+      ],
       campShow: false, // 下拉
       videoShow: false,
       temp: 10,
       vedioNum: 4
+    }
+  },
+  computed: {
+    campName: {
+      get () {
+        return `${this.camp}营区`
+      },
+      set (val) {
+        this.camp = val
+      }
+
     }
   },
   components: {
@@ -260,8 +261,6 @@ export default {
 
   created () {
     this.getDate()
-
-    // this.drawTemperature();
   },
 
   mounted () {
@@ -280,11 +279,11 @@ export default {
       }, 1000)
     },
     chooseCamp (val) {
-      this.videoSrc = `/video/${this.camp}${val}.mp4`
+      // this.videoSrc = `/video/${this.camp}${val}.mp4`
       this.$store.commit('updateCamp', val)
-      this.videoShow = true
+      // this.videoShow = true
       this.camp = val
-      this.campShow = false
+      // this.campShow = false
     },
     drawPie1 () {
       var myChart = this.$echarts.init(this.$refs.myChart_pie1)
@@ -530,26 +529,66 @@ export default {
 
         font-family: PingFang SC;
         font-style: normal;
-        font-weight: 600;
         font-size: 20px;
         line-height: 28px;
         color: #FFFFFF;
 
       }
       .head_camp {
-        display: flex;
-        align-items: center;
         position: absolute;
         height: 30px;
         left: 122px;
         top: 25px;
-        font-family: Microsoft YaHei UI;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 30px;
-        letter-spacing: 0.1em;
-        color: #FFFFFF;
+        width: 125px;
+        /deep/.el-input__inner{
+          border: none;
+          font-size: 24px;
+          padding: 0;
+          font-weight: bold;
+          line-height: 30px;
+          letter-spacing: 0.1em;
+          color: #FFFFFF;
+          font-family: Microsoft YaHei UI;
+          font-style: normal;
+          background-color: transparent;
+          /*width: 75px;*/
+        }
+        /deep/.el-select .el-input .el-select__caret {
+          color: #34E3FE;
+          font-size: 25px;
+          transition: transform .3s;
+          transform: rotateZ(180deg);
+          cursor: pointer;
+        }
+        //修改单个的选项的样式
+        /deep/.el-select-dropdown {
+          background-color: #030038;
+          border: 1px solid #0060FF;
+        }
+        /deep/.el-select-dropdown__list {
+          padding: 0;
+        }
+        /deep/ .el-select-dropdown__item{
+          border: none;
+          font-size: 24px;
+          font-weight: bold;
+          line-height: 30px;
+          letter-spacing: 0.1em;
+          color: #81809B;
+          font-family: Microsoft YaHei UI;
+          font-style: normal;
+          background-color: transparent;
+          padding: 25px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-bottom: 1px solid #0A2A83;
+        }
+        //item选项的hover样式
+        /deep/ .el-select-dropdown__item.hover,
+        /deep/ .el-select-dropdown__item:hover{
+          color:#FFFFFF;
+        }
         img {
           margin-left: 10px;
         }
@@ -803,6 +842,7 @@ export default {
             .title {
               font-size: 14px;
               color: #9B9B9B;
+              font-weight: bold;
             }
             .num {
               color: #FFFFFF;

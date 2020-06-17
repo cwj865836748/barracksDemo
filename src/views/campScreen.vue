@@ -4,41 +4,27 @@
      <div class="content_head">
        <img src="@/assets/images/head.png"/>
        <div class="head_text">XX营区安全管理平台</div>
-       <div class="head_camp" @click="campShow=!campShow">{{camp}}营区<img src="@/assets/images/select.png"/></div>
-       <div class="head_date">{{nowDate}}</div>
-       <div class="head_choose" v-show="campShow">
-         <div :class="['camp_icon',camp==='A'?'icon':'']"  @click="chooseCamp('A')">A营区</div>
-         <div :class="['camp_icon',camp==='B'?'icon':'']"  @click="chooseCamp('B')">B营区</div>
-         <div :class="['camp_icon',camp==='C'?'icon':'']"  @click="chooseCamp('C')">C营区</div>
+       <div class="head_camp">
+         <el-select v-model="campName" filterable placeholder="请选择" @change="chooseCamp" :popper-append-to-body="false">
+           <el-option
+             v-for="item in campList"
+             :key="item.name"
+             :label="`${item.name}营区`"
+             :value="item.name"
+           >
+           </el-option>
+         </el-select>
+<!--         <img src="@/assets/images/select.png"/>-->
        </div>
+       <div class="head_date">{{nowDate}}</div>
+<!--       <div class="head_choose" v-show="campShow" @mouseleave="campShow=false">-->
+<!--         <div v-for="(item,index) in campList" :key='index' :class="['camp_icon',camp===item.name?'icon':'']"  @click="chooseCamp(item.name,item.zoom, [item.lng, item.lat])">{{`${item.name}营区`}}</div>-->
+<!--       </div>-->
      </div>
     <!--背景-->
     <div class="content_bg" >
-      <mapa :list="aList" v-if="camp==='A'" key="mapa" :lng="115.750556" :lat="39.603056" :zoom="16"/>
-      <mapa :list="bList" v-if="camp==='B'" key="mapb" :lng="115.764722" :lat="39.603611" :zoom="17"/>
-      <mapa :list="cList" v-if="camp==='C'" key="mapc" :lng="115.766111" :lat="39.605833" :zoom="17"/>
+      <mapa :list="mapList" :lng="lng" :lat="lat" :zoom="zoom" ref="map"/>
     </div>
-    <!--<div class="content_bg" :style="{backgroundImage:`url(${require(`@/assets/images/${camp}.png`)})`}" >-->
-      <!--<img src="@/assets/images/Group-5.png" v-show="sensorShow" @click="sensorWindow=!sensorWindow"/>-->
-      <!--<img src="@/assets/images/Group-6.png" v-show="gateShow" @click="gateWindow=!gateWindow"/>-->
-      <!--<img src="@/assets/images/Group-3.png" v-show="sentryShow" @click="sentryWindow=!sentryWindow"/>-->
-      <!--<img src="@/assets/images/Group-2.png" v-show="cameraShow" @click="cameraWindow=!cameraWindow"/>-->
-      <!--<img src="@/assets/images/Group-4.png" v-show="essentialShow" @click="essentialWindow=!essentialWindow"/>-->
-      <!--<img src="@/assets/images/Group-1.png" @click="centerWindow=!centerWindow"/>-->
-      <!--<img src="@/assets/images/Group-4.png" v-show="essentialShow"/>-->
-      <!--<img src="@/assets/images/Group-2.png" v-show="cameraShow" />-->
-      <!--<img src="@/assets/images/Group-3.png" v-show="sentryShow" />-->
-      <!--<img src="@/assets/images/Group-6.png" v-show="gateShow" />-->
-      <!--<img src="@/assets/images/Group-5.png" v-show="sensorShow"/>-->
-      <!--&lt;!&ndash;效果图&ndash;&gt;-->
-      <!--<img :src="sensorDetail?require('@/assets/images/Group 27.png'):require('@/assets/images/Group 28.png')" v-show="sensorWindow" @click="changeDetail(0)"/>-->
-      <!--<img :src="gateDetail?require('@/assets/images/Group 29.png'):require('@/assets/images/Group 30.png')" v-show="gateWindow" @click="changeDetail(1)"/>-->
-      <!--<img :src="cameraDetail?require('@/assets/images/Group 31.png'):require('@/assets/images/Group 32.png')" v-show="cameraWindow" @click="changeDetail(2)"/>-->
-      <!--<img :src="sentryDetail?require('@/assets/images/Group 36.png'):require('@/assets/images/Group 35.png')" v-show="sentryWindow" @click="changeDetail(3)"/>-->
-      <!--<img :src="essentialDetail?require('@/assets/images/Group 33.png'):require('@/assets/images/Group 34.png')" v-show="essentialWindow" @click="changeDetail(4)"/>-->
-      <!--<img src="@/assets/images/image 7.png" v-show="centerWindow" @click="changeDetail(5)"/>-->
-
-    <!--</div>-->
 
     <!--左边-->
      <div class="content_left" :class="[leftClose?'close':'']">
@@ -49,7 +35,7 @@
          </div>
          <div class="left_comprehensive_body" :class="[topClose?'close':'']">
            <div class="left_comprehensive_content" :class="[topClose?'close':'']"  @mouseenter="Stop()" @mouseleave="ScrollUp()" @scroll="paperScroll()">
-               <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index" @click="leftCarShow=true">
+               <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index" @click="openCar(item.type)">
                  <div>【<span :style="{color:item.color}">{{item.name}}</span>】</div>
                  <div>{{item.time}}</div>
                  <div>{{item.work}}</div>
@@ -57,7 +43,7 @@
            </div>
          </div>
          <div class="left_comprehensive_checkbox" v-show="comprehensiveShow">
-           <div :class="[comprehensiveStatus===0?'all':'']" style="cursor:pointer;" @mouseover="changeStatus('status',0)" @click="getStatus('all')">全部动态</div>
+           <div :class="[comprehensiveStatus===0?'all':'']" style="cursor:pointer;" @mouseover="changeStatus('status',0)"  @click="getStatus('all')">全部动态</div>
            <div :class="[comprehensiveStatus===1?'select':'']" @mouseover="changeStatus('status',1)">报警动态</div>
            <div :class="[comprehensiveStatus===2?'select':'']" @mouseover="changeStatus('status',2)">出入动态</div>
          </div>
@@ -188,9 +174,11 @@
          </div>
        </div>
      </div>
-     <div class="content_left_img" v-show="leftCarShow">
-       <div class="content_close" @click="leftCarShow=false"></div>
-       <img src="@/assets/images/showCar.png"/>
+     <div class="content_left_img" v-show="comprehensiveWindowShow">
+       <div class="content_close" @click="comprehensiveWindowShow=false"></div>
+       <img src="@/assets/images/showCar.png" v-if="carType===2" />
+       <img src="@/assets/images/showCar1.png" v-if="carType===0"/>
+       <img src="@/assets/images/showCar2.png" v-if="carType===1" />
      </div>
      <div class="content_left_close" :class="[leftClose?'close':'']"  @click="leftClose=!leftClose">
       <img src="@/assets/images/goleft.png" v-if="!leftClose">
@@ -208,18 +196,19 @@
       <img :src="rightPic!==6?Frame5:Frame12" @mouseover="rightPic=6" @mouseout="rightPic=-1"/>
       <img :src="rightPic!==7?Frame6:Frame13" @mouseover="rightPic=7" @mouseout="rightPic=-1"/>
     </div>
-    <div class="content_right_close" :class="[rightClose?'close':'']" @click="handleRightClose">
+    <div class="content_right_close" :class="[rightClose?'close':'']" @click="rightClose = !rightClose">
       <img src="@/assets/images/goright.png" v-if="!rightClose">
       <img src="@/assets/images/rightClose.png" v-else>
     </div>
     <!--下边-->
      <div class="content_bottom" :class="[bottomClose?'close':'']">
        <div class="bottom_checkbox">
-         <div class="checkbox_one" @click="sentryShow=!sentryShow"><img :src="sentryShow?checkOK:checkCancel"/>哨兵</div>
-         <div class="checkbox_one" @click="cameraShow=!cameraShow"><img :src="cameraShow?checkOK:checkCancel"/>摄像头</div>
-         <div class="checkbox_one" @click="sensorShow=!sensorShow"><img :src="sensorShow?checkOK:checkCancel"/>传感器</div>
-         <div class="checkbox_one" @click="gateShow=!gateShow"><img :src="gateShow?checkOK:checkCancel"/>道闸</div>
-         <div class="checkbox_one" @click="essentialShow=!essentialShow"><img :src="essentialShow?checkOK:checkCancel"/>要素</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(0)"><img :src="checkAllShow?checkOK:checkCancel"/>全选</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(1)"><img :src="sentryShow?checkOK:checkCancel"/>哨兵</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(2)"><img :src="cameraShow?checkOK:checkCancel"/>摄像头</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(3)"><img :src="sensorShow?checkOK:checkCancel"/>传感器</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(4)"><img :src="gateShow?checkOK:checkCancel"/>道闸</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(5)"><img :src="essentialShow?checkOK:checkCancel"/>要素</div>
        </div>
        <div class="bottom_close" @click="bottomClose=!bottomClose">
          <img src="@/assets/images/godown.png">
@@ -228,7 +217,7 @@
     <div class="bottom_close_up" :class="[bottomClose?'close':'']" @click="bottomClose=!bottomClose">
       <img src="@/assets/images/goup.png">
     </div>
-    <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoCloseShow" :key="videoKey"/>
+    <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoCloseShow"/>
   </div>
 </template>
 
@@ -240,31 +229,36 @@ export default {
   name: 'campScreen',
   data () {
     return {
-      videoKey: 0,
-      sensorDetail: true,
-      sensorWindow: false,
-      gateDetail: true,
-      gateWindow: false,
-      cameraDetail: true,
-      cameraWindow: false,
-      sentryDetail: true,
-      sentryWindow: false,
-      essentialDetail: true,
-      essentialWindow: false,
-      centerDetail: true,
-      centerWindow: false,
+      /** 哨兵**/
       sentryShow: true,
+      sentryDetail: true,
+      /** 摄像头**/
       cameraShow: true,
+      cameraDetail: true,
+      /** 传感器**/
       sensorShow: true,
+      sensorDetail: true,
+      /** 道闸**/
       gateShow: true,
+      gateDetail: true,
+      /** 要素**/
       essentialShow: true,
+      essentialDetail: true,
+      centerDetail: true,
+      checkAllShow: true,
+      /** 综合动态弹框**/
       comprehensiveShow: false,
       comprehensiveDetailShow: false,
       comprehensiveStatus: 0,
       comprehensiveDetailStatus: -1,
-      leftCarShow: false,
+      /** 地图参数**/
+      lng: 115.750556,
+      lat: 39.603056,
+      zoom: 16,
+      /** 下边checkbox图标**/
       checkOK: require('@/assets/images/u21.png'),
       checkCancel: require('@/assets/images/u40.png'),
+      /** 右边图标**/
       Frame14: require('@/assets/images/Frame-14.png'),
       Frame15: require('@/assets/images/Frame-15.png'),
       Frame: require('@/assets/images/Frame.png'),
@@ -281,36 +275,64 @@ export default {
       Frame11: require('@/assets/images/Frame-11.png'),
       Frame12: require('@/assets/images/Frame-12.png'),
       Frame13: require('@/assets/images/Frame-13.png'),
+      /** 结束**/
       camp: this.$store.state.camp,
-      campShow: false, // 下拉
-      nowDate: '',
-      timer: null, // 时间
-      intnum: null,
+      campList: [
+        { name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056 },
+        { name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611 },
+        { name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833 }
+      ],
+      nowDate: '', // 现在事件
+      timer: null, // 时间定时器
+      intnum: null, // 滚动列表
       activeIndex: 0, // 滚动
-      videoShow: true,
-      videoSrc: '/video/join.mp4',
+      videoShow: false, // 视频展现
+      videoSrc: '/video/join.mp4', // 视频源
+      comprehensiveWindowShow: false,
+      carType: null,
       comprehensiveList: [
-        { name: '人员出入', color: '#fff', time: '10.46', work: '东门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '10.59', work: '东门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '11.40', work: '东门进入后勤物资', type: 5 },
-        { name: '特急报警', color: 'red', time: '13.00', work: '李维从东门进', type: 2 },
-        { name: '车辆出入', color: '#fff', time: '13.30', work: '东门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '15.41', work: '东门进入访客章司', type: 1 },
-        { name: '人员出入', color: '#fff', time: '16.46', work: '东门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '16.59', work: '东门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '17.40', work: '东门进入后勤物资', type: 5 },
-        { name: '车辆出入', color: '#fff', time: '19.30', work: '东门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '20.41', work: '东门进入访客章司', type: 1 }
+        { name: '人员出入', color: '#fff', time: '10.46', work: '北门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '10.48', work: '北门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '11.00', work: '北门进入后勤物资', type: 5 },
+        { name: '特急报警', color: 'red', time: '11.30', work: '李维从北门进', type: 2 },
+        { name: '车辆出入', color: '#fff', time: '11.46', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '11.53', work: '北门进入访客章司', type: 1 },
+        { name: '人员出入', color: '#fff', time: '11.59', work: '北门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '12.10', work: '北门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '12.30', work: '北门进入后勤物资', type: 5 },
+        { name: '车辆出入', color: '#fff', time: '12.33', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '12.46', work: '北门进入访客章司', type: 1 },
+
+        { name: '人员出入', color: '#fff', time: '12.59', work: '北门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '13.06', work: '北门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '13.20', work: '北门进入后勤物资', type: 5 },
+        { name: '车辆出入', color: '#fff', time: '13.49', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '14.01', work: '北门进入访客章司', type: 1 },
+        { name: '人员出入', color: '#fff', time: '14.59', work: '北门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '15.10', work: '北门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '15.31', work: '北门进入后勤物资', type: 5 },
+        { name: '车辆出入', color: '#fff', time: '15.49', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '15.58', work: '北门进入访客章司', type: 1 },
+
+        { name: '人员出入', color: '#fff', time: '16.09', work: '北门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '16.36', work: '北门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '16.40', work: '北门进入后勤物资', type: 5 },
+        { name: '车辆出入', color: '#fff', time: '17.06', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '17.13', work: '北门进入访客章司', type: 1 },
+        { name: '人员出入', color: '#fff', time: '17.29', work: '北门进入访客章司', type: 3 },
+        { name: '普通报警', color: '#A06A1E', time: '18.10', work: '北门进入访客李维', type: 0 },
+        { name: '物资出入', color: '#fff', time: '19.31', work: '北门进入后勤物资', type: 5 },
+        { name: '车辆出入', color: '#fff', time: '20.49', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
+        { name: '紧急报警', color: '#C0450A', time: '21.08', work: '北门进入访客章司', type: 1 }
       ],
       comprehensiveLists: [],
-      rightPic: -1,
-      rightClose: false,
-      bottomClose: false,
-      leftClose: false,
-      topClose: false,
-      topCloseBottom: false,
-
-      aList: [
+      rightPic: -1, // 右边图片切换
+      rightClose: false, // 右边关闭
+      bottomClose: false, // 下边关闭
+      leftClose: false, // 左边关闭
+      topClose: false, // 左边栏上面关闭
+      topCloseBottom: false, // 左边栏下面关闭
+      mapList: [
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
           lng: 115.750556, // 经度
@@ -363,9 +385,8 @@ export default {
           isShow: true,
           tkImg: require('../assets/img/ystk.png'),
           tkImgDetail: require('../assets/img/ystkxq.png')
-        }
-      ],
-      bList: [
+        },
+
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
           lng: 115.764722, // 经度
@@ -418,9 +439,8 @@ export default {
           isShow: true,
           tkImg: require('../assets/img/ystk.png'),
           tkImgDetail: require('../assets/img/ystkxq.png')
-        }
-      ],
-      cList: [
+        },
+
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
           lng: 115.766111, // 经度
@@ -475,7 +495,6 @@ export default {
           tkImgDetail: require('../assets/img/ystkxq.png')
         }
       ]
-
     }
   },
   components: {
@@ -485,9 +504,17 @@ export default {
   computed: {
     comprehensiveTop () {
       return -this.activeIndex * 50 + 'px'
+    },
+    campName: {
+      get () {
+        return `${this.camp}营区`
+      },
+      set (val) {
+        this.camp = val
+      }
+
     }
   },
-
   created () {
     this.getDate()
     this.comprehensiveLists = this.comprehensiveList
@@ -495,10 +522,13 @@ export default {
 
   beforeDestroy () {
     clearInterval(this.timer)
+    clearInterval(this.intnum)
     this.timer = null
+    this.intnum = null
   },
   activated () {
     this.camp = this.$store.state.camp
+    this.chooseCamp(this.camp)
   },
   mounted () {
     this.ScrollUp()
@@ -538,16 +568,23 @@ export default {
       clearInterval(this.intnum)
     },
     chooseCamp (val) {
-      if (val == this.camp) return
-      this.videoKey++
-      this.videoSrc = `/video/${this.camp}${val}.mp4`
-      this.videoShow = true
-      this.camp = val
+      // this.videoSrc = `/video/${this.camp}${val}.mp4`
+      // this.videoShow = true
+      let campOne = null
+      this.campList.forEach(item => {
+        if (item.name === val) {
+          campOne = item
+        }
+      })
+      this.zoom = campOne.zoom
+      this.lng = campOne.lng
+      this.lat = campOne.lat
+      // this.camp = val
       this.$store.commit('updateCamp', val)
-      this.campShow = false
-      this.rightClose = true
-      this.bottomClose = true
-      this.leftClose = true
+      this.$refs.map.map.setZoomAndCenter(this.zoom, [this.lng, this.lat])
+      // this.rightClose = true
+      // this.bottomClose = true
+      // this.leftClose = true
     },
     changeStatus (type, val) {
       if (type === 'status') {
@@ -574,12 +611,6 @@ export default {
       this.Stop()
       this.activeIndex = 0
     },
-    /**
-       * 关闭/打开右侧区域
-       */
-    handleRightClose () {
-      this.rightClose = !this.rightClose
-    },
     comprehensiveCloseShow () {
       this.comprehensiveShow = !this.comprehensiveShow
       this.comprehensiveDetailShow = false
@@ -591,33 +622,69 @@ export default {
         this.bottomClose = false
         this.leftClose = false
       }, 500)
+    },
+    checkTrueOrFalse (type) {
+      if (type === 0) {
+        this.checkAllShow = !this.checkAllShow
+        this.sensorShow = this.checkAllShow
+        this.sentryShow = this.checkAllShow
+        this.gateShow = this.checkAllShow
+        this.essentialShow = this.checkAllShow
+        this.cameraShow = this.checkAllShow
+      } else if (type === 1) {
+        this.sentryShow = !this.sentryShow
+      } else if (type === 2) {
+        this.cameraShow = !this.cameraShow
+      } else if (type === 3) {
+        this.sensorShow = !this.sensorShow
+      } else if (type === 4) {
+        this.gateShow = !this.gateShow
+      } else {
+        this.essentialShow = !this.essentialShow
+      }
+      this.checkAllShow = !!(this.sentryShow && this.cameraShow && this.sensorShow && this.gateShow && this.essentialShow)
+    },
+    openCar (type) {
+      this.comprehensiveWindowShow = true
+      this.carType = type
     }
   },
+
   watch: {
     'sentryShow' () {
-      this.aList[1].isShow = this.sentryShow
-      this.bList[1].isShow = this.sentryShow
-      this.cList[1].isShow = this.sentryShow
+      this.mapList.forEach(item => {
+        if (item.type === 1) {
+          item.isShow = this.sentryShow
+        }
+      })
     },
     'cameraShow' () {
-      this.aList[2].isShow = this.cameraShow
-      this.bList[2].isShow = this.cameraShow
-      this.cList[2].isShow = this.cameraShow
+      this.mapList.forEach(item => {
+        if (item.type === 2) {
+          item.isShow = this.cameraShow
+        }
+      })
     },
     'sensorShow' () {
-      this.aList[3].isShow = this.sensorShow
-      this.bList[3].isShow = this.sensorShow
-      this.cList[3].isShow = this.sensorShow
+      this.mapList.forEach(item => {
+        if (item.type === 3) {
+          item.isShow = this.sensorShow
+        }
+      })
     },
     'gateShow' () {
-      this.aList[4].isShow = this.gateShow
-      this.bList[4].isShow = this.gateShow
-      this.cList[4].isShow = this.gateShow
+      this.mapList.forEach(item => {
+        if (item.type === 4) {
+          item.isShow = this.gateShow
+        }
+      })
     },
     'essentialShow' () {
-      this.aList[5].isShow = this.essentialShow
-      this.bList[5].isShow = this.essentialShow
-      this.cList[5].isShow = this.essentialShow
+      this.mapList.forEach(item => {
+        if (item.type === 5) {
+          item.isShow = this.essentialShow
+        }
+      })
     }
   }
 }
@@ -702,20 +769,60 @@ export default {
 
     }
     .head_camp {
-      display: flex;
-      align-items: center;
       position: absolute;
       height: 30px;
       left: 122px;
       top: 25px;
-      font-family: Microsoft YaHei UI;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 24px;
-      line-height: 30px;
-      letter-spacing: 0.1em;
-      color: #FFFFFF;
-      cursor: pointer;
+      width: 125px;
+      /deep/.el-input__inner{
+        border: none;
+        font-size: 24px;
+        padding: 0;
+        font-weight: bold;
+        line-height: 30px;
+        letter-spacing: 0.1em;
+        color: #FFFFFF;
+        font-family: Microsoft YaHei UI;
+        font-style: normal;
+        background-color: transparent;
+        /*width: 75px;*/
+      }
+      /deep/.el-select .el-input .el-select__caret {
+        color: #34E3FE;
+        font-size: 25px;
+        transition: transform .3s;
+        transform: rotateZ(180deg);
+        cursor: pointer;
+      }
+      //修改单个的选项的样式
+      /deep/.el-select-dropdown {
+        background-color: #030038;
+        border: 1px solid #0060FF;
+      }
+      /deep/.el-select-dropdown__list {
+        padding: 0;
+      }
+      /deep/ .el-select-dropdown__item{
+        border: none;
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 30px;
+        letter-spacing: 0.1em;
+         color: #81809B;
+        font-family: Microsoft YaHei UI;
+        font-style: normal;
+        background-color: transparent;
+        padding: 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid #0A2A83;
+      }
+      //item选项的hover样式
+      /deep/ .el-select-dropdown__item.hover,
+      /deep/ .el-select-dropdown__item:hover{
+        color:#FFFFFF;
+      }
       img {
         margin-left: 10px;
       }
@@ -726,6 +833,8 @@ export default {
     height: 960px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    position: relative;
+    overflow: hidden;
     img {
       position: absolute;
       cursor: pointer;

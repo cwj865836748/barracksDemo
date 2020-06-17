@@ -72,9 +72,8 @@ export default {
             },
             axisLabel: {
               textStyle: {
-                color: '#0A2A83',
-                fontSize: 12,
-                fontWeight: 600
+                color: '#0060FF',
+                fontSize: 12
               }
             }
           }

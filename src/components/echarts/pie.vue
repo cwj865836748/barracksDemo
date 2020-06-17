@@ -10,25 +10,25 @@ export default {
       roundOption: {
         title: [{
           text: '共出入',
-          left: '49%',
-          top: '33%',
+          left: '48.5%',
+          top: '35%',
           padding: [14, 0],
           textStyle: {
             color: '#fff',
             fontSize: 18,
             align: 'center',
-            fontWeight:'normal'
+            fontWeight: 'normal'
           }
         }, {
-          text: '70人',
-          left: '49%',
-          top: '42%',
+          text: '143人',
+          left: '46.5%',
+          top: '44%',
           padding: [15, 0],
           textStyle: {
             color: '#fff',
             fontSize: 26,
             align: 'center',
-            fontWeight:'normal'
+            fontWeight: 'normal'
           }
         }],
         tooltip: {
@@ -39,7 +39,7 @@ export default {
           // formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         // 环形颜色
-        color: ['#FF2756', '#33B1FF'],
+        color: ['#9B6BFF', '#FF2756', '#FF8C00', '#33B1FF', '#0FEA8A'],
         legend: {
           orient: 'vertical',
           show: false,
@@ -62,7 +62,7 @@ export default {
           {
             name: '访问来源',
             type: 'pie',
-            radius: ['50%', '65%'],
+            radius: ['40%', '65%'],
             center: ['55%', '50%'],
             labelLine: {
               normal: {
@@ -80,15 +80,16 @@ export default {
                 // \n\n可让文字居于牵引线上方，很关键
                 //  {b}  代表显示的内容标题
                 // {c}代表数据
-                formatter: '{c|{c}人}\n{b|{b}}',
+                formatter: '{b|{b}}{c|{c}人}',
                 borderWidth: 25,
                 borderRadius: 4,
-                padding: [0, -95, 50, -95],
+                padding: [0, -100, 30, -100],
                 rich: {
                   c: {
-                    fontSize: 18,
-                    lineHeight: 23,
-                    color: '#fff'
+                    fontSize: 14,
+                    lineHeight: 18,
+                    color: '#fff',
+                    padding: [0,5]
                   },
                   b: {
                     fontSize: 14
@@ -97,8 +98,13 @@ export default {
               }
             },
             data: [
-              { value: 30, name: '外来人员出入' },
-              { value: 40, name: '单位人员出入' }
+              { value: 25, name: '访客' },
+              { value: 3, name: '黑名单' },
+              { value: 15, name: '其他' },
+              { value: 40, name: '军人' },
+
+
+              { value: 60, name: '内部人员' }
             ]
           }
         ]
