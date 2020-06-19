@@ -35,7 +35,7 @@
          </div>
          <div class="left_comprehensive_body" :class="[topClose?'close':'']">
            <div class="left_comprehensive_content" :class="[topClose?'close':'']"  @mouseenter="Stop()" @mouseleave="ScrollUp()" @scroll="paperScroll()">
-               <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index" @click="openCar(item.type)">
+               <div class="detail" v-for="(item,index) in comprehensiveLists" :style="{ top:comprehensiveTop }" :key="index" @click="openCar(item.pic)">
                  <div>【<span :style="{color:item.color}">{{item.name}}</span>】</div>
                  <div>{{item.time}}</div>
                  <div>{{item.work}}</div>
@@ -176,9 +176,18 @@
      </div>
      <div class="content_left_img" v-show="comprehensiveWindowShow">
        <div class="content_close" @click="comprehensiveWindowShow=false"></div>
-       <img src="@/assets/images/showCar.png" v-if="carType===2" />
-       <img src="@/assets/images/showCar1.png" v-if="carType===0"/>
-       <img src="@/assets/images/showCar2.png" v-if="carType===1" />
+       <img src="@/assets/images/showCar.png" v-if="carType===7" />
+       <img src="@/assets/images/showCar1.png" v-if="carType===10"/>
+       <img src="@/assets/images/showCar2.png" v-if="carType===2" />
+       <img src="@/assets/images/showCar3.png" v-if="carType===11" />
+       <img src="@/assets/images/showCar4.png" v-if="carType===5"/>
+       <img src="@/assets/images/showCar5.png" v-if="carType===0" />
+       <img src="@/assets/images/showCar6.png" v-if="carType===3" />
+       <img src="@/assets/images/showCar7.png" v-if="carType===8"/>
+       <img src="@/assets/images/showCar8.png" v-if="carType===9" />
+       <img src="@/assets/images/showCar9.png" v-if="carType===1" />
+       <img src="@/assets/images/showCar10.png" v-if="carType===4"/>
+       <img src="@/assets/images/showCar11.png" v-if="carType===6" />
      </div>
      <div class="content_left_close" :class="[leftClose?'close':'']"  @click="leftClose=!leftClose">
       <img src="@/assets/images/goleft.png" v-if="!leftClose">
@@ -291,39 +300,18 @@ export default {
       comprehensiveWindowShow: false,
       carType: null,
       comprehensiveList: [
-        { name: '人员出入', color: '#fff', time: '10.46', work: '北门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '10.48', work: '北门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '11.00', work: '北门进入后勤物资', type: 5 },
-        { name: '特急报警', color: 'red', time: '11.30', work: '李维从北门进', type: 2 },
-        { name: '车辆出入', color: '#fff', time: '11.46', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '11.53', work: '北门进入访客章司', type: 1 },
-        { name: '人员出入', color: '#fff', time: '11.59', work: '北门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '12.10', work: '北门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '12.30', work: '北门进入后勤物资', type: 5 },
-        { name: '车辆出入', color: '#fff', time: '12.33', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '12.46', work: '北门进入访客章司', type: 1 },
-
-        { name: '人员出入', color: '#fff', time: '12.59', work: '北门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '13.06', work: '北门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '13.20', work: '北门进入后勤物资', type: 5 },
-        { name: '车辆出入', color: '#fff', time: '13.49', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '14.01', work: '北门进入访客章司', type: 1 },
-        { name: '人员出入', color: '#fff', time: '14.59', work: '北门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '15.10', work: '北门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '15.31', work: '北门进入后勤物资', type: 5 },
-        { name: '车辆出入', color: '#fff', time: '15.49', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '15.58', work: '北门进入访客章司', type: 1 },
-
-        { name: '人员出入', color: '#fff', time: '16.09', work: '北门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '16.36', work: '北门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '16.40', work: '北门进入后勤物资', type: 5 },
-        { name: '车辆出入', color: '#fff', time: '17.06', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '17.13', work: '北门进入访客章司', type: 1 },
-        { name: '人员出入', color: '#fff', time: '17.29', work: '北门进入访客章司', type: 3 },
-        { name: '普通报警', color: '#A06A1E', time: '18.10', work: '北门进入访客李维', type: 0 },
-        { name: '物资出入', color: '#fff', time: '19.31', work: '北门进入后勤物资', type: 5 },
-        { name: '车辆出入', color: '#fff', time: '20.49', work: '北门进入车辆车牌号为：鄂B305F6', type: 4 },
-        { name: '紧急报警', color: '#C0450A', time: '21.08', work: '北门进入访客章司', type: 1 }
+        { name: '人员出入', color: '#fff', time: '14:23', work: '东门进入内部人员王悦', type: 3, pic: 0 },
+        { name: '车辆出入', color: '#fff', time: '14:25', work: '北门进入访客车辆冀AQA644', type: 4, pic: 1 },
+        { name: '普通报警', color: '#A06A1E', time: '14:32', work: '配电室设备03出现故障', type: 0, pic: 2 },
+        { name: '人员出入', color: '#fff', time: '14:34', work: '北门进入军人刘亚东', type: 3, pic: 3 },
+        { name: '车辆出入', color: '#fff', time: '14:54', work: '西门进入内部车辆京NP4323', type: 4, pic: 4 },
+        { name: '普通报警', color: '#A06A1E', time: '14:55', work: '公区0322号摄像头被遮挡', type: 0, pic: 5 },
+        { name: '紧急报警', color: '#C0450A', time: '15:10', work: '仓库A物资摆放有误', type: 1, pic: 6 },
+        { name: '紧急报警', color: '#C0450A', time: '15:13', work: '东门口有陌生人徘徊', type: 1, pic: 7 },
+        { name: '物资出入', color: '#fff', time: '15:42', work: '北门进入一批物资，编号0332721', type: 5, pic: 8 },
+        { name: '物资出入', color: '#fff', time: '15:43', work: '北门进入一批物资，编号7183300', type: 5, pic: 9 },
+        { name: '特急报警', color: 'red', time: '15:52', work: '东侧周界遭到入侵', type: 2, pic: 10 },
+        { name: '特急报警', color: 'red', time: '16:44', work: '枪弹仓库物资摆放不合格', type: 2, pic: 11 }
       ],
       comprehensiveLists: [],
       rightPic: -1, // 右边图片切换
@@ -557,7 +545,7 @@ export default {
     },
     ScrollUp () {
       this.intnum = setInterval(_ => {
-        if (this.activeIndex < this.comprehensiveList.length) {
+        if (this.activeIndex < this.comprehensiveLists.length) {
           this.activeIndex += 1
         } else {
           this.activeIndex = 0
@@ -617,11 +605,6 @@ export default {
     },
     videoCloseShow () {
       this.videoShow = false
-      setTimeout(() => {
-        this.rightClose = false
-        this.bottomClose = false
-        this.leftClose = false
-      }, 500)
     },
     checkTrueOrFalse (type) {
       if (type === 0) {
@@ -644,9 +627,9 @@ export default {
       }
       this.checkAllShow = !!(this.sentryShow && this.cameraShow && this.sensorShow && this.gateShow && this.essentialShow)
     },
-    openCar (type) {
+    openCar (pic) {
       this.comprehensiveWindowShow = true
-      this.carType = type
+      this.carType = pic
     }
   },
 

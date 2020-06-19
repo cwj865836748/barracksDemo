@@ -44,6 +44,7 @@ export default {
       searchInput: '',
       upClose: false,
       bottomClose: false,
+      showMovie: true,
       layers: [
         // 卫星
         new AMap.TileLayer.Satellite(),
@@ -115,6 +116,7 @@ export default {
                 })
                 this.curTk = item
               }
+              this.showMovie = false
             } else {
               this.curTKMarker = new AMap.Marker({
                 map: this.map,
@@ -122,6 +124,7 @@ export default {
                 icon: item.tkImg
               })
               this.curTk = item
+              this.showMovie = true
             }
 
             if (this.curTKMarker && item.type != 0) {
@@ -129,6 +132,10 @@ export default {
                 this.clickNum++
                 this.curTKMarker.setIcon(this.clickNum % 2 ? item.tkImgDetail : item.tkImg)
               })
+            }
+            if (item.type === 2 && this.showMovie) {
+              console.log(this.showMovie)
+              this.$parent.videoShow = true
             }
           })
         }
