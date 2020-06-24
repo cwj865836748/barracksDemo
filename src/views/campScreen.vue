@@ -319,12 +319,12 @@ export default {
       ],
       comprehensiveLists: [],
       personList: [
-        { name: '军人外出', color: 'pink', personNumber: 500, width: '100%', list: ['外出军人', '外出时间', '外出位置', '人员轨迹'] },
-        { name: '军人归队', color: 'blue', personNumber: 450, width: '85%', list: ['归队军人', '归队时间', '归队位置', '人员轨迹'] },
-        { name: '访客进入', color: 'pink', personNumber: 200, width: '45%', list: ['进入访客', '进入时间', '进入位置', '人员轨迹'] },
-        { name: '访客离开', color: 'blue', personNumber: 300, width: '65%', list: ['离开访客', '离开时间', '离开位置', '人员轨迹'] },
-        { name: '人员进入', color: 'pink', personNumber: 400, width: '75%', list: ['进入人员', '进入时间', '进入位置', '人员轨迹'] },
-        { name: '人员离开', color: 'blue', personNumber: 400, width: '75%', list: ['离开人员', '离开时间', '离开位置', '人员轨迹'] }
+        { name: '军人外出', color: 'pink', personNumber: 10, width: '50%', list: ['外出军人', '外出时间', '外出位置', '人员轨迹'] },
+        { name: '军人归队', color: 'blue', personNumber: 6, width: '38%', list: ['归队军人', '归队时间', '归队位置', '人员轨迹'] },
+        { name: '访客进入', color: 'pink', personNumber: 18, width: '75%', list: ['进入访客', '进入时间', '进入位置', '人员轨迹'] },
+        { name: '访客离开', color: 'blue', personNumber: 15, width: '70%', list: ['离开访客', '离开时间', '离开位置', '人员轨迹'] },
+        { name: '人员进入', color: 'pink', personNumber: 24, width: '85%', list: ['进入人员', '进入时间', '进入位置', '人员轨迹'] },
+        { name: '人员离开', color: 'blue', personNumber: 38, width: '98%', list: ['离开人员', '离开时间', '离开位置', '人员轨迹'] }
       ],
       carList: [
         { name: '军车外出', color: 'pink', personNumber: 22, width: '85%', list: ['外出军车', '外出时间', '外出位置', '车辆轨迹'] },

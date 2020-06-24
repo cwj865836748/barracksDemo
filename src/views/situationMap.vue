@@ -184,7 +184,7 @@
                 <span class="title">道闸</span>
                 <div class="num">32台</div>
               </div>
-              <div class="sb-item">
+              <div class="sb-item" style="margin-right: 26px">
                 <span class="ry" style="background: #0F71EA;"></span>
                 <span class="title">传感器</span>
                 <div class="num">8台</div>
@@ -802,6 +802,7 @@ export default {
           position: absolute;
           top: 40%;
           left: 0;
+          cursor: pointer;
         }
         .showList {
           width: 190px;
@@ -837,6 +838,7 @@ export default {
               height: 48px;
               font-size: 16px;
               color: #FFFFFF;
+              cursor: pointer;
               background: #08062D;
               &.blue {
                 color: #33B1FF;
