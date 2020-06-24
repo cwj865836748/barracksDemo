@@ -37,7 +37,7 @@ module.exports = {
   // 放在子目录时使用./或者加你的域名
   publicPath: './',
   // 将构建好的文件输出到哪里
-  outputDir: 'wisdom_barracks_html3',
+  outputDir: 'wisdom_barracks_html4',
   // 放置生成的静态资源(js、css、img、fonts)的目录。
   assetsDir: 'static',
   // 指定生成的 index.html 的输出路径

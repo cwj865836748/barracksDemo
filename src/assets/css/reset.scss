@@ -186,6 +186,20 @@ button {
   -ms-grid-row-align: center;
   align-items: center;
 }
+.flex-xy-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  -ms-grid-row-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
 
 .flex-y-bottom {
   display: -webkit-box;

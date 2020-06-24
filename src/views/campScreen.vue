@@ -79,78 +79,30 @@
            </div>
            <div class="left_border"/>
            <div class="left_status">人员信息</div>
+
            <div class="personMessage">
-             <div class="personDetail">
-               <div>编制人员</div>
+             <div class="personDetail" v-for="(item,index) in personList" :key="index" @click="showLeftWindow(index,1)">
+               <div>{{item.name}}</div>
                <div class="lineColor">
-               <div class="pink" style="width: 100%"></div>
+               <div :class="item.color" :style="{width: item.width}"></div>
                </div>
-               <div>500人</div>
-             </div>
-             <div class="personDetail">
-               <div>实有人员</div>
-               <div class="lineColor">
-                 <div class="blue" style="width: 85%"></div>
-               </div>
-               <div>450人</div>
-             </div>
-             <div class="personDetail">
-               <div>在位人员</div>
-               <div class="lineColor">
-                 <div class="pink" style="width: 65%"></div>
-               </div>
-               <div>300人</div>
-             </div>
-             <div class="personDetail">
-               <div>访客数量</div>
-               <div class="lineColor">
-                 <div class="blue" style="width: 65%"></div>
-               </div>
-               <div>300人</div>
+               <div>{{item.personNumber}}人</div>
              </div>
            </div>
            <div class="left_border"/>
            <div class="left_status">车辆信息</div>
            <div class="personMessage">
-             <div class="personDetail">
-               <div>编制车辆</div>
+             <div class="personDetail" v-for="(item,index) in carList" :key="index" @click="showLeftWindow(index,2)">
+               <div class="personWidth">{{item.name}}</div>
                <div class="lineColor">
-                 <div class="pink" style="width: 100%"></div>
+                 <div :class="item.color" :style="{width: item.width}"></div>
                </div>
-               <div>20辆</div>
-             </div>
-             <div class="personDetail">
-               <div>实有车辆</div>
-               <div class="lineColor">
-                 <div class="blue" style="width: 85%"></div>
-               </div>
-               <div>15辆</div>
-             </div>
-             <div class="personDetail">
-               <div>在位车辆</div>
-               <div class="lineColor">
-                 <div class="pink" style="width: 65%"></div>
-               </div>
-               <div>14辆</div>
-             </div>
-             <div class="personDetail">
-               <div>访客车辆</div>
-               <div class="lineColor">
-                 <div class="blue" style="width: 20%"></div>
-               </div>
-               <div>2辆</div>
+               <div>{{item.personNumber}}辆</div>
              </div>
            </div>
            <div class="left_border"/>
            <div class="left_status">枪支信息</div>
            <div class="personMessage personMessage_q">
-             <div class="personDetail">
-               <div>编制枪支</div>
-               <div class="lineColor">
-                 <div class="pink" style="width: 100%"></div>
-               </div>
-               <div>200支</div>
-             </div>
              <div class="personDetail">
                <div>实有枪支</div>
                <div class="lineColor">
@@ -166,6 +118,58 @@
                <div>100支</div>
              </div>
            </div>
+           </div>
+           <div class="leftdownWindow" v-if="leftBottomWindow">
+              <div class="heads">
+                <span>{{leftBottomType===1?personList[leftBottomIndex].name:carList[leftBottomIndex].name}}列表</span>
+                <div class="closeIcon" @click="leftBottomWindow=false"/>
+              </div>
+              <div class="table">
+                 <div class="tablecontent">
+                   <span class="span1">{{leftBottomType===1?personList[leftBottomIndex].list[0]:carList[leftBottomIndex].list[0]}}</span>
+                   <span class="span2">{{leftBottomType===1?personList[leftBottomIndex].list[1]:carList[leftBottomIndex].list[1]}}</span>
+                   <span class="span3">{{leftBottomType===1?personList[leftBottomIndex].list[2]:carList[leftBottomIndex].list[2]}}</span>
+                   <span class="span4">{{leftBottomType===1?personList[leftBottomIndex].list[3]:carList[leftBottomIndex].list[3]}}</span>
+                 </div>
+                <div class="tablecontent" v-for="(item,index) in number" :key="index">
+                  <span class="span1" v-if="leftBottomType===1">张月</span>
+                  <span class="span1" v-else>粤B234L6</span>
+                  <span class="span2">2020-06-22 10:20:23</span>
+                  <span class="span3">东门</span>
+                  <span class="span4 click" @click="leftBottomClick(1)">查看</span>
+                </div>
+              </div>
+           </div>
+           <div class="leftdownWindow" v-if="leftBottomDetailWindow">
+             <div class="heads" v-if="leftBottomType===1">
+               <span>张月的轨迹</span>
+               <img class="formIcon" src="@/assets/images/form.png" v-if="iconShow"/>
+               <img class="formIcon" src="@/assets/images/formUn.png" v-if="!iconShow" @click="iconShow=true"/>
+               <img class="formMapIcon" src="@/assets/images/formMap.png" v-if="iconShow" @click="iconShow=false"/>
+               <img class="formMapIcon" src="@/assets/images/formMapShow.png" v-if="!iconShow"/>
+               <div class="closeIcon" @click="leftBottomClick(2)"/>
+             </div>
+             <div class="heads" v-else>
+               <span>粤B234L6的轨迹</span>
+               <img class="formIcon2" src="@/assets/images/form.png" v-if="iconShow"/>
+               <img class="formIcon2" src="@/assets/images/formUn.png" v-if="!iconShow" @click="iconShow=true"/>
+               <img class="formMapIcon2" src="@/assets/images/formMap.png" v-if="iconShow" @click="iconShow=false"/>
+               <img class="formMapIcon2" src="@/assets/images/formMapShow.png" v-if="!iconShow"/>
+               <div class="closeIcon" @click="leftBottomClick(2)"/>
+             </div>
+             <div class="table" v-if="iconShow">
+               <div class="tablecontent">
+                 <span class="span5 one">轨迹时间</span>
+                 <span class="span6">轨迹位置</span>
+               </div>
+               <div class="tablecontent" v-for="(item,index) in number" :key="index">
+                 <span class="span5 one">2020-06-22 10:20:23</span>
+                 <span class="span6">东门</span>
+               </div>
+             </div>
+             <div :class="[leftBottomType===1?'tableGui':'tableGui2']" v-else>
+
+             </div>
            </div>
          </div>
          <div class="topClose" @click="topCloseBottom=!topCloseBottom">
@@ -214,14 +218,14 @@
        <div class="bottom_checkbox">
          <div class="checkbox_one" @click="checkTrueOrFalse(0)"><img :src="checkAllShow?checkOK:checkCancel"/>全选</div>
          <div class="checkbox_one" @click="checkTrueOrFalse(1)"><img :src="sentryShow?checkOK:checkCancel"/>哨兵</div>
-         <div class="checkbox_one" @click="checkTrueOrFalse(2)"><img :src="cameraShow?checkOK:checkCancel"/>摄像头</div>
+         <div class="checkbox_one" @click="checkTrueOrFalse(2)"><img :src="cameraShow?checkOK:checkCancel"/>摄像机</div>
          <div class="checkbox_one" @click="checkTrueOrFalse(3)"><img :src="sensorShow?checkOK:checkCancel"/>传感器</div>
          <div class="checkbox_one" @click="checkTrueOrFalse(4)"><img :src="gateShow?checkOK:checkCancel"/>道闸</div>
          <div class="checkbox_one" @click="checkTrueOrFalse(5)"><img :src="essentialShow?checkOK:checkCancel"/>要素</div>
        </div>
        <div class="bottom_close" @click="bottomClose=!bottomClose">
          <img src="@/assets/images/godown.png">
-       </div>
+     </div>
      </div>
     <div class="bottom_close_up" :class="[bottomClose?'close':'']" @click="bottomClose=!bottomClose">
       <img src="@/assets/images/goup.png">
@@ -314,6 +318,28 @@ export default {
         { name: '特急报警', color: 'red', time: '16:44', work: '枪弹仓库物资摆放不合格', type: 2, pic: 11 }
       ],
       comprehensiveLists: [],
+      personList: [
+        { name: '军人外出', color: 'pink', personNumber: 500, width: '100%', list: ['外出军人', '外出时间', '外出位置', '人员轨迹'] },
+        { name: '军人归队', color: 'blue', personNumber: 450, width: '85%', list: ['归队军人', '归队时间', '归队位置', '人员轨迹'] },
+        { name: '访客进入', color: 'pink', personNumber: 200, width: '45%', list: ['进入访客', '进入时间', '进入位置', '人员轨迹'] },
+        { name: '访客离开', color: 'blue', personNumber: 300, width: '65%', list: ['离开访客', '离开时间', '离开位置', '人员轨迹'] },
+        { name: '人员进入', color: 'pink', personNumber: 400, width: '75%', list: ['进入人员', '进入时间', '进入位置', '人员轨迹'] },
+        { name: '人员离开', color: 'blue', personNumber: 400, width: '75%', list: ['离开人员', '离开时间', '离开位置', '人员轨迹'] }
+      ],
+      carList: [
+        { name: '军车外出', color: 'pink', personNumber: 22, width: '85%', list: ['外出军车', '外出时间', '外出位置', '车辆轨迹'] },
+        { name: '军车归队', color: 'blue', personNumber: 20, width: '80%', list: ['归队军车', '归队时间', '归队位置', '车辆轨迹'] },
+        { name: '访客车进入', color: 'pink', personNumber: 10, width: '40%', list: ['进入访客车', '进入时间', '进入位置', '车辆轨迹'] },
+        { name: '访客车离开', color: 'blue', personNumber: 6, width: '20%', list: ['离开访客车', '离开时间', '离开位置', '车辆轨迹'] },
+        { name: '车辆进入', color: 'pink', personNumber: 30, width: '100%', list: ['进入车辆', '进入时间', '进入位置', '车辆轨迹'] },
+        { name: '车辆离开', color: 'blue', personNumber: 28, width: '95%', list: ['离开车辆', '离开时间', '离开位置', '车辆轨迹'] }
+      ],
+      leftBottomWindow: false,
+      leftBottomIndex: -1,
+      leftBottomType: -1,
+      leftBottomDetailWindow: false,
+      iconShow: true,
+      number: [1, 2, 3, 4, 5, 6, 7],
       rightPic: -1, // 右边图片切换
       rightClose: false, // 右边关闭
       bottomClose: false, // 下边关闭
@@ -522,6 +548,13 @@ export default {
     this.ScrollUp()
   },
   methods: {
+    showLeftWindow (index, type) {
+      this.leftBottomIndex = index
+      this.leftBottomType = type
+      this.leftBottomDetailWindow = false
+      this.leftBottomWindow = true
+      this.iconShow = true
+    },
     getDate () {
       this.timer = setInterval(() => { // 创建定时器
         var date = new Date()
@@ -630,6 +663,15 @@ export default {
     openCar (pic) {
       this.comprehensiveWindowShow = true
       this.carType = pic
+    },
+    leftBottomClick (type) {
+      if (type === 1) {
+        this.leftBottomDetailWindow = true
+        this.leftBottomWindow = false
+      } else {
+        this.leftBottomDetailWindow = false
+        this.leftBottomWindow = true
+      }
     }
   },
 
@@ -1184,7 +1226,7 @@ export default {
         .personMessage {
           background: url("../assets/images/bg-2.png") no-repeat;
           background-size: 100% 100%;
-          height: 157px;
+          height: 225px;
           width: 361px;
           padding:0 10px;
           display: flex;
@@ -1203,8 +1245,11 @@ export default {
             div:first-child {
               margin-right: 10px;
             }
+            .personWidth  {
+              width: 95px;
+            }
             .lineColor {
-              width: 190px;
+              width: 180px;
               height: 15px;
               margin-right: 10px;
               .pink {
@@ -1221,8 +1266,121 @@ export default {
         .personMessage_q {
           background: url("../assets/images/bg-3.png") no-repeat;
           background-size: 100% 100%;
-          height: 123px;
+          height: 92px;
         }
+        .leftdownWindow {
+          width: 720px;
+          height: 450px;
+          left: 600px;
+          top: 315px;
+          position: fixed;
+          .heads {
+            width: 720px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            color: #FFFFFF;
+            font-size: 18px;
+            font-family: Microsoft YaHei UI;
+            border-bottom: 1px solid #0272CA;
+            background: #00137F;
+            padding-left: 32px;
+            position: relative;
+            .formIcon {
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              left: 158px;
+              top: 16px;
+              cursor: pointer;
+            }
+            .formIcon2 {
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              left: 198px;
+              top: 16px;
+              cursor: pointer;
+            }
+            .formMapIcon {
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              left: 195px;
+              top: 16px;
+              cursor: pointer;
+            }
+            .formMapIcon2 {
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              left: 235px;
+              top: 16px;
+              cursor: pointer;
+            }
+            .closeIcon {
+              width: 20px;
+              height: 20px;
+              background: url("../assets/images/closeWindow.png") no-repeat;
+              background-size: 100% 100%;
+              position: absolute;
+              right: 22px;
+              top: 18px;
+            }
+          }
+          .table {
+            width: 720px;
+            height: 384px;
+            background: #08062D;
+            border-radius: 4px 4px 0px 0px;
+            font-size: 16px;
+            color: #FFFFFF;
+            .tablecontent {
+              display:flex;
+              align-items: center;
+              height: 48px;
+              border-bottom: 1px solid #09216E;
+              .span1 {
+                width: 28%;
+                padding-left: 32px;
+                box-sizing: border-box;
+              }
+              .span2 {
+                width: 30%;
+              }
+              .span3 {
+                width: 27%;
+              }
+              .span4 {
+                width: 15%;
+                &.click {
+                  color: #34E3FE;
+                  cursor: pointer;
+                }
+              }
+              .span5 {
+                width: 60%;
+                &.one {
+                  padding-left: 32px;
+                  box-sizing: border-box;
+                }
+              }
+            }
+          }
+          .tableGui {
+            width: 720px;
+            height: 394px;
+            background: url("../assets/images/Group 328.png") no-repeat;
+            background-size: 100% 100%;
+          }
+          .tableGui2 {
+            width: 720px;
+            height: 394px;
+            background: url("../assets/images/Group 329.png") no-repeat;
+            background-size: 100% 100%;
+          }
+        }
+
       }
       .topClose {
         position: absolute;

@@ -133,10 +133,10 @@ export default {
                 this.curTKMarker.setIcon(this.clickNum % 2 ? item.tkImgDetail : item.tkImg)
               })
             }
-            if (item.type === 2 && this.showMovie) {
-              console.log(this.showMovie)
-              this.$parent.videoShow = true
-            }
+            // if (item.type === 2 && this.showMovie) {
+            //   console.log(this.showMovie)
+            //   this.$parent.videoShow = true
+            // }
           })
         }
       })

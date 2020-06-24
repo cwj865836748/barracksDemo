@@ -56,7 +56,7 @@ export default {
           type: 'category',
           nameGap: 15,
           boundaryGap: true,
-          data: ['编制数量', '应有数量', '实有数量'],
+          data: ['应有数量', '实有数量'],
           axisLabel: {
             textStyle: {
               // 文字样式
@@ -121,7 +121,7 @@ export default {
           {
             name: 'A类',
             type: 'bar',
-            data: [4100, 2300, 2000],
+            data: [4100, 2000],
             barWidth: 12,
             barGap: '100%',
             color: '#0FEA8A',
@@ -142,7 +142,7 @@ export default {
           {
             name: 'B类',
             type: 'bar',
-            data: [3100, 1100, 1000],
+            data: [2600, 1000],
             barWidth: 12,
             barGap: '100%',
             color: '#33B1FF',
@@ -163,7 +163,7 @@ export default {
           {
             name: 'C类',
             type: 'bar',
-            data: [1000, 600, 200],
+            data: [1700, 200],
             barWidth: 12,
             barGap: '100%',
             color: '#FF2756',

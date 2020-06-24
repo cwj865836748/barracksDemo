@@ -81,20 +81,12 @@
       </div>
       <div class="content-footer-vedio">
         <div class="content-footer-vedio-list clearfix" v-show="vedioNum==4">
-          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
-            <img src="../assets/images/vedio1.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
-            <img src="../assets/images/vedio2.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
-            <img src="../assets/images/vedio4.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item flex-y-center flex-x-center">
-            <img src="../assets/images/vedio3.png" alt="">
-          </div>
+            <img class="imgB imgR" src="../assets/images/vedio1.png" alt="">
+            <img class="imgB " src="../assets/images/vedio2.png" alt="">
+            <img class="imgR" src="../assets/images/vedio4.png" alt="">
+            <img  src="../assets/images/vedio3.png" alt="">
         </div>
-        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16">
+        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16" style="padding: 20px 0 10px">
           <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
             <img src="../assets/images/vedio1.png" alt="" class="img1">
           </div>
@@ -144,7 +136,26 @@
             <img src="../assets/images/xz.png" alt="">
           </div>
         </div>
-        <div class="content-footer-vedio-footer flex-row flex-x-center">
+        <div class="leftClose" @click="isLeft=!isLeft">
+          <img src="@/assets/images/leftClose.png" v-if="isLeft"/>
+          <img src="@/assets/images/rightClose.png" v-else/>
+        </div>
+        <div class="showList" v-if="isLeft">
+           <div class="top flex-xy-center">监控点</div>
+           <div class="content">
+             <el-input placeholder="请输入名称" v-model="watchMsg"></el-input>
+             <div class="msg blue flex-xy-center">正大门出入口摄像机</div>
+             <div class="msg blue flex-xy-center">A营区枪械存放摄像机</div>
+             <div class="msg blue flex-xy-center">A营区训练场摄像机</div>
+             <div class="msg blue flex-xy-center">A营区地库摄像机</div>
+
+             <div class="msg flex-xy-center">营区东门入口监控点</div>
+             <div class="msg flex-xy-center">营区东门入口监控点</div>
+             <div class="msg flex-xy-center">营区东门入口监控点</div>
+             <div class="msg flex-xy-center">营区东门入口监控点</div>
+           </div>
+        </div>
+        <div class="content-footer-vedio-footer flex-row flex-x-center" style="margin-top: 11px">
           <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">2*2</div>
           <div class="btn" :class="[vedioNum==16?'active':'']" @click="vedioNum = 16">4*4</div>
         </div>
@@ -170,12 +181,12 @@
               </div>
               <div class="sb-item">
                 <span class="ry" style="background: #0FEA8A;"></span>
-                <span class="title">人行道闸</span>
+                <span class="title">道闸</span>
                 <div class="num">32台</div>
               </div>
               <div class="sb-item">
                 <span class="ry" style="background: #0F71EA;"></span>
-                <span class="title">车行道闸</span>
+                <span class="title">传感器</span>
                 <div class="num">8台</div>
               </div>
             </div>
@@ -190,12 +201,12 @@
               </div>
               <div class="sb-item">
                 <span class="ry" style="background: #FF8C00;"></span>
-                <span class="title">人行故障</span>
+                <span class="title">道闸故障</span>
                 <div class="num">18台</div>
               </div>
               <div class="sb-item">
                 <span class="ry" style="background: #E81168;"></span>
-                <span class="title">车行故障</span>
+                <span class="title">传感器故障</span>
                 <div class="num">4台</div>
               </div>
             </div>
@@ -235,7 +246,9 @@ export default {
       campShow: false, // 下拉
       videoShow: false,
       temp: 10,
-      vedioNum: 4
+      vedioNum: 4,
+      isLeft: false,
+      watchMsg: ''
     }
   },
   computed: {
@@ -737,6 +750,18 @@ export default {
         top: 335px;
         left: 500px;
         &-list {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          border: 2px solid #000D62;
+          padding: 43px 0;
+          .imgB {
+            margin-bottom: 24px;
+          }
+          .imgR {
+            margin-right: 24px;
+          }
           &-item {
             width: 450px;
             height: 270px;
@@ -753,12 +778,10 @@ export default {
 
         &-list {
           &-item16 {
-            width: 220px;
-            height: 130px;
-            float: left;
+            width: 200px;
+            height: 120px;
             margin-right: 13px;
             margin-bottom: 12px;
-            border: 2px solid #000D62;
             background: rgba(2, 0, 40, 0.7);
             &:nth-child(4n) {
               margin-right: 0;
@@ -773,6 +796,64 @@ export default {
               height: 114px;
               animation: none;
             }
+          }
+        }
+        .leftClose {
+          position: absolute;
+          top: 40%;
+          left: 0;
+        }
+        .showList {
+          width: 190px;
+          height: 552px;
+          border: 1px solid #000D62;
+          position: absolute;
+          top: 0;
+          left: -188px;
+          z-index: 10;
+          .top {
+            background: #00137F;
+            height: 48px;
+            color: #FFFFFF;
+            font-size: 18px;
+          }
+          .content {
+            padding: 12px 10px;
+            position: relative;
+            height: 504px;
+            /deep/.el-input__inner {
+              height: 42px;
+              color: #AAAAAA;
+              font-size: 16px;
+              background: #08062D;
+              border: 1px solid #003ACB;
+              box-sizing: border-box;
+              border-radius: 2px;
+              padding: 0 40px 0 15px;
+            }
+            .msg {
+              border-bottom:1px solid #091C62;
+              border-radius: 4px 4px 0px 0px;
+              height: 48px;
+              font-size: 16px;
+              color: #FFFFFF;
+              background: #08062D;
+              &.blue {
+                color: #33B1FF;
+              }
+            }
+          }
+          .content::after {
+            content: '';
+            display: block;
+            background-image: url("../assets/images/doSearch.png");
+            background-size: 100% 100%;
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            z-index: 11;
           }
         }
 
