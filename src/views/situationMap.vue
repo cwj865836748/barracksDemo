@@ -80,13 +80,20 @@
         <Pie/>
       </div>
       <div class="content-footer-vedio">
+        <div class="content-footer-vedio-title clearfix">
+          <span :class="[videoType?'white':'']" @click="videoPre(true)">实时预览</span>
+          <span :class="[!videoType?'white':'' ]" @click="videoPre(false)">视频回放</span>
+        </div>
+        <div class="content-footer-vedio-line clearfix">
+          <img src="@/assets/images/blueLine.png"/>
+        </div>
         <div class="content-footer-vedio-list clearfix" v-show="vedioNum==4">
             <img class="imgB imgR" src="../assets/images/vedio1.png" alt="">
             <img class="imgB " src="../assets/images/vedio2.png" alt="">
             <img class="imgR" src="../assets/images/vedio4.png" alt="">
             <img  src="../assets/images/vedio3.png" alt="">
         </div>
-        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16" style="padding: 20px 0 10px">
+        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16" style="padding: 48px 0 0px">
           <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
             <img src="../assets/images/vedio1.png" alt="" class="img1">
           </div>
@@ -123,16 +130,16 @@
           <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
             <img src="../assets/images/xz.png" alt="">
           </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
             <img src="../assets/images/xz.png" alt="">
           </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
             <img src="../assets/images/xz.png" alt="">
           </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
             <img src="../assets/images/xz.png" alt="">
           </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
+          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
             <img src="../assets/images/xz.png" alt="">
           </div>
         </div>
@@ -155,7 +162,7 @@
              <div class="msg flex-xy-center">营区东门入口监控点</div>
            </div>
         </div>
-        <div class="content-footer-vedio-footer flex-row flex-x-center" style="margin-top: 11px">
+        <div class="content-footer-vedio-footer flex-row flex-x-center" :style="{marginTop: vedioNum===4?'22px':'0'}">
           <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">2*2</div>
           <div class="btn" :class="[vedioNum==16?'active':'']" @click="vedioNum = 16">4*4</div>
         </div>
@@ -237,6 +244,7 @@ export default {
       nowDate: '',
       timer: null,
       intnum: null,
+      videoType:true,
       camp: this.$store.state.camp,
       campList: [
         { name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056 },
@@ -467,6 +475,10 @@ export default {
         }]
       }
       myChart.setOption(option)
+    },
+    videoPre(status){
+      this.videoType=status
+      this.vedioNum=4
     }
   }
 }
@@ -749,13 +761,43 @@ export default {
         position: absolute;
         top: 335px;
         left: 500px;
+        border: 2px solid #000D62;
+        &-title {
+          font-size: 20px;
+          letter-spacing: 0.15em;
+          color: rgba(255,255,255,0.5);
+          position: absolute;
+          left: 15px;
+          top: 10px;
+          cursor: pointer;
+          span:first-child {
+            margin-right: 24px;
+            position: relative;
+          }
+          span:first-child::after {
+            content: '';
+            width: 1px;
+            height: 20px;
+            background: #ffffff;
+            position: absolute;
+            top: 2px;
+            right: -12px;
+          }
+          .white {
+            color: rgba(255,255,255,1);
+          }
+        }
+        &-line {
+          position: absolute;
+          left: 0;
+          top: 28px;
+        }
         &-list {
           display: flex;
           justify-content: center;
           align-items: center;
           flex-wrap: wrap;
-          border: 2px solid #000D62;
-          padding: 43px 0;
+          padding-top: 74px;
           .imgB {
             margin-bottom: 24px;
           }
@@ -785,6 +827,9 @@ export default {
             background: rgba(2, 0, 40, 0.7);
             &:nth-child(4n) {
               margin-right: 0;
+            }
+            &.mb0 {
+              margin-bottom: 0;
             }
             img {
               width: 24px;

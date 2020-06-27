@@ -15,6 +15,24 @@ const routes = [
     name: 'situationMap',
     component: () => import('../views/situationMap.vue'),
     meta: { title: '首页', keepAlive: false, auth: false }
+  },
+  {
+    path: '/historyHead',
+    name: 'historyHead',
+    component: () => import('../views/historyHead.vue'),
+    meta: { title: '头', keepAlive: false, auth: false }
+  },
+  {
+    path: '/personManage',
+    name: 'personManage',
+    component: () => import('../views/personManage.vue'),
+    meta: { title: '人员管理', keepAlive: false, auth: false }
+  },
+  {
+    path: '/carManage',
+    name: 'carManage',
+    component: () => import('../views/carManage.vue'),
+    meta: { title: '车辆管理', keepAlive: false, auth: false }
   }
 ]
 

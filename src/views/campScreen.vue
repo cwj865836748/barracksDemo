@@ -179,7 +179,8 @@
        </div>
      </div>
      <div class="content_left_img" v-show="comprehensiveWindowShow">
-       <div class="content_close" @click="comprehensiveWindowShow=false"></div>
+       <div class="content_close" @click="policeRing"></div>
+       <div class="content_close2" @click="comprehensiveWindowShow=false"></div>
        <img src="@/assets/images/showCar.png" v-if="carType===7" />
        <img src="@/assets/images/showCar1.png" v-if="carType===10"/>
        <img src="@/assets/images/showCar2.png" v-if="carType===2" />
@@ -202,8 +203,8 @@
       <img :src="rightPic!==0?Frame14:Frame15" @mouseover="rightPic=0" @mouseout="rightPic=-1"
            @click="$router.push('/situationMap')"/>
       <img :src="rightPic!==1?Frame:Frame7" @mouseover="rightPic=1" @mouseout="rightPic=-1"/>
-      <img :src="rightPic!==2?Frame1:Frame8" @mouseover="rightPic=2" @mouseout="rightPic=-1"/>
-      <img :src="rightPic!==3?Frame2:Frame9" @mouseover="rightPic=3" @mouseout="rightPic=-1"/>
+      <img :src="rightPic!==2?Frame1:Frame8" @mouseover="rightPic=2" @mouseout="rightPic=-1" @click="$router.push('/personManage')"/>
+      <img :src="rightPic!==3?Frame2:Frame9" @mouseover="rightPic=3" @mouseout="rightPic=-1" @click="$router.push('/carManage')"/>
       <img :src="rightPic!==4?Frame3:Frame10" @mouseover="rightPic=4" @mouseout="rightPic=-1"/>
       <img :src="rightPic!==5?Frame4:Frame11" @mouseover="rightPic=5" @mouseout="rightPic=-1"/>
       <img :src="rightPic!==6?Frame5:Frame12" @mouseover="rightPic=6" @mouseout="rightPic=-1"/>
@@ -508,7 +509,14 @@ export default {
           tkImg: require('../assets/img/ystk.png'),
           tkImgDetail: require('../assets/img/ystkxq.png')
         }
-      ]
+      ],
+      ringTime:0,
+      ringClean:null,
+      ringType:[2,7,10],
+      autoClose:null,
+      autoTime:0,
+      isHistory:true,
+      autoNum:-1
     }
   },
   components: {
@@ -537,6 +545,7 @@ export default {
   beforeDestroy () {
     clearInterval(this.timer)
     clearInterval(this.intnum)
+    this.ringStop()
     this.timer = null
     this.intnum = null
   },
@@ -546,6 +555,7 @@ export default {
   },
   mounted () {
     this.ScrollUp()
+    this.ringInterval()
   },
   methods: {
     showLeftWindow (index, type) {
@@ -663,6 +673,7 @@ export default {
     openCar (pic) {
       this.comprehensiveWindowShow = true
       this.carType = pic
+      this.isHistory=false
     },
     leftBottomClick (type) {
       if (type === 1) {
@@ -672,10 +683,60 @@ export default {
         this.leftBottomDetailWindow = false
         this.leftBottomWindow = true
       }
+    },
+    ringStop () {
+      this.ringTime=0
+      clearInterval(this.ringClean)
+      this.ringClean=null
+    },
+    autoStop () {
+      this.autoTime=0
+      clearInterval(this.autoClose)
+      this.autoClose=null
+    },
+    ringInterval(){
+      this.autoNum = this.ringType[0]//第一个普通预警
+      this.ringClean = setInterval(() => { // 创建定时器
+        if (this.ringTime===60000){
+          this.carType=this.ringType[0]  //判断展示的图片
+          this.comprehensiveWindowShow=true
+          this.isHistory=true//判断是否是左边点击还是自动展示的
+          this.ringType.splice(0,1)
+          this.ringStop()
+        }else {
+          this.ringTime+=1000
+        }
+      }, 1000)
+
+
+    },
+    policeRing (){
+      this.comprehensiveWindowShow=false
+      if (this.ringType.length!==0&&this.isHistory){
+        // this.autoStop()
+        if (this.autoNum===2){
+          this.autoStop()
+        }
+        this.ringInterval()
+      }
     }
   },
 
   watch: {
+    'ringClean'(val,newVal){
+      if (!val&&this.autoNum===2){
+        this.autoClose = setInterval(() => { // 创建定时器
+          if (this.autoTime===60000){
+            this.comprehensiveWindowShow=false
+            this.autoStop()
+            this.ringInterval()
+          }else {
+            this.autoTime+=1000
+          }
+        }, 1000)
+      }
+    },
+
     'sentryShow' () {
       this.mapList.forEach(item => {
         if (item.type === 1) {
@@ -1404,6 +1465,14 @@ export default {
     top: 219px;
     z-index: 5;
     .content_close {
+      position: absolute;
+      top: 532px;
+      right: 126px;
+      z-index: 7;
+      width: 62px;
+      height: 30px;
+    }
+    .content_close2 {
       position: absolute;
       top: 22px;
       right: 14px;
