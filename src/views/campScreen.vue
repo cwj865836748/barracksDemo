@@ -232,6 +232,10 @@
       <img src="@/assets/images/goup.png">
     </div>
     <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoCloseShow"/>
+
+
+    <audio v-if="!ringType.length" class="audio" src="/music/bj.mp3" controls autoplay="autoplay"
+           hidden="true"></audio>
   </div>
 </template>
 
@@ -697,7 +701,7 @@ export default {
     ringInterval(){
       this.autoNum = this.ringType[0]//第一个普通预警
       this.ringClean = setInterval(() => { // 创建定时器
-        if (this.ringTime===60000){
+        if (this.ringTime===5000){
           this.carType=this.ringType[0]  //判断展示的图片
           this.comprehensiveWindowShow=true
           this.isHistory=true//判断是否是左边点击还是自动展示的
