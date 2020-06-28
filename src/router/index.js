@@ -33,6 +33,12 @@ const routes = [
     name: 'carManage',
     component: () => import('../views/carManage.vue'),
     meta: { title: '车辆管理', keepAlive: false, auth: false }
+  },
+  {
+    path: '/sysManage',
+    name: 'sysManage',
+    component: () => import('../views/sysManage.vue'),
+    meta: { title: '系统管理', keepAlive: false, auth: false }
   }
 ]
 

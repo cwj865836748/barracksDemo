@@ -29,9 +29,31 @@
     <!--左边-->
      <div class="content_left" :class="[leftClose?'close':'']">
        <div class="left_comprehensive">
-         <div class="left_comprehensive_top" @click="comprehensiveCloseShow">
-           <span>综合动态</span>
+         <div class="left_comprehensive_top" >
+
+           <span @click="comprehensiveCloseShow">综合动态</span>
            <img src="@/assets/images/select.png"/>
+             <div class="light" v-show="lightShow">
+               <img src="@/assets/images/openEq.png" v-if="imgShow" @click.stop="imgShow=!imgShow">
+               <img src="@/assets/images/closeEq.png" v-if="!imgShow" @click.stop="imgShow=!imgShow">
+
+               <img src="@/assets/images/openEq.png" v-if="imgShow1" @click.stop="imgShow1=!imgShow1">
+               <img src="@/assets/images/closeEq.png" v-if="!imgShow1" @click.stop="imgShow1=!imgShow1">
+
+               <img src="@/assets/images/openEq.png" v-if="imgShow2" @click.stop="imgShow2=!imgShow2">
+               <img src="@/assets/images/closeEq.png" v-if="!imgShow2" @click.stop="imgShow2=!imgShow2">
+
+               <img src="@/assets/images/closeEq.png" v-if="imgShow3" @click.stop="imgShow3=!imgShow3">
+               <img src="@/assets/images/openEq.png" v-if="!imgShow3" @click.stop="imgShow3=!imgShow3">
+
+               <img src="@/assets/images/closeEq.png" v-if="imgShow4" @click.stop="imgShow4=!imgShow4">
+               <img src="@/assets/images/openEq.png" v-if="!imgShow4" @click.stop="imgShow4=!imgShow4">
+
+               <img src="@/assets/images/closeEq.png" v-if="imgShow5" @click.stop="imgShow5=!imgShow5">
+               <img src="@/assets/images/openEq.png" v-if="!imgShow5" @click.stop="imgShow5=!imgShow5">
+               <div class="close" @click.stop="lightShow=false"></div>
+             </div>
+           <div class="lightOpen" @click.stop="lightShow=!lightShow"></div>
          </div>
          <div class="left_comprehensive_body" :class="[topClose?'close':'']">
            <div class="left_comprehensive_content" :class="[topClose?'close':'']"  @mouseenter="Stop()" @mouseleave="ScrollUp()" @scroll="paperScroll()">
@@ -202,7 +224,7 @@
     <div class="content_right" :class="[rightClose?'close':'']">
       <img :src="rightPic!==0?Frame14:Frame15" @mouseover="rightPic=0" @mouseout="rightPic=-1"
            @click="$router.push('/situationMap')"/>
-      <img :src="rightPic!==1?Frame:Frame7" @mouseover="rightPic=1" @mouseout="rightPic=-1"/>
+      <img :src="rightPic!==1?Frame:Frame7" @mouseover="rightPic=1" @mouseout="rightPic=-1" @click="$router.push('/sysManage')"/>
       <img :src="rightPic!==2?Frame1:Frame8" @mouseover="rightPic=2" @mouseout="rightPic=-1" @click="$router.push('/personManage')"/>
       <img :src="rightPic!==3?Frame2:Frame9" @mouseover="rightPic=3" @mouseout="rightPic=-1" @click="$router.push('/carManage')"/>
       <img :src="rightPic!==4?Frame3:Frame10" @mouseover="rightPic=4" @mouseout="rightPic=-1"/>
@@ -232,7 +254,6 @@
       <img src="@/assets/images/goup.png">
     </div>
     <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoCloseShow"/>
-
 
     <audio v-if="!ringType.length" class="audio" src="/music/bj.mp3" controls autoplay="autoplay"
            hidden="true"></audio>
@@ -514,13 +535,20 @@ export default {
           tkImgDetail: require('../assets/img/ystkxq.png')
         }
       ],
-      ringTime:0,
-      ringClean:null,
-      ringType:[2,7,10],
-      autoClose:null,
-      autoTime:0,
-      isHistory:true,
-      autoNum:-1
+      ringTime: 0,
+      ringClean: null,
+      ringType: [2, 7, 10],
+      autoClose: null,
+      autoTime: 0,
+      isHistory: true,
+      autoNum: -1,
+      lightShow: false,
+      imgShow:true,
+      imgShow1:true,
+      imgShow2:true,
+      imgShow3:true,
+      imgShow4:true,
+      imgShow5:true,
     }
   },
   components: {
@@ -677,7 +705,7 @@ export default {
     openCar (pic) {
       this.comprehensiveWindowShow = true
       this.carType = pic
-      this.isHistory=false
+      this.isHistory = false
     },
     leftBottomClick (type) {
       if (type === 1) {
@@ -689,36 +717,34 @@ export default {
       }
     },
     ringStop () {
-      this.ringTime=0
+      this.ringTime = 0
       clearInterval(this.ringClean)
-      this.ringClean=null
+      this.ringClean = null
     },
     autoStop () {
-      this.autoTime=0
+      this.autoTime = 0
       clearInterval(this.autoClose)
-      this.autoClose=null
+      this.autoClose = null
     },
-    ringInterval(){
-      this.autoNum = this.ringType[0]//第一个普通预警
+    ringInterval () {
+      this.autoNum = this.ringType[0]// 第一个普通预警
       this.ringClean = setInterval(() => { // 创建定时器
-        if (this.ringTime===5000){
-          this.carType=this.ringType[0]  //判断展示的图片
-          this.comprehensiveWindowShow=true
-          this.isHistory=true//判断是否是左边点击还是自动展示的
-          this.ringType.splice(0,1)
+        if (this.ringTime === 60000) {
+          this.carType = this.ringType[0] // 判断展示的图片
+          this.comprehensiveWindowShow = true
+          this.isHistory = true// 判断是否是左边点击还是自动展示的
+          this.ringType.splice(0, 1)
           this.ringStop()
-        }else {
-          this.ringTime+=1000
+        } else {
+          this.ringTime += 1000
         }
       }, 1000)
-
-
     },
-    policeRing (){
-      this.comprehensiveWindowShow=false
-      if (this.ringType.length!==0&&this.isHistory){
+    policeRing () {
+      this.comprehensiveWindowShow = false
+      if (this.ringType.length !== 0 && this.isHistory) {
         // this.autoStop()
-        if (this.autoNum===2){
+        if (this.autoNum === 2) {
           this.autoStop()
         }
         this.ringInterval()
@@ -727,15 +753,15 @@ export default {
   },
 
   watch: {
-    'ringClean'(val,newVal){
-      if (!val&&this.autoNum===2){
+    'ringClean' (val, newVal) {
+      if (!val && this.autoNum === 2) {
         this.autoClose = setInterval(() => { // 创建定时器
-          if (this.autoTime===60000){
-            this.comprehensiveWindowShow=false
+          if (this.autoTime === 60000) {
+            this.comprehensiveWindowShow = false
             this.autoStop()
             this.ringInterval()
-          }else {
-            this.autoTime+=1000
+          } else {
+            this.autoTime += 1000
           }
         }, 1000)
       }
@@ -1065,7 +1091,64 @@ export default {
         font-weight: bold;
         font-size: 24px;
         line-height: 30px;
-        cursor: pointer;
+        position: relative;
+        .light {
+          width: 495px;
+          height: 300px;
+          position: absolute;
+          left: 439px;
+          top: 22px;
+          background: url("../assets/images/Group 345.png") no-repeat;
+          background-size: 100% 100%;
+          .close {
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+
+          }
+          img:nth-child(1){
+            position: absolute;
+            right: 158px;
+            top: 120px;
+
+          }
+          img:nth-child(2){
+            position: absolute;
+            right: 158px;
+            top: 180px;
+
+          }
+          img:nth-child(3){
+            position: absolute;
+            right: 158px;
+            top: 240px;
+
+          }
+          img:nth-child(4){
+            position: absolute;
+            right: 32px;
+            top: 120px;
+
+          }
+          img:nth-child(5){
+            position: absolute;
+            right: 32px;
+            top: 180px;
+
+          }
+          img:nth-child(6){
+            position: absolute;
+            right: 32px;
+            top: 240px;
+
+          }
+          img {
+            cursor: pointer;
+          }
+        }
         img {
           margin-left: 10px;
         }
@@ -1073,6 +1156,18 @@ export default {
           background: linear-gradient(90deg, #0075FF 0%, #00EAFF 49.56%, #01ACFF 99.99%);
           -webkit-background-clip: text;
           color: transparent;
+          position: relative;
+          cursor: pointer;
+        }
+        .lightOpen {
+          width: 24px;
+          height: 24px;
+          background: url("../assets/images/tuodong.png") no-repeat;
+          background-size: 100% 100%;
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          cursor: pointer;
         }
       }
       .left_comprehensive_checkbox {

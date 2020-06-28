@@ -15,6 +15,44 @@
     <div class="SeachMapClose" :class="[upClose?'close':'']" @click="upClose=!upClose">
       <img src="@/assets/images/goxia.png">
     </div>
+    <div class="addEqu flex-xy-center" @click="showEqu=true">添加设备</div>
+    <div class="EquWindow" v-show="showEqu">
+      <div class="head">
+        <span>添加设备</span>
+        <img src="@/assets/images/Union.png" @click="showEqu=false">
+      </div>
+      <div class="EquBody">
+        <div class="divs flex-xy-center" >
+          <span class="flex-y-center" style="width: 100px"><span style="color: red;font-size: 24px">*</span>设备类型:</span>
+          <el-select v-model="EquObj.type" placeholder="请选择类型" style="width: 332px" :popper-append-to-body="false">
+            <el-option value='1' label="哨兵">哨兵</el-option>
+            <el-option value='2' label="摄像机">摄像机</el-option>
+            <el-option value='3' label="传感器">传感器</el-option>
+            <el-option value='4' label="道闸">道闸</el-option>
+            <el-option value='5' label="要素">要素</el-option>
+          </el-select>
+        </div>
+
+        <div class="flex-y-center">
+          <span class="flex-y-center" style="width: 126px"><span style="color: red;font-size: 24px">*</span>设备名称:</span>
+          <el-input v-model="EquObj.name" placeholder="请输入名称"/>
+        </div>
+
+        <div class="flex-xy-center">
+          <span class="flex-y-center" style="width: 100px"><span style="color: red;font-size: 24px">*</span>关联设备:</span>
+          <el-select v-model="EquObj.con" placeholder="请选择关联设备" style="width: 332px" :popper-append-to-body="false">
+            <el-option value='1' label="摄像机1">摄像机1</el-option>
+            <el-option value='2' label="摄像机2">摄像机2</el-option>
+            <el-option value='3' label="摄像机3">摄像机3</el-option>
+            <el-option value='4' label="摄像机4">摄像机4</el-option>
+          </el-select>
+        </div>
+        <div class="btn">
+          <div class="flex-xy-center" @click="showEqu=false">取消</div>
+          <div class="flex-xy-center" @click="showEqu=false">确定</div>
+        </div>
+      </div>
+    </div>
     <div class="to2D3D" :class="[bottomClose?'close':'']">
       <div class="change2D3D">
       <div :class="[viewMode==='2D'?'changeMap':'']" @click="mapChange('2D')" >2D</div>
@@ -45,13 +83,19 @@ export default {
       upClose: false,
       bottomClose: false,
       showMovie: true,
+      showEqu: false,
       layers: [
         // 卫星
         new AMap.TileLayer.Satellite(),
         // 路网
         new AMap.TileLayer.RoadNet()
       ],
-      placeSearch: null
+      placeSearch: null,
+      EquObj: {
+        type: '',
+        name: '',
+        con: ''
+      }
     }
   },
   mounted () {
@@ -195,12 +239,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
 
 }
   .SeachMap {
     position: absolute;
-    left: 1151px;
+    left: 1040px;
     top: 8px;
     z-index: 250;
     width: 500px;
@@ -237,13 +282,96 @@ export default {
   }
   .SeachMapClose {
     position: absolute;
-    left: 1608px;
+    left: 1504px;
     top: -80px;
     transition: all 2s;
+    cursor: pointer;
     &.close{
       top:0px;
     }
   }
+  .addEqu {
+    background: #003ACB;
+    border-radius: 8px;
+    color: #FFFFFF;
+    position: absolute;
+    top: 8px;
+    left: 83.39%;
+    width: 129px;
+    height: 54px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .EquWindow {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 495px;
+    height: 343px;
+    .head {
+      height: 64px;
+      background: #00137F;
+      border-radius: 4px 4px 0px 0px;
+      box-sizing: border-box;
+      padding: 22px 20px 0;
+      color: #FFFFFF;
+      font-size: 18px;
+      border-bottom: 1px solid #018FC4;
+      position: relative;
+      img {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+    .EquBody {
+      height: 343px;
+      box-sizing: border-box;
+      padding: 36px 30px 75px;
+      background: #08062D;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+      color: #FFFFFF;
+      font-size: 18px;
+      position: relative;
+      .divs {
+        justify-content: flex-start;
+      }
+      .btn {
+        width: 144px;
+        height: 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        right: 28px;
+        bottom: 28px;
+        cursor: pointer;
+        div {
+          font-size: 14px;
+          width: 64px;
+          height: 32px;
+        }
+        div:first-child {
+          color: #595959;
+          background: #FFFFFF;
+          border-radius: 4px;
+
+        }
+        div:last-child {
+          color: #FFFFFF;
+          background: #0049FF;
+          border-radius: 4px;
+
+        }
+      }
+    }
+  }
+
   .to2D3D {
     position: absolute;
     left: 1500px;
@@ -307,5 +435,23 @@ export default {
   right: 58px;
   background: rgba(114,114,114,0.7);
   z-index:300
+}
+  /deep/.el-select-dropdown__item {
+     padding: 0 30px;
+  }
+/deep/.el-select-dropdown__item:hover {
+  background: #E2EFFF;
+  position: relative;
+
+}
+/deep/.el-select-dropdown__item:hover::after {
+  content: '';
+  width: 2px;
+  height: 20.27px;
+
+  background: #0049FF;
+  position: absolute;
+  left: 20px;
+  top: 6px;
 }
 </style>

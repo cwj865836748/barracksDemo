@@ -155,11 +155,11 @@
              <div class="msg blue flex-xy-center">A营区枪械存放摄像机</div>
              <div class="msg blue flex-xy-center">A营区训练场摄像机</div>
              <div class="msg blue flex-xy-center">A营区地库摄像机</div>
-
-             <div class="msg flex-xy-center">营区东门入口监控点</div>
-             <div class="msg flex-xy-center">营区东门入口监控点</div>
-             <div class="msg flex-xy-center">营区东门入口监控点</div>
-             <div class="msg flex-xy-center">营区东门入口监控点</div>
+             <div class="top flex-xy-center mt">预设方案</div>
+             <div class="msg flex-xy-center">方案1</div>
+             <div class="msg flex-xy-center">方案2</div>
+             <div class="msg flex-xy-center">方案3</div>
+             <div class="msg flex-xy-center">方案4</div>
            </div>
         </div>
         <div class="content-footer-vedio-footer flex-row flex-x-center" :style="{marginTop: vedioNum===4?'22px':'0'}">
@@ -852,9 +852,9 @@ export default {
         .showList {
           width: 190px;
           height: 552px;
-          border: 1px solid #000D62;
+          border: 2px solid #00137F;
           position: absolute;
-          top: 0;
+          top: 46px;
           left: -188px;
           z-index: 10;
           .top {
@@ -863,10 +863,13 @@ export default {
             color: #FFFFFF;
             font-size: 18px;
           }
+          .mt {
+            margin-top: 5px;
+          }
           .content {
-            padding: 12px 10px;
+            padding: 12px 0 0;
             position: relative;
-            height: 504px;
+            height: 500px;
             /deep/.el-input__inner {
               height: 42px;
               color: #AAAAAA;
@@ -880,6 +883,7 @@ export default {
             .msg {
               border-bottom:1px solid #091C62;
               border-radius: 4px 4px 0px 0px;
+              margin: 0 10px;
               height: 48px;
               font-size: 16px;
               color: #FFFFFF;
