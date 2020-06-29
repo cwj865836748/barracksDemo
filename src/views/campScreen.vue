@@ -317,9 +317,9 @@ export default {
       /** 结束**/
       camp: this.$store.state.camp,
       campList: [
-        { name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056 },
-        { name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611 },
-        { name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833 }
+        { name: 'A', zoom: 16, lng: 115.770594, lat: 39.604709 },
+        { name: 'B', zoom: 17, lng: 115.773423, lat: 39.603872 },
+        { name: 'C', zoom: 17, lng: 115.774588, lat: 39.606939 }
       ],
       nowDate: '', // 现在事件
       timer: null, // 时间定时器
@@ -375,16 +375,16 @@ export default {
       mapList: [
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
-          lng: 115.750556, // 经度
-          lat: 39.603056, // 纬度
+          lng: 115.770594, // 经度
+          lat: 39.604709, // 纬度
           imgUrl: require('../assets/i/yq.png'),
           isShow: true,
           tkImg: require('../assets/img/yqtk.png')
         },
         {
           type: 1,
-          lng: 115.766667, // 经度
-          lat: 39.603056, // 纬度
+          lng: 115.773847, // 经度
+          lat: 39.606708, // 纬度
           imgUrl: require('../assets/i/sb.png'),
           isShow: true,
           tkImg: require('../assets/img/sbtk.png'),
@@ -392,8 +392,8 @@ export default {
         },
         {
           type: 2,
-          lng: 115.766944, // 经度
-          lat: 39.6025, // 纬度
+          lng: 115.772136, // 经度
+          lat: 39.604674, // 纬度
           imgUrl: require('../assets/i/sxt.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
@@ -401,8 +401,8 @@ export default {
         },
         {
           type: 3,
-          lng: 115.7675, // 经度
-          lat: 39.6025, // 纬度
+          lng: 115.773429, // 经度
+          lat: 39.602905, // 纬度
           imgUrl: require('../assets/i/cgq.png'),
           isShow: true,
           tkImg: require('../assets/img/cgqtk.png'),
@@ -410,8 +410,8 @@ export default {
         },
         {
           type: 4,
-          lng: 115.766389, // 经度
-          lat: 39.603056, // 纬度
+          lng: 115.771541, // 经度
+          lat: 39.603947, // 纬度
           imgUrl: require('../assets/i/dz.png'),
           isShow: true,
           tkImg: require('../assets/img/dztk.png'),
@@ -419,8 +419,8 @@ export default {
         },
         {
           type: 5,
-          lng: 115.767778, // 经度
-          lat: 39.603611, // 纬度
+          lng: 115.770516, // 经度
+          lat: 39.605005, // 纬度
           imgUrl: require('../assets/i/ys.png'),
           isShow: true,
           tkImg: require('../assets/img/ystk.png'),
@@ -429,16 +429,16 @@ export default {
 
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
-          lng: 115.764722, // 经度
-          lat: 39.603611, // 纬度
+          lng: 115.773423, // 经度
+          lat: 39.603872, // 纬度
           imgUrl: require('../assets/i/yq.png'),
           isShow: true,
           tkImg: require('../assets/img/yqtk.png')
         },
         {
           type: 1,
-          lng: 115.765833, // 经度
-          lat: 39.603611, // 纬度
+          lng: 115.771498, // 经度
+          lat: 39.604749, // 纬度
           imgUrl: require('../assets/i/sb.png'),
           isShow: true,
           tkImg: require('../assets/img/sbtk.png'),
@@ -446,8 +446,8 @@ export default {
         },
         {
           type: 2,
-          lng: 115.764444, // 经度
-          lat: 39.603056, // 纬度
+          lng: 115.774051, // 经度
+          lat: 39.607088, // 纬度
           imgUrl: require('../assets/i/sxt.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
@@ -455,8 +455,8 @@ export default {
         },
         {
           type: 3,
-          lng: 115.763889, // 经度
-          lat: 39.603611, // 纬度
+          lng: 115.775939, // 经度
+          lat: 39.60393, // 纬度
           imgUrl: require('../assets/i/cgq.png'),
           isShow: true,
           tkImg: require('../assets/img/cgqtk.png'),
@@ -464,8 +464,8 @@ export default {
         },
         {
           type: 4,
-          lng: 115.765556, // 经度
-          lat: 39.603611, // 纬度
+          lng: 115.771895, // 经度
+          lat: 39.604823, // 纬度
           imgUrl: require('../assets/i/dz.png'),
           isShow: true,
           tkImg: require('../assets/img/dztk.png'),
@@ -473,8 +473,8 @@ export default {
         },
         {
           type: 5,
-          lng: 115.764722, // 经度
-          lat: 39.604167, // 纬度
+          lng: 115.775258, // 经度
+          lat: 39.607274, // 纬度
           imgUrl: require('../assets/i/ys.png'),
           isShow: true,
           tkImg: require('../assets/img/ystk.png'),
@@ -483,16 +483,16 @@ export default {
 
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
-          lng: 115.766111, // 经度
-          lat: 39.605833, // 纬度
+          lng: 115.774588, // 经度
+          lat: 39.606939, // 纬度
           imgUrl: require('../assets/i/yq.png'),
           isShow: true,
           tkImg: require('../assets/img/yqtk.png')
         },
         {
           type: 1,
-          lng: 115.766667, // 经度
-          lat: 39.603056, // 纬度
+          lng: 115.775725, // 经度
+          lat: 39.604294, // 纬度
           imgUrl: require('../assets/i/sb.png'),
           isShow: true,
           tkImg: require('../assets/img/sbtk.png'),
@@ -500,8 +500,8 @@ export default {
         },
         {
           type: 2,
-          lng: 115.766111, // 经度
-          lat: 39.605278, // 纬度
+          lng: 115.775011, // 经度
+          lat: 39.604567, // 纬度
           imgUrl: require('../assets/i/sxt.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
@@ -509,8 +509,8 @@ export default {
         },
         {
           type: 3,
-          lng: 115.765278, // 经度
-          lat: 39.604722, // 纬度
+          lng: 115.769947, // 经度
+          lat: 39.602409, // 纬度
           imgUrl: require('../assets/i/cgq.png'),
           isShow: true,
           tkImg: require('../assets/img/cgqtk.png'),
@@ -518,8 +518,8 @@ export default {
         },
         {
           type: 4,
-          lng: 115.765833, // 经度
-          lat: 39.605, // 纬度
+          lng: 115.77278, // 经度
+          lat: 39.60393, // 纬度
           imgUrl: require('../assets/i/dz.png'),
           isShow: true,
           tkImg: require('../assets/img/dztk.png'),
@@ -527,8 +527,8 @@ export default {
         },
         {
           type: 5,
-          lng: 115.765, // 经度
-          lat: 39.605278, // 纬度
+          lng: 115.775199, // 经度
+          lat: 39.604579, // 纬度
           imgUrl: require('../assets/i/ys.png'),
           isShow: true,
           tkImg: require('../assets/img/ystk.png'),
