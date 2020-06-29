@@ -533,6 +533,123 @@ export default {
           isShow: true,
           tkImg: require('../assets/img/ystk.png'),
           tkImgDetail: require('../assets/img/ystkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.773856, // 经度
+          lat: 39.606661, // 纬度
+          imgUrl: require('../assets/images/sxt1.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.772794, // 经度
+          lat: 39.606827, // 纬度
+          imgUrl: require('../assets/images/sxt2.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.770659, // 经度
+          lat: 39.604562, // 纬度
+          imgUrl: require('../assets/images/sxt3.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.772579, // 经度
+          lat: 39.604595, // 纬度
+          imgUrl: require('../assets/images/sxt4.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.774682, // 经度
+          lat: 39.607008, // 纬度
+          imgUrl: require('../assets/images/sxt5.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.775261, // 经度
+          lat: 39.605487, // 纬度
+          imgUrl: require('../assets/images/sxt6.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.772193, // 经度
+          lat: 39.604636, // 纬度
+          imgUrl: require('../assets/images/sxt7.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.775315, // 经度
+          lat: 39.605099, // 纬度
+          imgUrl: require('../assets/images/sxt8.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.773201, // 经度
+          lat: 39.604132, // 纬度
+          imgUrl: require('../assets/images/sxt9.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.775294, // 经度
+          lat: 39.605231, // 纬度
+          imgUrl: require('../assets/images/sxt10.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.775669, // 经度
+          lat: 39.604454, // 纬度
+          imgUrl: require('../assets/images/sxt11.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.774725, // 经度
+          lat: 39.603586, // 纬度
+          imgUrl: require('../assets/images/sxt12.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
+        },
+        {
+          type: 2,
+          lng: 115.774049, // 经度
+          lat: 39.605901, // 纬度
+          imgUrl: require('../assets/images/sxt13.png'),
+          isShow: true,
+          tkImg: require('../assets/img/sxttk.png'),
+          tkImgDetail: require('../assets/img/sxttkxq.png')
         }
       ],
       ringTime: 0,
