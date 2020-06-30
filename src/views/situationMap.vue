@@ -89,6 +89,13 @@
         </div>
         <div class="content-footer-vedio-list clearfix" v-show="vedioNum==4">
           <img class="imgB imgR" src="../assets/images/vedio1.png" alt="">
+          <videoPlayer
+            ref="videoPlayer"
+            style="height: 350px;width:500px;"
+            class="vjs-custom-skin videoPlayer"
+            :options="videoOptions"
+            :playsinline="true"
+          />
           <img class="imgB " src="../assets/images/vedio2.png" alt="">
           <img class="imgR" src="../assets/images/vedio4.png" alt="">
           <img src="../assets/images/vedio3.png" alt="">
@@ -236,7 +243,15 @@
 
   import earthVideo from '@/components/earthVideo/earthVideo'
   import zyTitle from '@/components/title/index'
-  import selectData from '@/selectData.js'
+
+  import 'video.js/dist/video-js.css'
+
+  import {videoPlayer} from 'vue-video-player'
+
+  import 'videojs-flash'
+
+  import SWF_URL from 'videojs-swf/dist/video-js.swf'
+
 
   export default {
     name: 'situationMap',
@@ -257,7 +272,29 @@
         temp: 10,
         vedioNum: 4,
         isLeft: false,
-        watchMsg: ''
+        watchMsg: '',
+        videoOptions: {
+          live: false,
+          autoplay: true,
+          fluid: true,
+          notSupportedMessage: '暂时无法播放',
+          controlBar: false,
+          // controlBar: {
+          //   timeDivider: false,
+          //   durationDisplay: false,
+          //   remainingTimeDisplay: false,
+          //   fullscreenToggle: false // 全屏按钮
+          // },
+          techOrder: ['flash'],
+          flash: {
+            hls: {withCredentials: false},
+            swf: SWF_URL // 引入静态文件swf
+          },
+          sources: [{ // 流配置，数组形式，会根据兼容顺序自动切换
+            type: 'rtmp/mp4',
+            src: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc' // 这是芒果TV现场直播视频，地址是可以用的，最后需要替换成后端给的项目地址
+          }]
+        }
       }
     },
     computed: {
@@ -279,12 +316,12 @@
       Month,
       Bullet,
       earthVideo,
-      zyTitle
+      zyTitle,
+      videoPlayer
     },
 
     created() {
       this.getDate()
-      console.log(selectData)
     },
 
     mounted() {
@@ -1014,5 +1051,12 @@
     background: #0049FF;
     border-radius: 2px;
     cursor: pointer;
+  }
+
+
+</style>
+<style>
+  .vjs-tech {
+    pointer-events: none;
   }
 </style>
