@@ -17,11 +17,11 @@
         <!--         <img src="@/assets/images/select.png"/>-->
       </div>
       <div class="head_date">{{nowDate}}</div>
-<!--      <div class="head_choose" v-show="campShow">-->
-<!--        <div :class="['camp_icon',camp==='A'?'icon':'']" @click="chooseCamp('A')">A营区</div>-->
-<!--        <div :class="['camp_icon',camp==='B'?'icon':'']" @click="chooseCamp('B')">B营区</div>-->
-<!--        <div :class="['camp_icon',camp==='C'?'icon':'']" @click="chooseCamp('C')">C营区</div>-->
-<!--      </div>-->
+      <!--      <div class="head_choose" v-show="campShow">-->
+      <!--        <div :class="['camp_icon',camp==='A'?'icon':'']" @click="chooseCamp('A')">A营区</div>-->
+      <!--        <div :class="['camp_icon',camp==='B'?'icon':'']" @click="chooseCamp('B')">B营区</div>-->
+      <!--        <div :class="['camp_icon',camp==='C'?'icon':'']" @click="chooseCamp('C')">C营区</div>-->
+      <!--      </div>-->
     </div>
 
     <div class="content-footer">
@@ -88,10 +88,10 @@
           <img src="@/assets/images/blueLine.png"/>
         </div>
         <div class="content-footer-vedio-list clearfix" v-show="vedioNum==4">
-            <img class="imgB imgR" src="../assets/images/vedio1.png" alt="">
-            <img class="imgB " src="../assets/images/vedio2.png" alt="">
-            <img class="imgR" src="../assets/images/vedio4.png" alt="">
-            <img  src="../assets/images/vedio3.png" alt="">
+          <img class="imgB imgR" src="../assets/images/vedio1.png" alt="">
+          <img class="imgB " src="../assets/images/vedio2.png" alt="">
+          <img class="imgR" src="../assets/images/vedio4.png" alt="">
+          <img src="../assets/images/vedio3.png" alt="">
         </div>
         <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16" style="padding: 48px 0 0px">
           <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
@@ -148,19 +148,19 @@
           <img src="@/assets/images/rightClose.png" v-else/>
         </div>
         <div class="showList" v-if="isLeft">
-           <div class="top flex-xy-center">监控点</div>
-           <div class="content">
-             <el-input placeholder="请输入名称" v-model="watchMsg"></el-input>
-             <div class="msg blue flex-xy-center">正大门出入口摄像机</div>
-             <div class="msg blue flex-xy-center">A营区枪械存放摄像机</div>
-             <div class="msg blue flex-xy-center">A营区训练场摄像机</div>
-             <div class="msg blue flex-xy-center">A营区地库摄像机</div>
-             <div class="top flex-xy-center mt">预设方案</div>
-             <div class="msg flex-xy-center">方案1</div>
-             <div class="msg flex-xy-center">方案2</div>
-             <div class="msg flex-xy-center">方案3</div>
-             <div class="msg flex-xy-center">方案4</div>
-           </div>
+          <div class="top flex-xy-center">监控点</div>
+          <div class="content">
+            <el-input placeholder="请输入名称" v-model="watchMsg"></el-input>
+            <div class="msg blue flex-xy-center">正大门出入口摄像机</div>
+            <div class="msg blue flex-xy-center">A营区枪械存放摄像机</div>
+            <div class="msg blue flex-xy-center">A营区训练场摄像机</div>
+            <div class="msg blue flex-xy-center">A营区地库摄像机</div>
+            <div class="top flex-xy-center mt">预设方案</div>
+            <div class="msg flex-xy-center">方案1</div>
+            <div class="msg flex-xy-center">方案2</div>
+            <div class="msg flex-xy-center">方案3</div>
+            <div class="msg flex-xy-center">方案4</div>
+          </div>
         </div>
         <div class="content-footer-vedio-footer flex-row flex-x-center" :style="{marginTop: vedioNum===4?'22px':'0'}">
           <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">2*2</div>
@@ -227,261 +227,263 @@
 </template>
 
 <script>
-import { TimeFormat } from '@/utils/utils'
-import Plain from '@/components/echarts/plain'
-import Pie from '@/components/echarts/pie'
-import Month from '@/components/echarts/month'
-import brokenLine from '@/components/echarts/brokenLine'
-import Bullet from '@/components/echarts/bullet'
+  import {TimeFormat} from '@/utils/utils'
+  import Plain from '@/components/echarts/plain'
+  import Pie from '@/components/echarts/pie'
+  import Month from '@/components/echarts/month'
+  import brokenLine from '@/components/echarts/brokenLine'
+  import Bullet from '@/components/echarts/bullet'
 
-import earthVideo from '@/components/earthVideo/earthVideo'
-import zyTitle from '@/components/title/index'
+  import earthVideo from '@/components/earthVideo/earthVideo'
+  import zyTitle from '@/components/title/index'
+  import selectData from '@/selectData.js'
 
-export default {
-  name: 'situationMap',
-  data () {
-    return {
-      nowDate: '',
-      timer: null,
-      intnum: null,
-      videoType:true,
-      camp: this.$store.state.camp,
-      campList: [
-        { name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056 },
-        { name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611 },
-        { name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833 }
-      ],
-      campShow: false, // 下拉
-      videoShow: false,
-      temp: 10,
-      vedioNum: 4,
-      isLeft: false,
-      watchMsg: ''
-    }
-  },
-  computed: {
-    campName: {
-      get () {
-        return `${this.camp}营区`
+  export default {
+    name: 'situationMap',
+    data() {
+      return {
+        nowDate: '',
+        timer: null,
+        intnum: null,
+        videoType: true,
+        camp: this.$store.state.camp,
+        campList: [
+          {name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056},
+          {name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611},
+          {name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833}
+        ],
+        campShow: false, // 下拉
+        videoShow: false,
+        temp: 10,
+        vedioNum: 4,
+        isLeft: false,
+        watchMsg: ''
+      }
+    },
+    computed: {
+      campName: {
+        get() {
+          return `${this.camp}营区`
+        },
+        set(val) {
+          this.camp = val
+        }
+
+      }
+    },
+    components: {
+      Plain,
+      Pie,
+      brokenLine,
+      Month,
+      Bullet,
+      earthVideo,
+      zyTitle
+    },
+
+    created() {
+      this.getDate()
+      console.log(selectData)
+    },
+
+    mounted() {
+      this.drawPie1()
+      this.drawPie2()
+    },
+    beforeDestroy() {
+      clearInterval(this.timer)
+      this.timer = null
+    },
+    methods: {
+      getDate() {
+        this.timer = setInterval(() => { // 创建定时器
+          var date = new Date()
+          this.nowDate = TimeFormat(date)
+        }, 1000)
       },
-      set (val) {
+      chooseCamp(val) {
+        // this.videoSrc = `/video/${this.camp}${val}.mp4`
+        this.$store.commit('updateCamp', val)
+        // this.videoShow = true
         this.camp = val
-      }
-
-    }
-  },
-  components: {
-    Plain,
-    Pie,
-    brokenLine,
-    Month,
-    Bullet,
-    earthVideo,
-    zyTitle
-  },
-
-  created () {
-    this.getDate()
-  },
-
-  mounted () {
-    this.drawPie1()
-    this.drawPie2()
-  },
-  beforeDestroy () {
-    clearInterval(this.timer)
-    this.timer = null
-  },
-  methods: {
-    getDate () {
-      this.timer = setInterval(() => { // 创建定时器
-        var date = new Date()
-        this.nowDate = TimeFormat(date)
-      }, 1000)
-    },
-    chooseCamp (val) {
-      // this.videoSrc = `/video/${this.camp}${val}.mp4`
-      this.$store.commit('updateCamp', val)
-      // this.videoShow = true
-      this.camp = val
-      // this.campShow = false
-    },
-    drawPie1 () {
-      var myChart = this.$echarts.init(this.$refs.myChart_pie1)
-      var scale = 1
-      var echartData = [{
-        value: parseInt(120),
-        name: '摄像机'
+        // this.campShow = false
       },
-      {
-        value: parseInt(8),
-        name: '车行道闸'
-      },
-      {
-        value: parseInt(32),
-        name: '人行道闸'
-      }
-      ]
-
-      var option = {
-        // backgroundColor: 'rgba(0,0,0,0)',
-
-        title: [{
-          text: '160台',
-          left: '24%',
-          top: '20%',
-          padding: [14, 0],
-          textStyle: {
-            color: '#fff',
-            fontSize: 20 * scale,
-            align: 'center'
+      drawPie1() {
+        var myChart = this.$echarts.init(this.$refs.myChart_pie1)
+        var scale = 1
+        var echartData = [{
+          value: parseInt(120),
+          name: '摄像机'
+        },
+          {
+            value: parseInt(8),
+            name: '车行道闸'
+          },
+          {
+            value: parseInt(32),
+            name: '人行道闸'
           }
-        }, {
-          text: '设备总数',
-          left: '22%',
-          top: '42%',
-          padding: [15, 0],
-          textStyle: {
-            color: '#fff',
-            fontSize: 14 * scale,
-            align: 'center'
-          }
-        }],
-        series: [{
-          //						name: '设备总数',
-          type: 'pie', // 环形图的type和饼图相同
-          // center: ['30%', '50%'],
-          radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
-          avoidLabelOverlap: false,
-          hoverAnimation: false,
-          color: ['rgba(0, 255, 252, 1)', 'rgba(15, 113, 234, 1)', 'rgba(15, 234, 138, 1)'],
-          label: {
-            normal: { // 正常的样式
-              show: false,
-              position: 'center',
-              textStyle: {
-                color: '#fff',
-                fontSize: 20 * scale,
-                //									align: 'center',
-                fontWeight: 'bold',
-                margin: [0, 0, 0, 5]
-              },
-              formatter: function (name) {
-                var target = 0
-                for (var j = 0; j < echartData.length; j++) {
-                  target += echartData[j].value
+        ]
+
+        var option = {
+          // backgroundColor: 'rgba(0,0,0,0)',
+
+          title: [{
+            text: '160台',
+            left: '24%',
+            top: '20%',
+            padding: [14, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 20 * scale,
+              align: 'center'
+            }
+          }, {
+            text: '设备总数',
+            left: '22%',
+            top: '42%',
+            padding: [15, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 14 * scale,
+              align: 'center'
+            }
+          }],
+          series: [{
+            //						name: '设备总数',
+            type: 'pie', // 环形图的type和饼图相同
+            // center: ['30%', '50%'],
+            radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            color: ['rgba(0, 255, 252, 1)', 'rgba(15, 113, 234, 1)', 'rgba(15, 234, 138, 1)'],
+            label: {
+              normal: { // 正常的样式
+                show: false,
+                position: 'center',
+                textStyle: {
+                  color: '#fff',
+                  fontSize: 20 * scale,
+                  //									align: 'center',
+                  fontWeight: 'bold',
+                  margin: [0, 0, 0, 5]
+                },
+                formatter: function (name) {
+                  var target = 0
+                  for (var j = 0; j < echartData.length; j++) {
+                    target += echartData[j].value
+                  }
+                  // console.log(target)
+                  var arr = target + '台'
+                  return arr
                 }
-                // console.log(target)
-                var arr = target + '台'
-                return arr
               }
-            }
-          }, // 提示文字
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          itemStyle: {
-            borderWidth: 7,
-            borderColor: '#050e28'
-          },
-          data: echartData
-        }]
-      }
-      myChart.setOption(option)
-    },
-    drawPie2 () {
-      var myChart = this.$echarts.init(this.$refs.myChart_pie2)
-      var scale = 1
-      var echartData = [{
-        value: parseInt(18),
-        name: '摄像机'
+            }, // 提示文字
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            itemStyle: {
+              borderWidth: 7,
+              borderColor: '#050e28'
+            },
+            data: echartData
+          }]
+        }
+        myChart.setOption(option)
       },
-      {
-        value: parseInt(4),
-        name: '车行道闸'
-      },
-      {
-        value: parseInt(10),
-        name: '人行道闸'
-      }
-      ]
-
-      var option = {
-        // backgroundColor: 'rgba(0,0,0,0)',
-
-        title: [{
-          text: '32台',
-          left: '28%',
-          top: '20%',
-          padding: [14, 0],
-          textStyle: {
-            color: '#fff',
-            fontSize: 20 * scale,
-            align: 'center'
+      drawPie2() {
+        var myChart = this.$echarts.init(this.$refs.myChart_pie2)
+        var scale = 1
+        var echartData = [{
+          value: parseInt(18),
+          name: '摄像机'
+        },
+          {
+            value: parseInt(4),
+            name: '车行道闸'
+          },
+          {
+            value: parseInt(10),
+            name: '人行道闸'
           }
-        }, {
-          text: '故障总数',
-          left: '22%',
-          top: '42%',
-          padding: [15, 0],
-          textStyle: {
-            color: '#fff',
-            fontSize: 14 * scale,
-            align: 'center'
-          }
-        }],
-        series: [{
-          //						name: '设备总数',
-          type: 'pie', // 环形图的type和饼图相同
-          // center: ['30%', '50%'],
-          radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
-          avoidLabelOverlap: false,
-          hoverAnimation: false,
-          color: ['rgba(249,65,55, 1)', 'rgba(232,17,104, 1)', 'rgba(255,140,0, 1)'],
-          label: {
-            normal: { // 正常的样式
-              show: false,
-              position: 'center',
-              textStyle: {
-                color: '#fff',
-                fontSize: 20 * scale,
-                //									align: 'center',
-                fontWeight: 'bold',
-                margin: [0, 0, 0, 5]
-              },
-              formatter: function (name) {
-                var target = 0
-                for (var j = 0; j < echartData.length; j++) {
-                  target += echartData[j].value
+        ]
+
+        var option = {
+          // backgroundColor: 'rgba(0,0,0,0)',
+
+          title: [{
+            text: '32台',
+            left: '28%',
+            top: '20%',
+            padding: [14, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 20 * scale,
+              align: 'center'
+            }
+          }, {
+            text: '故障总数',
+            left: '22%',
+            top: '42%',
+            padding: [15, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 14 * scale,
+              align: 'center'
+            }
+          }],
+          series: [{
+            //						name: '设备总数',
+            type: 'pie', // 环形图的type和饼图相同
+            // center: ['30%', '50%'],
+            radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
+            avoidLabelOverlap: false,
+            hoverAnimation: false,
+            color: ['rgba(249,65,55, 1)', 'rgba(232,17,104, 1)', 'rgba(255,140,0, 1)'],
+            label: {
+              normal: { // 正常的样式
+                show: false,
+                position: 'center',
+                textStyle: {
+                  color: '#fff',
+                  fontSize: 20 * scale,
+                  //									align: 'center',
+                  fontWeight: 'bold',
+                  margin: [0, 0, 0, 5]
+                },
+                formatter: function (name) {
+                  var target = 0
+                  for (var j = 0; j < echartData.length; j++) {
+                    target += echartData[j].value
+                  }
+                  // console.log(target)
+                  var arr = target + '台'
+                  return arr
                 }
-                // console.log(target)
-                var arr = target + '台'
-                return arr
               }
-            }
-          }, // 提示文字
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          itemStyle: {
-            borderWidth: 7,
-            borderColor: '#050e28'
-          },
-          data: echartData
-        }]
+            }, // 提示文字
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            itemStyle: {
+              borderWidth: 7,
+              borderColor: '#050e28'
+            },
+            data: echartData
+          }]
+        }
+        myChart.setOption(option)
+      },
+      videoPre(status) {
+        this.videoType = status
+        this.vedioNum = 4
       }
-      myChart.setOption(option)
-    },
-    videoPre(status){
-      this.videoType=status
-      this.vedioNum=4
     }
   }
-}
 </script>
 
 <style lang="scss" scoped type="text/scss">
@@ -565,7 +567,7 @@ export default {
         left: 122px;
         top: 25px;
         width: 125px;
-        /deep/.el-input__inner{
+        /deep/ .el-input__inner {
           border: none;
           font-size: 24px;
           padding: 0;
@@ -578,7 +580,7 @@ export default {
           background-color: transparent;
           /*width: 75px;*/
         }
-        /deep/.el-select .el-input .el-select__caret {
+        /deep/ .el-select .el-input .el-select__caret {
           color: #34E3FE;
           font-size: 25px;
           transition: transform .3s;
@@ -586,14 +588,14 @@ export default {
           cursor: pointer;
         }
         //修改单个的选项的样式
-        /deep/.el-select-dropdown {
+        /deep/ .el-select-dropdown {
           background-color: #030038;
           border: 1px solid #0060FF;
         }
-        /deep/.el-select-dropdown__list {
+        /deep/ .el-select-dropdown__list {
           padding: 0;
         }
-        /deep/ .el-select-dropdown__item{
+        /deep/ .el-select-dropdown__item {
           border: none;
           font-size: 24px;
           font-weight: bold;
@@ -611,8 +613,8 @@ export default {
         }
         //item选项的hover样式
         /deep/ .el-select-dropdown__item.hover,
-        /deep/ .el-select-dropdown__item:hover{
-          color:#FFFFFF;
+        /deep/ .el-select-dropdown__item:hover {
+          color: #FFFFFF;
         }
         img {
           margin-left: 10px;
@@ -765,7 +767,7 @@ export default {
         &-title {
           font-size: 20px;
           letter-spacing: 0.15em;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255, 255, 255, 0.5);
           position: absolute;
           left: 15px;
           top: 10px;
@@ -784,7 +786,7 @@ export default {
             right: -12px;
           }
           .white {
-            color: rgba(255,255,255,1);
+            color: rgba(255, 255, 255, 1);
           }
         }
         &-line {
@@ -870,7 +872,7 @@ export default {
             padding: 12px 0 0;
             position: relative;
             height: 500px;
-            /deep/.el-input__inner {
+            /deep/ .el-input__inner {
               height: 42px;
               color: #AAAAAA;
               font-size: 16px;
@@ -881,7 +883,7 @@ export default {
               padding: 0 40px 0 15px;
             }
             .msg {
-              border-bottom:1px solid #091C62;
+              border-bottom: 1px solid #091C62;
               border-radius: 4px 4px 0px 0px;
               margin: 0 10px;
               height: 48px;
