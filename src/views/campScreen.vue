@@ -317,7 +317,7 @@ export default {
       /** 结束**/
       camp: this.$store.state.camp,
       campList: [
-        { name: 'A', zoom: 16, lng: 115.770594, lat: 39.604709 },
+        { name: 'A', zoom: 14, lng: 115.770594, lat: 39.604709 },
         { name: 'B', zoom: 17, lng: 115.773423, lat: 39.603872 },
         { name: 'C', zoom: 17, lng: 115.774588, lat: 39.606939 }
       ],
@@ -660,12 +660,12 @@ export default {
       isHistory: true,
       autoNum: -1,
       lightShow: false,
-      imgShow:true,
-      imgShow1:true,
-      imgShow2:true,
-      imgShow3:true,
-      imgShow4:true,
-      imgShow5:true,
+      imgShow: true,
+      imgShow1: true,
+      imgShow2: true,
+      imgShow3: true,
+      imgShow4: true,
+      imgShow5: true
     }
   },
   components: {
@@ -689,6 +689,17 @@ export default {
   created () {
     this.getDate()
     this.comprehensiveLists = this.comprehensiveList
+    this.campList.forEach(item => {
+      const gcj02towgs84 = coordtransform.gcj02towgs84(item.lng, item.lat)
+      item.lng = gcj02towgs84[0]
+      item.lat = gcj02towgs84[1]
+    })
+
+    this.mapList.forEach(item => {
+      const gcj02towgs84 = coordtransform.gcj02towgs84(item.lng, item.lat)
+      item.lng = gcj02towgs84[0]
+      item.lat = gcj02towgs84[1]
+    })
   },
 
   beforeDestroy () {
@@ -761,7 +772,7 @@ export default {
       this.lat = campOne.lat
       // this.camp = val
       this.$store.commit('updateCamp', val)
-      this.$refs.map.map.setZoomAndCenter(this.zoom, [this.lng, this.lat])
+      this.$refs.map.map.setView([this.lat, this.lng], this.zoom)
       // this.rightClose = true
       // this.bottomClose = true
       // this.leftClose = true

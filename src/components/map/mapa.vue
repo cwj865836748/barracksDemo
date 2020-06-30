@@ -69,6 +69,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'mapa',
   props: ['list', 'lng', 'lat', 'zoom'],
@@ -82,7 +83,6 @@ export default {
       searchInput: '',
       upClose: false,
       bottomClose: false,
-      showMovie: true,
       showEqu: false,
       layers: [
         // 卫星
@@ -95,7 +95,9 @@ export default {
         type: '',
         name: '',
         con: ''
-      }
+      },
+      mList: [],
+      sbList: []
     }
   },
   mounted () {
@@ -103,104 +105,182 @@ export default {
   },
   methods: {
     // 初始化
+    // initMap () {
+    //   const that = this
+    //   this.map = new AMap.Map('mapa', {
+    //     resizeEnable: true,
+    //     center: [this.lng, this.lat],
+    //     viewMode: this.viewMode,
+    //     layers: this.layers,
+    //     zoom: this.zoom
+    //   })
+    //   AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], function () {
+    //     var autoOptions = {
+    //       input: 'searchInput'// 前端搜索框
+    //     }
+    //     var auto = new AMap.Autocomplete(autoOptions)
+    //     that.placeSearch = new AMap.PlaceSearch(
+    //       {
+    //         map: that.map
+    //       }
+    //     )
+    //     AMap.event.addListener(auto, 'select', that.select)// 注册监听，当选中某条记录时会触发
+    //   })
+    //   this.addMapItem()
+    //   // 限制地图滚动
+    //   // var bounds = this.map.getBounds();
+    //   // this.map.setLimitBounds(bounds);
+    //   // this.map.setFitView()
+    // },
+    // select (e) {
+    //   this.$parent.lng = e.poi.location.lng
+    //   this.$parent.lat = e.poi.location.lat
+    //   this.placeSearch.search(e.poi.name) // 关键字查询查询
+    // },
+    // addMapItem () {
+    //   // 移除覆盖物群组
+    //   this.map.clearMap()
+    //
+    //   this.list.forEach((item) => {
+    //     if (item.isShow) {
+    //       var marker = new AMap.Marker({
+    //         map: this.map,
+    //         position: new AMap.LngLat(item.lng, item.lat),
+    //         icon: item.imgUrl
+    //       })
+    //       marker.on('click', () => {
+    //         this.clickNum = 0
+    //         if (this.curTKMarker) {
+    //           this.map.remove(this.curTKMarker)
+    //           if (item.type === this.curTk.type) {
+    //             this.curTKMarker = null
+    //           } else {
+    //             this.curTKMarker = new AMap.Marker({
+    //               map: this.map,
+    //               position: new AMap.LngLat(item.lng + (98.304 / (Math.pow(2, this.map.getZoom()))), item.lat),
+    //               icon: item.tkImg
+    //             })
+    //             this.curTk = item
+    //           }
+    //           this.showMovie = false
+    //         } else {
+    //           this.curTKMarker = new AMap.Marker({
+    //             map: this.map,
+    //             position: new AMap.LngLat(item.lng + (98.304 / (Math.pow(2, this.map.getZoom()))), item.lat),
+    //             icon: item.tkImg
+    //           })
+    //           this.curTk = item
+    //           this.showMovie = true
+    //         }
+    //
+    //         if (this.curTKMarker && item.type != 0) {
+    //           this.curTKMarker.on('click', () => {
+    //             this.clickNum++
+    //             this.curTKMarker.setIcon(this.clickNum % 2 ? item.tkImgDetail : item.tkImg)
+    //           })
+    //         }
+    //         // if (item.type === 2 && this.showMovie) {
+    //         //   console.log(this.showMovie)
+    //         //   this.$parent.videoShow = true
+    //         // }
+    //       })
+    //     }
+    //   })
+    // },
+    // mapChange (viewMode) {
+    //   if (this.viewMode === viewMode) {
+    //     return
+    //   }
+    //   this.viewMode = viewMode
+    //   if (viewMode === '2D') {
+    //     this.layers = []
+    //   } else {
+    //     this.layers = [
+    //       // 卫星
+    //       new AMap.TileLayer.Satellite(),
+    //       // 路网
+    //       new AMap.TileLayer.RoadNet()
+    //     ]
+    //   }
+    //   this.initMap()
+    // }
+
     initMap () {
+      BM.Config.HTTP_URL = 'http://localhost:9000'
       const that = this
-      this.map = new AMap.Map('mapa', {
-        resizeEnable: true,
-        center: [this.lng, this.lat],
-        viewMode: this.viewMode,
-        layers: this.layers,
-        zoom: this.zoom
+      this.map = BM.map('mapa', 'bigemap.05v2rx8y', { crs: BM.CRS.EPSG4326, center: [40.25034713745117, 116.46249389648438], zoom: this.zoom, zoomControl: true })
+      this.map.fitBounds([[39.44145965576172, 115.41685485839844], [41.05923080444336, 117.50813293457031]])
+      // this.map.viewreset()
+      this.map.on('zoomend', (e) => {
+        this.sbList.forEach(item => {
+          item.remove()
+        })
+        // ev is an event object (MouseEvent in this case)
       })
-      AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], function () {
-        var autoOptions = {
-          input: 'searchInput'// 前端搜索框
-        }
-        var auto = new AMap.Autocomplete(autoOptions)
-        that.placeSearch = new AMap.PlaceSearch(
-          {
-            map: that.map
-          }
-        )
-        AMap.event.addListener(auto, 'select', that.select)// 注册监听，当选中某条记录时会触发
-      })
+
+      // AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], function () {
+      //   var autoOptions = {
+      //     input: 'searchInput'// 前端搜索框
+      //   }
+      //   var auto = new AMap.Autocomplete(autoOptions)
+      //   that.placeSearch = new AMap.PlaceSearch(
+      //     {
+      //       map: that.map
+      //     }
+      //   )
+      //   AMap.event.addListener(auto, 'select', that.select)// 注册监听，当选中某条记录时会触发
+      // })
       this.addMapItem()
-      // 限制地图滚动
-      // var bounds = this.map.getBounds();
-      // this.map.setLimitBounds(bounds);
-      // this.map.setFitView()
-    },
-    select (e) {
-      this.$parent.lng = e.poi.location.lng
-      this.$parent.lat = e.poi.location.lat
-      this.placeSearch.search(e.poi.name) // 关键字查询查询
     },
     addMapItem () {
-      // 移除覆盖物群组
-      this.map.clearMap()
+      // // 移除覆盖物群组
+      this.mList.forEach(item => {
+        item.remove()
+      })
 
       this.list.forEach((item) => {
-        if (item.isShow) {
-          var marker = new AMap.Marker({
-            map: this.map,
-            position: new AMap.LngLat(item.lng, item.lat),
-            icon: item.imgUrl
-          })
-          marker.on('click', () => {
-            this.clickNum = 0
-            if (this.curTKMarker) {
-              this.map.remove(this.curTKMarker)
-              if (item.type === this.curTk.type) {
-                this.curTKMarker = null
-              } else {
-                this.curTKMarker = new AMap.Marker({
-                  map: this.map,
-                  position: new AMap.LngLat(item.lng + (98.304 / (Math.pow(2, this.map.getZoom()))), item.lat),
-                  icon: item.tkImg
-                })
-                this.curTk = item
-              }
-              this.showMovie = false
+        if (!item.isShow) return
+        var marker = BM.marker(
+          [item.lat, item.lng],
+          { icon: BM.icon({ iconUrl: item.imgUrl }) }).addTo(this.map)
+        this.mList.push(marker)
+        marker.on('click', () => {
+          this.clickNum = 0
+          if (this.curTKMarker) {
+            this.curTKMarker.remove()
+            if (item.type === this.curTk.type) {
+              this.curTKMarker = null
             } else {
-              this.curTKMarker = new AMap.Marker({
-                map: this.map,
-                position: new AMap.LngLat(item.lng + (98.304 / (Math.pow(2, this.map.getZoom()))), item.lat),
-                icon: item.tkImg
-              })
+              this.curTKMarker = BM.marker(
+                [item.lat, item.lng + Math.pow(2, 22 - this.map.getZoom()) / 100000],
+                { icon: BM.icon({ iconUrl: item.tkImg }), zIndexOffset: 500 }).addTo(this.map)
               this.curTk = item
-              this.showMovie = true
+              this.sbList.push(this.curTKMarker)
             }
-
-            if (this.curTKMarker && item.type != 0) {
-              this.curTKMarker.on('click', () => {
-                this.clickNum++
-                this.curTKMarker.setIcon(this.clickNum % 2 ? item.tkImgDetail : item.tkImg)
-              })
-            }
-            // if (item.type === 2 && this.showMovie) {
-            //   console.log(this.showMovie)
-            //   this.$parent.videoShow = true
-            // }
-          })
-        }
+          } else {
+            this.curTKMarker = BM.marker(
+              [item.lat, item.lng + Math.pow(2, 22 - this.map.getZoom()) / 100000],
+              { icon: BM.icon({ iconUrl: item.tkImg }), zIndexOffset: 500 }).addTo(this.map)
+            this.curTk = item
+            this.sbList.push(this.curTKMarker)
+          }
+          if (this.curTKMarker && item.type != 0) {
+            this.curTKMarker.on('click', () => {
+              this.clickNum++
+              this.curTKMarker.setIcon(this.clickNum % 2 ? BM.icon({
+                iconUrl: item.tkImgDetail
+              }) : BM.icon({
+                iconUrl: item.tkImg
+              }))
+            })
+          }
+        })
       })
     },
     mapChange (viewMode) {
-      if (this.viewMode === viewMode) {
-        return
-      }
-      this.viewMode = viewMode
-      if (viewMode === '2D') {
-        this.layers = []
-      } else {
-        this.layers = [
-          // 卫星
-          new AMap.TileLayer.Satellite(),
-          // 路网
-          new AMap.TileLayer.RoadNet()
-        ]
-      }
-      this.initMap()
+      var google_street = BM.tileLayer('bigemap.googlemap-streets')
+      google_satellite.addTo(this.map)
+      google_street.remove(this.map)
     }
 
   },
