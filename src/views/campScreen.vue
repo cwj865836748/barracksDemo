@@ -694,6 +694,7 @@ export default {
       item.lng = gcj02towgs84[0]
       item.lat = gcj02towgs84[1]
     })
+    console.log(this.campList)
 
     this.mapList.forEach(item => {
       const gcj02towgs84 = coordtransform.gcj02towgs84(item.lng, item.lat)

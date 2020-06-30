@@ -4,13 +4,20 @@
 
     </div>
     <div class="SeachMap" :class="[upClose?'close':'']" >
-    <el-input id="searchInput" v-model="searchInput"  placeholder="搜地点"/>
+    <el-input id="searchInput" v-model="searchInput" placeholder="搜地点" @input="select"/>
       <div class="closeInput" @click="searchInput=''">
         <img src="@/assets/images/closeIcon.png"/>
       </div>
       <div class="goup" @click="upClose=!upClose" >
       <img src="@/assets/images/goup2.png"/>
       </div>
+
+    </div>
+    <div class="searchk" v-show="searchShow">
+         <div class="list" v-for="(item,index) in selectList" :key="index" @click="getLng(item)">
+           <span>{{item.name}}</span>
+         </div>
+
     </div>
     <div class="SeachMapClose" :class="[upClose?'close':'']" @click="upClose=!upClose">
       <img src="@/assets/images/goxia.png">
@@ -69,6 +76,7 @@
 </template>
 
 <script>
+import selectData from '@/selectData'
 
 export default {
   name: 'mapa',
@@ -84,12 +92,14 @@ export default {
       upClose: false,
       bottomClose: false,
       showEqu: false,
-      layers: [
-        // 卫星
-        new AMap.TileLayer.Satellite(),
-        // 路网
-        new AMap.TileLayer.RoadNet()
-      ],
+      searchShow: false,
+      selectList: [],
+      // layers: [
+      //   // 卫星
+      //   new AMap.TileLayer.Satellite(),
+      //   // 路网
+      //   new AMap.TileLayer.RoadNet()
+      // ],
       placeSearch: null,
       EquObj: {
         type: '',
@@ -208,11 +218,11 @@ export default {
     // }
 
     initMap () {
-      BM.Config.HTTP_URL = 'http://localhost:9000'
+      BM.Config.HTTP_URL = 'http://localhost:9001'
       const that = this
       this.map = BM.map('mapa', null, { crs: BM.CRS.EPSG4326, center: [40.25034713745117, 116.46249389648438], zoom: this.zoom, zoomControl: true, maxZoom: 16 })
-      this.Satellite = BM.tileLayer('bigemap.05v2rx8y')
-      this.RoadNet = BM.tileLayer('bigemap.5fypx4e9')
+      this.Satellite = BM.tileLayer(mapId.Satellite)
+      this.RoadNet = BM.tileLayer(mapId.RoadNet)
       this.Satellite.addTo(this.map)
       this.map.fitBounds([[39.44145965576172, 115.41685485839844], [41.05923080444336, 117.50813293457031]])
       this.map.on('zoomend', (e) => {
@@ -266,6 +276,21 @@ export default {
           }
         })
       })
+    },
+    select () {
+      this.selectList = selectData.filter(item => item.name.includes(this.searchInput))
+      if (this.selectList.length > 0) {
+        this.searchShow = true
+      }
+
+      if (this.selectList.length >= 10) {
+        this.selectList = this.selectList.slice(0, 10)
+      }
+    },
+    getLng (item) {
+      this.searchShow = false
+      this.searchInput = item.name
+      this.map.panTo(BM.latLng(item.lat, item.lng), { animate: true, duration: 0.5 })
     },
     mapChange (viewMode) {
       if (this.viewMode === viewMode) {
@@ -357,7 +382,30 @@ export default {
       right: -38px;
       cursor: pointer;
     }
+
   }
+.searchk {
+  position: absolute;
+  left: 1040px;
+  top: 64px;
+  background: #0E0E36;
+  color: #AAAAAA;
+  z-index: 250;
+  border: 1px solid #00137F;
+  width: 500px;
+  padding: 0 15px;
+  .list {
+     height: 40px;
+    font-size: 16px;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .list:hover {
+    background: rgba(85,172,255,0.5);
+  }
+}
   .SeachMapClose {
     position: absolute;
     left: 1504px;
