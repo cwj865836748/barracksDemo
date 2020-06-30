@@ -51,6 +51,7 @@ module.exports = {
   // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建。
   parallel: require('os').cpus().length > 1,
   configureWebpack: config => {
+    config.resolve['modules'] = [path.resolve('node_modules'), 'node_modules']
     if (isProduction) {
       // externals里的模块不打包
       // Object.assign(config, {
@@ -70,6 +71,19 @@ module.exports = {
     }
   },
   chainWebpack: config => {
+
+
+    config.module
+      .rule('swf')
+      .test(/\.swf$/)
+      .use('url-loader')
+      .loader('url-loader')
+      .options({
+        limit: 1024,
+        name: 'file/[path][name].[hash:7].[ext]'
+      })
+      .end()
+
     // 对vue-cli内部的 webpack 配置进行更细粒度的修改
     config.optimization.minimizer('terser').tap((args) => {
       // 去除生产环境console
