@@ -317,9 +317,9 @@ export default {
       /** 结束**/
       camp: this.$store.state.camp,
       campList: [
-        { name: 'A', zoom: 14, lng: 115.770594, lat: 39.604709 },
-        { name: 'B', zoom: 17, lng: 115.773423, lat: 39.603872 },
-        { name: 'C', zoom: 17, lng: 115.774588, lat: 39.606939 }
+        { name: 'A', zoom: 16, lng: 115.770594, lat: 39.604709 },
+        { name: 'B', zoom: 16, lng: 115.773423, lat: 39.603872 },
+        { name: 'C', zoom: 16, lng: 115.774588, lat: 39.606939 }
       ],
       nowDate: '', // 现在事件
       timer: null, // 时间定时器

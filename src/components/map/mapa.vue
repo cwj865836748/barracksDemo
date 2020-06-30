@@ -97,7 +97,9 @@ export default {
         con: ''
       },
       mList: [],
-      sbList: []
+      sbList: [],
+      Satellite: null,
+      RoadNet: null
     }
   },
   mounted () {
@@ -208,28 +210,16 @@ export default {
     initMap () {
       BM.Config.HTTP_URL = 'http://localhost:9000'
       const that = this
-      this.map = BM.map('mapa', 'bigemap.05v2rx8y', { crs: BM.CRS.EPSG4326, center: [40.25034713745117, 116.46249389648438], zoom: this.zoom, zoomControl: true })
+      this.map = BM.map('mapa', null, { crs: BM.CRS.EPSG4326, center: [40.25034713745117, 116.46249389648438], zoom: this.zoom, zoomControl: true, maxZoom: 16 })
+      this.Satellite = BM.tileLayer('bigemap.05v2rx8y')
+      this.RoadNet = BM.tileLayer('bigemap.5fypx4e9')
+      this.Satellite.addTo(this.map)
       this.map.fitBounds([[39.44145965576172, 115.41685485839844], [41.05923080444336, 117.50813293457031]])
-      // this.map.viewreset()
       this.map.on('zoomend', (e) => {
         this.sbList.forEach(item => {
           item.remove()
         })
-        // ev is an event object (MouseEvent in this case)
       })
-
-      // AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], function () {
-      //   var autoOptions = {
-      //     input: 'searchInput'// 前端搜索框
-      //   }
-      //   var auto = new AMap.Autocomplete(autoOptions)
-      //   that.placeSearch = new AMap.PlaceSearch(
-      //     {
-      //       map: that.map
-      //     }
-      //   )
-      //   AMap.event.addListener(auto, 'select', that.select)// 注册监听，当选中某条记录时会触发
-      // })
       this.addMapItem()
     },
     addMapItem () {
@@ -278,9 +268,17 @@ export default {
       })
     },
     mapChange (viewMode) {
-      var google_street = BM.tileLayer('bigemap.googlemap-streets')
-      google_satellite.addTo(this.map)
-      google_street.remove(this.map)
+      if (this.viewMode === viewMode) {
+        return
+      }
+      this.viewMode = viewMode
+      if (viewMode === '2D') {
+        this.Satellite.remove(this.map)
+        this.RoadNet.addTo(this.map)
+      } else {
+        this.RoadNet.remove(this.map)
+        this.Satellite.addTo(this.map)
+      }
     }
 
   },
