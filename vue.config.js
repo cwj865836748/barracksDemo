@@ -51,7 +51,7 @@ module.exports = {
   // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建。
   parallel: require('os').cpus().length > 1,
   configureWebpack: config => {
-    config.resolve['modules'] = [path.resolve('node_modules'), 'node_modules']
+    config.resolve.modules = [path.resolve('node_modules'), 'node_modules']
     if (isProduction) {
       // externals里的模块不打包
       // Object.assign(config, {
@@ -71,8 +71,6 @@ module.exports = {
     }
   },
   chainWebpack: config => {
-
-
     config.module
       .rule('swf')
       .test(/\.swf$/)
@@ -130,11 +128,11 @@ module.exports = {
   devServer: {
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: `${process.env.VUE_APP_BASE_URL}`,
-        secure: false,
+        target: '192.168.20.95:88', // 正式服务器
+        secure: true, // 如果是https接口，需要配置这个参数
         changeOrigin: true,
         pathRewrite: {
-          [`^${process.env.VUE_APP_BASE_API}`]: `${process.env.VUE_APP_BASE_API}`
+          ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
     }

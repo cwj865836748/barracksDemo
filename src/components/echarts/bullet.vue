@@ -45,7 +45,7 @@ export default {
           itemHeight: 10, // 设置高度
 
           itemGap: 30, // 设置间距,
-          data: ['A类', 'B类', 'C类'],
+          data: ['武器库开门', '入库枪支', '出库枪支'],
           textStyle: {
             color: ['#0FEA8A', '#33B1FF', '#FF2756'],
             fontSize: 12
@@ -56,7 +56,7 @@ export default {
           type: 'category',
           nameGap: 15,
           boundaryGap: true,
-          data: ['应有数量', '实有数量'],
+          data: ['A库房', 'B库房'],
           axisLabel: {
             textStyle: {
               // 文字样式
@@ -99,16 +99,16 @@ export default {
               },
               formatter: function (value) {
                 var texts = []
-                if (value === 1000) {
-                  texts.push(1000)
-                } else if (value === 2000) {
-                  texts.push(2000)
-                } else if (value === 3000) {
-                  texts.push(3000)
-                } else if (value === 4000) {
-                  texts.push(4000)
-                } else if (value === 5000) {
-                  texts.push(5000)
+                if (value === 10) {
+                  texts.push(10)
+                } else if (value === 20) {
+                  texts.push(20)
+                } else if (value === 30) {
+                  texts.push(30)
+                } else if (value === 40) {
+                  texts.push(40)
+                } else if (value === 50) {
+                  texts.push(50)
                 } else if (value === 0) {
                   texts.push(0)
                 }
@@ -119,9 +119,9 @@ export default {
         ],
         series: [
           {
-            name: 'A类',
+            name: '武器库开门',
             type: 'bar',
-            data: [4100, 2000],
+            data: [4, 2],
             barWidth: 12,
             barGap: '100%',
             color: '#0FEA8A',
@@ -140,9 +140,9 @@ export default {
             }
           },
           {
-            name: 'B类',
+            name: '入库枪支',
             type: 'bar',
-            data: [2600, 1000],
+            data: [10, 41],
             barWidth: 12,
             barGap: '100%',
             color: '#33B1FF',
@@ -161,9 +161,9 @@ export default {
             }
           },
           {
-            name: 'C类',
+            name: '出库枪支',
             type: 'bar',
-            data: [1700, 200],
+            data: [18, 41],
             barWidth: 12,
             barGap: '100%',
             color: '#FF2756',

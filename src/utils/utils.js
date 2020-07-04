@@ -90,21 +90,20 @@ export function isSfz (idcard) {
   }
 }
 // 日期格式化
-export function dateFormat (date, fmt) {
-  var o = {
-    'M+': date.getMonth() + 1,
-    'd+': date.getDate(),
-    'h+': date.getHours(),
-    'm+': date.getMinutes(),
-    's+': date.getSeconds(),
-    'q+': Math.floor((date.getMonth() + 3) / 3),
-    S: date.getMilliseconds()
-  }
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-  for (var k in o) {
-    if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
-  }
-  return fmt
+export function dateFormat (now) {
+  var year = now.getFullYear()
+  var month = now.getMonth() + 1
+  var date = now.getDate()
+  var hour = now.getHours()
+  var minute = now.getMinutes()
+  var second = now.getSeconds()
+  return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second
+}
+// 日期格式化
+export function dateFormat2 (now) {
+  var hour = now.getHours()
+  var minute = now.getMinutes()
+  return hour + ':' + minute
 }
 // 时间格式化
 export function TimeFormat (val, s) {

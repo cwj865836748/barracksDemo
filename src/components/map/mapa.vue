@@ -4,15 +4,21 @@
 
     </div>
     <div class="SeachMap" :class="[upClose?'close':'']" >
-    <el-input id="searchInput" v-model="searchInput" placeholder="搜地点" @input="select"/>
-      <div class="closeInput" @click="searchInput=''">
+    <el-input id="searchInput" v-if="showSearch"  v-model="searchInput" placeholder="搜地点" @input="select"/>
+      <div class="closeInput" v-if="showSearch" @click="searchInput=''">
         <img src="@/assets/images/closeIcon.png"/>
       </div>
+
+      <div class="openSearch flex-xy-center" @click="showSearch=!showSearch">
+        <img src="@/assets/i/Vector.png">
+      </div>
+
       <div class="goup" @click="upClose=!upClose" >
       <img src="@/assets/images/goup2.png"/>
       </div>
 
     </div>
+
     <div class="searchk" v-show="searchShow">
          <div class="list" v-for="(item,index) in selectList" :key="index" @click="getLng(item)">
            <span>{{item.name}}</span>
@@ -22,7 +28,11 @@
     <div class="SeachMapClose" :class="[upClose?'close':'']" @click="upClose=!upClose">
       <img src="@/assets/images/goxia.png">
     </div>
-    <div class="addEqu flex-xy-center" @click="showEqu=true">添加设备</div>
+    <div class="addEqu flex-x-between" >
+      <img src="@/assets/i/Group 379.png" @click="addEqu"/>
+      <img src="@/assets/i/Group 378.png" @click="delEqu"/>
+    </div>
+<!--    <div :class="['delEqu flex-xy-center',isDelButton?'unBg':'']" >删除设备</div>-->
     <div class="EquWindow" v-show="showEqu">
       <div class="head">
         <span>添加设备</span>
@@ -47,16 +57,18 @@
 
         <div class="flex-xy-center">
           <span class="flex-y-center" style="width: 100px"><span style="color: red;font-size: 24px">*</span>关联设备:</span>
-          <el-select v-model="EquObj.con" placeholder="请选择关联设备" style="width: 332px" :popper-append-to-body="false">
-            <el-option value='1' label="摄像机1">摄像机1</el-option>
-            <el-option value='2' label="摄像机2">摄像机2</el-option>
-            <el-option value='3' label="摄像机3">摄像机3</el-option>
-            <el-option value='4' label="摄像机4">摄像机4</el-option>
-          </el-select>
+          <el-cascader
+            :disabled="this.EquObj.type!=='2'"
+            v-model="EquObj.con" style="width: 332px"
+            placeholder="请选择关联设备"
+            :popper-append-to-body="false"
+            :options="options"
+            :props="{ expandTrigger: 'hover' }"
+            @change="handleChange"></el-cascader>
         </div>
         <div class="btn">
           <div class="flex-xy-center" @click="showEqu=false">取消</div>
-          <div class="flex-xy-center" @click="showEqu=false">确定</div>
+          <div class="flex-xy-center" @click="starOk">确定</div>
         </div>
       </div>
     </div>
@@ -72,18 +84,50 @@
     <div class="bottom_close_up" :class="[bottomClose?'close':'']" @click="bottomClose=!bottomClose">
       <img src="@/assets/images/goup.png">
     </div>
+    <div class="videoPostion" :class="[isDetail?'bg1':'bg2']" v-if="showVideo">
+      <div class="videoK">
+        <onTimeVideo :height="height" :width="width"   :src="srcMoive" :openVideo="true" />
+        <div class="closeVideo" @click="closeVideo">关闭</div>
+      </div>
+      <div class="detail" @click="isDetail=!isDetail"/>
+    </div>
+    <div class="pos-center isOK" v-if="delK">
+      <div class="wariness">
+        <span>温馨提示</span>
+      </div>
+      <div class="warinessContent">请点击所要删除的图标</div>
+    </div>
+    <div class="pos-center isOK" v-if="delDK">
+      <div class="isOKHead">
+        删除图标
+      </div>
+      <div class="isOKContent">是否删除该图标</div>
+      <div class="myBtn">
+        <div class="flex-xy-center" @click="delOK">确认</div>
+        <div class="flex-xy-center" @click="delCancel">取消</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import selectData from '@/selectData'
-
+import onTimeVideo from '@/components/onTimeVideo/index'
 export default {
   name: 'mapa',
   props: ['list', 'lng', 'lat', 'zoom'],
   data () {
     return {
+      star: '/image/star.png',
+      isDelButton: false,
+      delK: false,
+      delDK: false,
+      isDetail: true,
+      srcMoive: '',
+      width: '510px',
+      height: '290px',
       map: null,
+      showVideo: false,
       curTk: {},
       curTKMarker: null,
       clickNum: 0,
@@ -94,6 +138,73 @@ export default {
       showEqu: false,
       searchShow: false,
       selectList: [],
+      options: [
+        {
+          value: 1,
+          label: '人脸采集摄像头',
+          children: [{
+            value: 11,
+            label: '周界1'
+          }, {
+            value: 12,
+            label: '周界2'
+          }, {
+            value: 13,
+            label: '周界3'
+          }, {
+            value: 14,
+            label: '周界4'
+          }, {
+            value: 15,
+            label: '周界5'
+          }, {
+            value: 16,
+            label: '周界6'
+          }, {
+            value: 17,
+            label: '周界7'
+          }, {
+            value: 18,
+            label: '周界8'
+          }]
+        }, {
+          value: 2,
+          label: '监控半球（室内+公桌）'
+        }, {
+          value: 3,
+          label: '夜市网络球型摄像机'
+        }, {
+          value: 4,
+          label: '热成像监测摄像机'
+        }, {
+          value: 5,
+          label: '防爆摄像机'
+        }, {
+          value: 6,
+          label: '防油污摄像机'
+        }, {
+          value: 7,
+          label: '全景抓拍网络摄像机'
+        }, {
+          value: 8,
+          label: '180度AR全景摄像机'
+        }, {
+          value: 9,
+          label: '360度AR全景摄像机'
+        }, {
+          value: 10,
+          label: '高清卡口抓拍机'
+        }, {
+          value: 11,
+          label: '智能网络摄像机'
+        }, {
+          value: 12,
+          label: '180度全景摄像机（近距离、无球机）'
+        }, {
+          value: 13,
+          label: '人脸抓拍摄像机'
+        }
+      ],
       // layers: [
       //   // 卫星
       //   new AMap.TileLayer.Satellite(),
@@ -109,13 +220,41 @@ export default {
       mList: [],
       sbList: [],
       Satellite: null,
-      RoadNet: null
+      RoadNet: null,
+      marker: null,
+      latlng: null,
+      delIconObj: null,
+      showSearch: false
     }
+  },
+  components: {
+    onTimeVideo
   },
   mounted () {
     this.initMap()
   },
   methods: {
+    closeVideo () {
+      this.isDetail = true
+      this.showVideo = false
+    },
+    delEqu () {
+      this.isDelButton = true
+      this.delK = true
+      setTimeout(() => {
+        this.delK = false
+      }, 2000)
+    },
+    delCancel () {
+      this.isDelButton = false
+      this.delDK = false
+    },
+    delOK () {
+      this.delIconObj.marker.remove()
+      this.list.splice(this.delIconObj.index, 1)
+
+      this.delCancel()
+    },
     // 初始化
     // initMap () {
     //   const that = this
@@ -218,9 +357,10 @@ export default {
     // }
 
     initMap () {
-      BM.Config.HTTP_URL = 'http://localhost:9001'
+      BM.Config.HTTP_URL = mapId.url
       const that = this
       this.map = BM.map('mapa', null, { crs: BM.CRS.EPSG4326, center: [40.25034713745117, 116.46249389648438], zoom: this.zoom, zoomControl: true, maxZoom: 16 })
+      // BM.circle([39.603056, 115.765111], { radius: 500 }).addTo(this.map)
       this.Satellite = BM.tileLayer(mapId.Satellite)
       this.RoadNet = BM.tileLayer(mapId.RoadNet)
       this.Satellite.addTo(this.map)
@@ -230,6 +370,9 @@ export default {
           item.remove()
         })
       })
+      this.map.on('contextmenu', (e) => {
+        this.isDelButton = false
+      })
       this.addMapItem()
     },
     addMapItem () {
@@ -238,13 +381,28 @@ export default {
         item.remove()
       })
 
-      this.list.forEach((item) => {
+      this.list.forEach((item, index) => {
         if (!item.isShow) return
         var marker = BM.marker(
           [item.lat, item.lng],
           { icon: BM.icon({ iconUrl: item.imgUrl }) }).addTo(this.map)
         this.mList.push(marker)
-        marker.on('click', () => {
+        marker.on('click', (e) => {
+          if (this.isDelButton) {
+            this.delDK = true
+            this.delIconObj = {
+              marker, index
+            }
+
+            return
+          }
+          if (item.type === 2) {
+            this.srcMoive = item.mapMovie
+            this.$nextTick(() => {
+              this.showVideo = true
+            })
+            return
+          }
           this.clickNum = 0
           if (this.curTKMarker) {
             this.curTKMarker.remove()
@@ -304,13 +462,98 @@ export default {
         this.RoadNet.remove(this.map)
         this.Satellite.addTo(this.map)
       }
-    }
+    },
+    handleChange () {
 
+    },
+    addEqu () {
+      const that = this
+      if (this.marker) {
+        this.marker.remove()
+      }
+
+      this.marker = BM.marker(
+        [39.603056, 115.765111],
+        { icon: BM.icon({ iconUrl: this.star }), draggable: true }).addTo(this.map)
+      this.marker.on('moveend', function (e) {
+        that.latlng = e.target._latlng
+        that.showEqu = true
+      })
+      this.marker.on('dblclick', () => {
+        this.marker.remove()
+      })
+    },
+    starOk () {
+      this.marker.remove()
+      let obj = null
+      switch (this.EquObj.type) {
+        case '1':
+          obj = {
+            type: 1,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/i/sb.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sbtk.png'),
+            tkImgDetail: require('../../assets/img/sbtkxq.png')
+          }
+          break
+        case '2':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/i/sxt.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: null
+          }
+          break
+        case '3':
+          obj = {
+            type: 3,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/i/cgq.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/cgqtk.png'),
+            tkImgDetail: require('../../assets/img/cgqtkxq.png')
+          }
+          break
+        case '4':
+          obj = {
+            type: 4,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/i/dz.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/dztk.png'),
+            tkImgDetail: require('../../assets/img/dztkxq.png')
+          }
+          break
+        case '5':
+          obj = {
+            type: 5,
+            lng: 115.770516, // 经度
+            lat: 39.605005, // 纬度
+            imgUrl: require('../../assets/i/ys.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/ystk.png'),
+            tkImgDetail: require('../../assets/img/ystkxq.png')
+          }
+          break
+      }
+      this.list.push(obj)
+      this.showEqu = false
+      this.EquObj.type = ''
+    }
   },
   watch: {
     list: {
       handler (newVal, oldVal) {
         if (newVal && oldVal) {
+          localStorage.setItem('list', JSON.stringify(newVal))
           this.addMapItem()
         }
       },
@@ -348,10 +591,10 @@ export default {
 }
   .SeachMap {
     position: absolute;
-    left: 1040px;
+    left: 970px;
     top: 8px;
     z-index: 250;
-    width: 500px;
+    width: 582px;
     transition: all 2s ease;
     &.close{
       top:-80px;
@@ -373,8 +616,28 @@ export default {
     .closeInput {
       position: absolute;
       top: 16px;
-      right: 16px;
+      right: 100px;
       cursor: pointer;
+    }
+    .closeInput::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      position: absolute;
+      top: -8px;
+      right: 40px;
+      background: rgba(114,114,114,0.7);
+      z-index:300
+    }
+    .openSearch {
+      width: 82px;
+      height: 56px;
+      background: #003ACB;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1000;
     }
     .goup {
       position: absolute;
@@ -384,6 +647,7 @@ export default {
     }
 
   }
+
 .searchk {
   position: absolute;
   left: 1040px;
@@ -417,9 +681,7 @@ export default {
     }
   }
   .addEqu {
-    background: #003ACB;
-    border-radius: 8px;
-    color: #FFFFFF;
+    background: transparent;
     position: absolute;
     top: 8px;
     left: 83.39%;
@@ -427,6 +689,21 @@ export default {
     height: 54px;
     font-size: 24px;
     cursor: pointer;
+  }
+  .delEqu {
+    background: red;
+    border-radius: 8px;
+    color: #FFFFFF;
+    position: absolute;
+    top: 70px;
+    left: 83.39%;
+    width: 129px;
+    height: 54px;
+    font-size: 24px;
+    cursor: pointer;
+    &.unBg {
+      background: slategrey;
+  }
   }
   .EquWindow {
     position: absolute;
@@ -551,17 +828,51 @@ export default {
     transition-delay: 0.5s;
   }
 }
-.SeachMap::after {
-  content: '';
-  display: block;
-  width: 1px;
-  height: 40px;
+.videoPostion {
   position: absolute;
-  top: 8px;
-  right: 58px;
-  background: rgba(114,114,114,0.7);
-  z-index:300
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10000;
+  background-size: 100% 100%;
+  width: 548px;
+  height: 520px;
+  &.bg1 {
+    background: url('../../assets/img/sxttk.png') no-repeat;
+  }
+  &.bg2 {
+    background: url('../../assets/img/sxttkxq.png') no-repeat;
+  }
+  .videoK {
+    position: absolute;
+    width: 510px;
+    height: 290px;
+    left: 20px;
+    top: 20px;
+
+  }
+  .detail {
+    height: 23px;
+    width: 36px;
+    position: absolute;
+    top: 334px;
+    right: 30px;
+    background: transparent;
+  }
 }
+.closeVideo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: black;
+  color: #FFFFFF;
+  height: 20px;
+  width: 60px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10001;
+}
+
   /deep/.el-select-dropdown__item {
      padding: 0 30px;
   }
@@ -580,4 +891,86 @@ export default {
   left: 20px;
   top: 6px;
 }
+.isOK {
+  width: 375px;
+  height: 216px;
+  overflow: hidden;
+  .wariness {
+    width: 100%;
+    height: 54px;
+    background: linear-gradient(90deg, #051A88 0%, #020863 99.84%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Microsoft YaHei';
+    font-weight: bold;
+    font-size: 22px;
+    span {
+      background: linear-gradient(90deg, #0075FF 0%, #00EAFF 49.56%, #01ACFF 99.99%);
+      -webkit-background-clip: text;
+      color: transparent
+    }
+  }
+  .warinessContent {
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #08062D;
+    font-size: 23px;
+    color: #FFFFFF;
+  }
+  .isOKHead {
+    background: #00137F;
+    border-radius: 4px 4px 0px 0px;
+    height: 64px;
+    width: 100%;
+    border-bottom: 1px solid #0069BF;
+    font-size: 18px;
+    line-height: 16px;
+    color: #FFFFFF;
+    padding: 24px;
+  }
+  .isOKContent {
+    height: 216px;
+    background: #08062D;
+    border-radius: 4px;
+    width: 375px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 32px;
+    color: #FFFFFF;
+    font-size: 22px;
+  }
+  .myBtn {
+    width: 144px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    right: 28px;
+    bottom: 28px;
+    cursor: pointer;
+    div {
+      font-size: 14px;
+      width: 64px;
+      height: 32px;
+    }
+    div:first-child {
+      color: #FFFFFF;
+      background: #0049FF;
+      border-radius: 4px;
+    }
+    div:last-child {
+
+      color: #595959;
+
+      border-radius: 4px;
+      background: #FFFFFF;
+    }
+  }
+
+}
+
 </style>

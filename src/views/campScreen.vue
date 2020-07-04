@@ -201,7 +201,7 @@
        </div>
      </div>
      <div class="content_left_img" v-show="comprehensiveWindowShow">
-       <div class="content_close" @click="policeRing"></div>
+       <div class="content_close" @click="comprehensiveWindowShow=false"></div>
        <div class="content_close2" @click="comprehensiveWindowShow=false"></div>
        <img src="@/assets/images/showCar.png" v-if="carType===7" />
        <img src="@/assets/images/showCar1.png" v-if="carType===10"/>
@@ -255,19 +255,60 @@
     </div>
     <earthVideo class="myEarthVideo" :videoSrc="videoSrc" v-if="videoShow" @closeShow="videoCloseShow"/>
 
-    <audio v-if="!ringType.length" class="audio" src="/music/bj.mp3" controls autoplay="autoplay"
+    <audio v-if="autoNum===3" class="audio" src="/music/bj.mp3" controls autoplay="autoplay"
            hidden="true"></audio>
+    <div class="bjk" v-if="showPoliceK">
+      <div class="bjk_head">
+         <span>报警详情</span>
+      </div>
+      <div class="bjk_content flex">
+         <div class="bjk_left">
+           <onTimeVideo :height="height" :width="width"   :src="srcMoive" :openVideo="true" />
+         </div>
+         <div class="bjk_right">
+           <div class="msg">
+             <span>报警类型：</span>
+             <span :style="{'color':(policeObj.level===1 ? '#A06A1E': (policeObj.level===2 ? '#C0450A': 'red'))}">{{policeObj.level|policeType}}</span>
+           </div>
+           <div class="msg">
+             <span>摄像头名称：</span>
+             <span>{{policeObj.name}}</span>
+           </div>
+           <div class="msg">
+             <span>报警时间：</span>
+             <span>{{policeObj.createtime}}</span>
+           </div>
+           <div class="msg">
+             <span>报警位置：</span>
+             <span>{{policeObj.position}}</span>
+           </div>
+           <div class="msg">
+             <span>报警事件：</span>
+             <span>{{policeObj.event_name}}</span>
+           </div>
+           <div class="btn flex">
+             <div class="flex-xy-center" style="cursor:pointer;" @click="policeRing">确认</div>
+             <div class="flex-xy-center">系统误报</div>
+           </div>
+         </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { TimeFormat } from '@/utils/utils'
+import { TimeFormat, dateFormat, dateFormat2 } from '@/utils/utils'
 import earthVideo from '@/components/earthVideo/earthVideo'
 import mapa from '@/components/map/mapa'
+import api from '@/api/index.js'
+import onTimeVideo from '@/components/onTimeVideo/index'
 export default {
   name: 'campScreen',
   data () {
     return {
+      srcMoive: '',
+      height: '564px',
+      width: '666px',
       /** 哨兵**/
       sentryShow: true,
       sentryDetail: true,
@@ -318,8 +359,8 @@ export default {
       camp: this.$store.state.camp,
       campList: [
         { name: 'A', zoom: 16, lng: 115.770594, lat: 39.604709 },
-        { name: 'B', zoom: 16, lng: 115.773423, lat: 39.603872 },
-        { name: 'C', zoom: 16, lng: 115.774588, lat: 39.606939 }
+        { name: 'B', zoom: 16, lng: 115.806262, lat: 39.622973 },
+        { name: 'C', zoom: 16, lng: 115.881381, lat: 39.632888 }
       ],
       nowDate: '', // 现在事件
       timer: null, // 时间定时器
@@ -397,7 +438,8 @@ export default {
           imgUrl: require('../assets/i/sxt.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[0]
         },
         {
           type: 3,
@@ -429,16 +471,16 @@ export default {
 
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
-          lng: 115.773423, // 经度
-          lat: 39.603872, // 纬度
+          lng: 115.806262, // 经度
+          lat: 39.622973, // 纬度
           imgUrl: require('../assets/i/yq.png'),
           isShow: true,
           tkImg: require('../assets/img/yqtk.png')
         },
         {
           type: 1,
-          lng: 115.771498, // 经度
-          lat: 39.604749, // 纬度
+          lng: 115.806648, // 经度
+          lat: 39.623101, // 纬度
           imgUrl: require('../assets/i/sb.png'),
           isShow: true,
           tkImg: require('../assets/img/sbtk.png'),
@@ -446,53 +488,54 @@ export default {
         },
         {
           type: 2,
-          lng: 115.774051, // 经度
-          lat: 39.607088, // 纬度
+          lng: 115.806471, // 经度
+          lat: 39.62251, // 纬度
           imgUrl: require('../assets/i/sxt.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[1]
         },
-        {
-          type: 3,
-          lng: 115.775939, // 经度
-          lat: 39.60393, // 纬度
-          imgUrl: require('../assets/i/cgq.png'),
-          isShow: true,
-          tkImg: require('../assets/img/cgqtk.png'),
-          tkImgDetail: require('../assets/img/cgqtkxq.png')
-        },
-        {
-          type: 4,
-          lng: 115.771895, // 经度
-          lat: 39.604823, // 纬度
-          imgUrl: require('../assets/i/dz.png'),
-          isShow: true,
-          tkImg: require('../assets/img/dztk.png'),
-          tkImgDetail: require('../assets/img/dztkxq.png')
-        },
-        {
-          type: 5,
-          lng: 115.775258, // 经度
-          lat: 39.607274, // 纬度
-          imgUrl: require('../assets/i/ys.png'),
-          isShow: true,
-          tkImg: require('../assets/img/ystk.png'),
-          tkImgDetail: require('../assets/img/ystkxq.png')
-        },
+        // {
+        //   type: 3,
+        //   lng: 115.775939, // 经度
+        //   lat: 39.60393, // 纬度
+        //   imgUrl: require('../assets/i/cgq.png'),
+        //   isShow: true,
+        //   tkImg: require('../assets/img/cgqtk.png'),
+        //   tkImgDetail: require('../assets/img/cgqtkxq.png')
+        // },
+        // {
+        //   type: 4,
+        //   lng: 115.771895, // 经度
+        //   lat: 39.604823, // 纬度
+        //   imgUrl: require('../assets/i/dz.png'),
+        //   isShow: true,
+        //   tkImg: require('../assets/img/dztk.png'),
+        //   tkImgDetail: require('../assets/img/dztkxq.png')
+        // },
+        // {
+        //   type: 5,
+        //   lng: 115.775258, // 经度
+        //   lat: 39.607274, // 纬度
+        //   imgUrl: require('../assets/i/ys.png'),
+        //   isShow: true,
+        //   tkImg: require('../assets/img/ystk.png'),
+        //   tkImgDetail: require('../assets/img/ystkxq.png')
+        // },
 
         {
           type: 0, // 0军营 1哨兵 2摄像头 3传感器
-          lng: 115.774588, // 经度
-          lat: 39.606939, // 纬度
+          lng: 115.881381, // 经度
+          lat: 39.632888, // 纬度
           imgUrl: require('../assets/i/yq.png'),
           isShow: true,
           tkImg: require('../assets/img/yqtk.png')
         },
         {
           type: 1,
-          lng: 115.775725, // 经度
-          lat: 39.604294, // 纬度
+          lng: 115.88166, // 经度
+          lat: 39.632533, // 纬度
           imgUrl: require('../assets/i/sb.png'),
           isShow: true,
           tkImg: require('../assets/img/sbtk.png'),
@@ -500,40 +543,41 @@ export default {
         },
         {
           type: 2,
-          lng: 115.775011, // 经度
-          lat: 39.604567, // 纬度
+          lng: 115.880775, // 经度
+          lat: 39.633244, // 纬度
           imgUrl: require('../assets/i/sxt.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[2]
         },
-        {
-          type: 3,
-          lng: 115.769947, // 经度
-          lat: 39.602409, // 纬度
-          imgUrl: require('../assets/i/cgq.png'),
-          isShow: true,
-          tkImg: require('../assets/img/cgqtk.png'),
-          tkImgDetail: require('../assets/img/cgqtkxq.png')
-        },
-        {
-          type: 4,
-          lng: 115.77278, // 经度
-          lat: 39.60393, // 纬度
-          imgUrl: require('../assets/i/dz.png'),
-          isShow: true,
-          tkImg: require('../assets/img/dztk.png'),
-          tkImgDetail: require('../assets/img/dztkxq.png')
-        },
-        {
-          type: 5,
-          lng: 115.775199, // 经度
-          lat: 39.604579, // 纬度
-          imgUrl: require('../assets/i/ys.png'),
-          isShow: true,
-          tkImg: require('../assets/img/ystk.png'),
-          tkImgDetail: require('../assets/img/ystkxq.png')
-        },
+        // {
+        //   type: 3,
+        //   lng: 115.769947, // 经度
+        //   lat: 39.602409, // 纬度
+        //   imgUrl: require('../assets/i/cgq.png'),
+        //   isShow: true,
+        //   tkImg: require('../assets/img/cgqtk.png'),
+        //   tkImgDetail: require('../assets/img/cgqtkxq.png')
+        // },
+        // {
+        //   type: 4,
+        //   lng: 115.77278, // 经度
+        //   lat: 39.60393, // 纬度
+        //   imgUrl: require('../assets/i/dz.png'),
+        //   isShow: true,
+        //   tkImg: require('../assets/img/dztk.png'),
+        //   tkImgDetail: require('../assets/img/dztkxq.png')
+        // },
+        // {
+        //   type: 5,
+        //   lng: 115.775199, // 经度
+        //   lat: 39.604579, // 纬度
+        //   imgUrl: require('../assets/i/ys.png'),
+        //   isShow: true,
+        //   tkImg: require('../assets/img/ystk.png'),
+        //   tkImgDetail: require('../assets/img/ystkxq.png')
+        // },
         {
           type: 2,
           lng: 115.773856, // 经度
@@ -541,7 +585,8 @@ export default {
           imgUrl: require('../assets/images/sxt1.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[3]
         },
         {
           type: 2,
@@ -550,7 +595,8 @@ export default {
           imgUrl: require('../assets/images/sxt2.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[4]
         },
         {
           type: 2,
@@ -559,7 +605,8 @@ export default {
           imgUrl: require('../assets/images/sxt3.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[5]
         },
         {
           type: 2,
@@ -568,7 +615,8 @@ export default {
           imgUrl: require('../assets/images/sxt4.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[6]
         },
         {
           type: 2,
@@ -577,7 +625,8 @@ export default {
           imgUrl: require('../assets/images/sxt5.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[7]
         },
         {
           type: 2,
@@ -586,7 +635,8 @@ export default {
           imgUrl: require('../assets/images/sxt6.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[8]
         },
         {
           type: 2,
@@ -595,7 +645,8 @@ export default {
           imgUrl: require('../assets/images/sxt7.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[9]
         },
         {
           type: 2,
@@ -604,7 +655,8 @@ export default {
           imgUrl: require('../assets/images/sxt8.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[10]
         },
         {
           type: 2,
@@ -613,7 +665,8 @@ export default {
           imgUrl: require('../assets/images/sxt9.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[11]
         },
         {
           type: 2,
@@ -622,7 +675,8 @@ export default {
           imgUrl: require('../assets/images/sxt10.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[12]
         },
         {
           type: 2,
@@ -631,7 +685,8 @@ export default {
           imgUrl: require('../assets/images/sxt11.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[13]
         },
         {
           type: 2,
@@ -640,7 +695,8 @@ export default {
           imgUrl: require('../assets/images/sxt12.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[14]
         },
         {
           type: 2,
@@ -649,7 +705,8 @@ export default {
           imgUrl: require('../assets/images/sxt13.png'),
           isShow: true,
           tkImg: require('../assets/img/sxttk.png'),
-          tkImgDetail: require('../assets/img/sxttkxq.png')
+          tkImgDetail: require('../assets/img/sxttkxq.png'),
+          mapMovie: mapId.mapMovie[15]
         }
       ],
       ringTime: 0,
@@ -665,12 +722,27 @@ export default {
       imgShow2: true,
       imgShow3: true,
       imgShow4: true,
-      imgShow5: true
+      imgShow5: true,
+      mapMovie: [],
+      showPoliceK: false,
+      policeObj: null
     }
   },
   components: {
     earthVideo,
-    mapa
+    mapa,
+    onTimeVideo
+  },
+  filters: {
+    policeType (val) {
+      if (val === 1) {
+        return '普通报警'
+      } else if (val === 2) {
+        return '紧急报警'
+      } else {
+        return '特急报警'
+      }
+    }
   },
   computed: {
     comprehensiveTop () {
@@ -687,20 +759,25 @@ export default {
     }
   },
   created () {
+    this.ringInterval()
     this.getDate()
     this.comprehensiveLists = this.comprehensiveList
+
     this.campList.forEach(item => {
       const gcj02towgs84 = coordtransform.gcj02towgs84(item.lng, item.lat)
       item.lng = gcj02towgs84[0]
       item.lat = gcj02towgs84[1]
     })
-    console.log(this.campList)
 
-    this.mapList.forEach(item => {
-      const gcj02towgs84 = coordtransform.gcj02towgs84(item.lng, item.lat)
-      item.lng = gcj02towgs84[0]
-      item.lat = gcj02towgs84[1]
-    })
+    if (!localStorage.getItem('list')) {
+      this.mapList.forEach(item => {
+        const gcj02towgs84 = coordtransform.gcj02towgs84(item.lng, item.lat)
+        item.lng = gcj02towgs84[0]
+        item.lat = gcj02towgs84[1]
+      })
+      localStorage.setItem('list', JSON.stringify(this.mapList))
+    }
+    this.mapList = JSON.parse(localStorage.getItem('list'))
   },
 
   beforeDestroy () {
@@ -716,7 +793,7 @@ export default {
   },
   mounted () {
     this.ScrollUp()
-    this.ringInterval()
+    // this.ringInterval()
   },
   methods: {
     showLeftWindow (index, type) {
@@ -845,48 +922,77 @@ export default {
         this.leftBottomWindow = true
       }
     },
-    ringStop () {
-      this.ringTime = 0
-      clearInterval(this.ringClean)
-      this.ringClean = null
-    },
+    // ringStop () {
+    //   this.ringTime = 0
+    //   clearInterval(this.ringClean)
+    //   this.ringClean = null
+    // },
     autoStop () {
       this.autoTime = 0
       clearInterval(this.autoClose)
       this.autoClose = null
     },
+    // ringInterval () {
+    //   this.autoNum = this.ringType[0]// 第一个普通预警
+    //   this.ringClean = setInterval(() => { // 创建定时器
+    //     if (this.ringTime === 60000) {
+    //       this.carType = this.ringType[0] // 判断展示的图片
+    //       this.comprehensiveWindowShow = true
+    //       this.isHistory = true// 判断是否是左边点击还是自动展示的
+    //       this.ringType.splice(0, 1)
+    //       this.ringStop()
+    //     } else {
+    //       this.ringTime += 1000
+    //     }
+    //   }, 1000)
+    // },
+    ringStop () {
+      this.ringTime = 0
+      clearInterval(this.ringClean)
+      this.ringClean = null
+    },
     ringInterval () {
-      this.autoNum = this.ringType[0]// 第一个普通预警
-      this.ringClean = setInterval(() => { // 创建定时器
-        if (this.ringTime === 60000) {
-          this.carType = this.ringType[0] // 判断展示的图片
-          this.comprehensiveWindowShow = true
-          this.isHistory = true// 判断是否是左边点击还是自动展示的
-          this.ringType.splice(0, 1)
+      this.ringClean = setInterval(async () => { // 创建定时器
+        if (this.ringTime === mapId.time) {
+          const { data } = await this.$axios.get(api.sxt.view)
+          this.policeObj = data
+          if (this.policeObj) {
+            this.showPoliceK = true
+            this.srcMoive = this.policeObj.rtmp_url
+            var d = new Date(this.policeObj.createtime*1000)
+            this.policeObj.createtime = dateFormat(d)
+            this.autoNum = this.policeObj.level
+            const time = dateFormat2(d)
+            const name = this.policeObj.level === 1 ? '普通报警' : (this.policeObj.level === 2 ? '紧急报警' : '特急报警')
+            const color = this.policeObj.level === 1 ? '#A06A1E' : (this.policeObj.level === 2 ? '#C0450A' : 'red')
+            const type = this.policeObj.level === 1 ? 0 : (this.policeObj.level === 2 ? 1 : 2)
+            const obj = { name, color, time, work: this.policeObj.event_name, type, pic: 11 }
+            this.comprehensiveLists.push(obj)
+          }
           this.ringStop()
+          if (!this.policeObj) {
+            this.ringInterval()
+          }
         } else {
           this.ringTime += 1000
         }
       }, 1000)
     },
     policeRing () {
-      this.comprehensiveWindowShow = false
-      if (this.ringType.length !== 0 && this.isHistory) {
-        // this.autoStop()
-        if (this.autoNum === 2) {
-          this.autoStop()
-        }
-        this.ringInterval()
+      this.showPoliceK = false
+      if (this.autoNum === 1) {
+        this.autoStop()
       }
+      this.ringInterval()
     }
   },
 
   watch: {
     'ringClean' (val, newVal) {
-      if (!val && this.autoNum === 2) {
+      if (!val && this.autoNum === 1) {
         this.autoClose = setInterval(() => { // 创建定时器
-          if (this.autoTime === 60000) {
-            this.comprehensiveWindowShow = false
+          if (this.autoTime === mapId.time2) {
+            this.showPoliceK = false
             this.autoStop()
             this.ringInterval()
           } else {
@@ -1815,6 +1921,72 @@ export default {
     top:0;
     left: 0;
     z-index: 999;
+  }
+  .bjk {
+    position: absolute;
+    top: 50%;
+    left: 50.5%;
+    transform: translate(-50%,-50%);
+    width: 1078px;
+    height: 628px;
+    border:1px slategrey solid;
+    z-index: 300 ;
+    overflow: hidden;
+    .bjk_head {
+      background: #00137F;
+      border-radius: 4px 4px 0px 0px;
+      height: 64px;
+      border-bottom: 1px solid #01ACFF;
+      box-sizing: border-box;
+      padding: 24px 32px;
+      color: #FFFFFF;
+      font-size: 18px;
+    }
+    .bjk_content {
+      background: #08062D;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      height: calc(100% - 64px);
+      box-sizing: border-box;
+      padding: 47px 32px 74px;
+      .bjk_left {
+
+        margin-right: 29px;
+      }
+      .bjk_right {
+        height: 100%;
+        width: calc(100% - 666px - 29px);
+        position: relative;
+        .msg {
+          margin-top: 26px;
+          font-size: 16px;
+          color: #FFFFFF;
+        }
+        .btn {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          div {
+            font-size: 14px;
+            color: #FFFFFF;
+            height: 32px;
+          }
+          div:first-child {
+            border: 1px solid #F9F9F9;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 64px;
+            margin-right: 16px;
+          }
+          div:last-child {
+            background: #0049FF;
+            border-radius: 4px;
+            width: 88px;
+
+          }
+        }
+      }
+    }
   }
 }
 </style>

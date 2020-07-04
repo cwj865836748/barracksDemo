@@ -1,5 +1,5 @@
 export default {
-  mine: {
-    add: '/api/reportlog/report'
+  sxt: {
+    view: '/api/index/warning'
   }
 }

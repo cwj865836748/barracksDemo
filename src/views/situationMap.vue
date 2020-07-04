@@ -76,79 +76,29 @@
         <Month/>
       </div>
       <div class="content-footer-personnel">
-        <zy-title text="人员管理"/>
+        <zy-title text="人员管理" leftTitle="人员在位率80%"/>
         <Pie/>
       </div>
-      <div class="content-footer-vedio">
+      <div class="content-footer-vedio" >
         <div class="content-footer-vedio-title clearfix">
-          <span :class="[videoType?'white':'']" @click="videoPre(true)">实时预览</span>
-          <span :class="[!videoType?'white':'' ]" @click="videoPre(false)">视频回放</span>
+          <span :class="[videoType===1?'white':'']" @click="videoPre(1)">实时预览</span>
+          <span :class="[videoType===2?'white':'' ]" @click="videoPre(2)">视频回放</span>
         </div>
         <div class="content-footer-vedio-line clearfix">
           <img src="@/assets/images/blueLine.png"/>
         </div>
-        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==4">
-          <img class="imgB imgR" src="../assets/images/vedio1.png" alt="">
-          <videoPlayer
-            ref="videoPlayer"
-            style="height: 350px;width:500px;"
-            class="vjs-custom-skin videoPlayer"
-            :options="videoOptions"
-            :playsinline="true"
-          />
-          <img class="imgB " src="../assets/images/vedio2.png" alt="">
-          <img class="imgR" src="../assets/images/vedio4.png" alt="">
-          <img src="../assets/images/vedio3.png" alt="">
-        </div>
-        <div class="content-footer-vedio-list clearfix" v-show="vedioNum==16" style="padding: 48px 0 0px">
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/vedio1.png" alt="" class="img1">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/vedio2.png" alt="" class="img1">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/vedio3.png" alt="" class="img1">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/vedio4.png" alt="" class="img1">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
-          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">
-            <img src="../assets/images/xz.png" alt="">
-          </div>
+        <div class="content-footer-vedio-list clearfix" >
+          <onTimeVideo  :height="height2" :width="width2" :src="onLine[0]" :openVideo="vedioNum==4&&videoType===1?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="imgR imgB" :src="onLine[1]" :openVideo="vedioNum==16&&videoType===1?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="imgB" :src="onLine[2]" :openVideo="vedioNum==16&&videoType===1?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="imgR" :src="onLine[3]" :openVideo="vedioNum==16&&videoType===1?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="" :src="onLine[4]" :openVideo="vedioNum==16&&videoType===1?true:false"/>
+
+          <onTimeVideo  :height="height2" :width="width2" :src="historyMp4[0]" :openVideo="vedioNum==4&&videoType===2?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="imgR imgB" :src="historyMp4[1]" :openVideo="vedioNum==16&&videoType===2?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="imgB" :src="historyMp4[2]" :openVideo="vedioNum==16&&videoType===2?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="imgR" :src="historyMp4[3]" :openVideo="vedioNum==16&&videoType===2?true:false"/>
+          <onTimeVideo  :height="height" :width="width" class="" :src="historyMp4[4]" :openVideo="vedioNum==16&&videoType===2?true:false"/>
         </div>
         <div class="leftClose" @click="isLeft=!isLeft">
           <img src="@/assets/images/leftClose.png" v-if="isLeft"/>
@@ -169,21 +119,113 @@
             <div class="msg flex-xy-center">方案4</div>
           </div>
         </div>
-        <div class="content-footer-vedio-footer flex-row flex-x-center" :style="{marginTop: vedioNum===4?'22px':'0'}">
-          <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">2*2</div>
-          <div class="btn" :class="[vedioNum==16?'active':'']" @click="vedioNum = 16">4*4</div>
+        <div class="content-footer-vedio-footer flex-row flex-x-center" style="margin-top: 22px">
+          <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">1*1</div>
+          <div class="btn" :class="[vedioNum==16?'active':'']" @click="vedioNum = 16">2*2</div>
         </div>
+
       </div>
+<!--      <div class="content-footer-vedio" :style="{zIndex:videoType===2?1000:500}">-->
+<!--        <div class="content-footer-vedio-title clearfix">-->
+<!--          <span :class="[videoType===1?'white':'']" @click="videoPre(1)">实时预览</span>-->
+<!--          <span :class="[videoType===2?'white':'' ]" @click="videoPre(2)">视频回放</span>-->
+<!--        </div>-->
+<!--        <div class="content-footer-vedio-line clearfix">-->
+<!--          <img src="@/assets/images/blueLine.png"/>-->
+<!--        </div>-->
+
+<!--        <div class="content-footer-vedio-list clearfix" v-if="vedioNum==4" >-->
+<!--          <onTimeVideo  :height="height" :width="width" class="imgR imgB" :src="historyMp4[0]"/>-->
+<!--          <onTimeVideo  :height="height" :width="width" class="imgB" :src="historyMp4[1]"/>-->
+<!--          <onTimeVideo  :height="height" :width="width" class="imgR" :src="historyMp4[2]"/>-->
+<!--          <onTimeVideo  :height="height" :width="width" class="" :src="historyMp4[3]"/>-->
+<!--        </div>-->
+
+<!--        <div class="content-footer-vedio-list clearfix" v-if="vedioNum==16" style="padding: 48px 0 0px">-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[4]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[5]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[6]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[7]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[8]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[9]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[10]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[11]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[12]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[13]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[14]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[15]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[16]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[17]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[18]"/>-->
+<!--          </div>-->
+<!--          <div class="content-footer-vedio-list-item16 mb0 flex-y-center flex-x-center">-->
+<!--            <onTimeVideo :height="height2" :width="width2"   :src="historyMp4[19]"/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="leftClose" @click="isLeft=!isLeft">-->
+<!--          <img src="@/assets/images/leftClose.png" v-if="isLeft"/>-->
+<!--          <img src="@/assets/images/rightClose.png" v-else/>-->
+<!--        </div>-->
+<!--        <div class="showList" v-if="isLeft">-->
+<!--          <div class="top flex-xy-center">监控点</div>-->
+<!--          <div class="content">-->
+<!--            <el-input placeholder="请输入名称" v-model="watchMsg"></el-input>-->
+<!--            <div class="msg blue flex-xy-center">正大门出入口摄像机</div>-->
+<!--            <div class="msg blue flex-xy-center">A营区枪械存放摄像机</div>-->
+<!--            <div class="msg blue flex-xy-center">A营区训练场摄像机</div>-->
+<!--            <div class="msg blue flex-xy-center">A营区地库摄像机</div>-->
+<!--            <div class="top flex-xy-center mt">预设方案</div>-->
+<!--            <div class="msg flex-xy-center">方案1</div>-->
+<!--            <div class="msg flex-xy-center">方案2</div>-->
+<!--            <div class="msg flex-xy-center">方案3</div>-->
+<!--            <div class="msg flex-xy-center">方案4</div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="content-footer-vedio-footer flex-row flex-x-center" :style="{marginTop: vedioNum===4?'22px':'0'}">-->
+<!--          <div class="btn" :class="[vedioNum==4?'active':'']" @click="vedioNum = 4">1*1</div>-->
+<!--          <div class="btn" :class="[vedioNum==16?'active':'']" @click="vedioNum = 16">2*2</div>-->
+<!--        </div>-->
+
+<!--      </div>-->
       <div class="content-footer-bullet">
-        <zy-title text="枪弹管理"/>
+        <zy-title text="枪弹管理" leftTitle="枪支在位率80%"/>
         <Bullet/>
       </div>
       <div class="content-footer-vehicle">
-        <zy-title text="车辆管理"/>
+        <zy-title text="车辆管理" leftTitle="车辆在位率80%"/>
         <brokenLine/>
       </div>
       <div class="content-footer-device">
-        <zy-title text="设备运维"/>
+        <zy-title text="设备运维" leftTitle="正常运行率84%"/>
         <div class="content-footer-device-box">
           <div class="flex-row  flex-y-center">
             <div ref="myChart_pie1" :style="{width: '100px', height: '100px'}" class="flex-grow-0"></div>
@@ -201,7 +243,7 @@
               <div class="sb-item" style="margin-right: 26px">
                 <span class="ry" style="background: #0F71EA;"></span>
                 <span class="title">传感器</span>
-                <div class="num">8台</div>
+                <div class="num">48台</div>
               </div>
             </div>
           </div>
@@ -234,294 +276,274 @@
 </template>
 
 <script>
-  import {TimeFormat} from '@/utils/utils'
-  import Plain from '@/components/echarts/plain'
-  import Pie from '@/components/echarts/pie'
-  import Month from '@/components/echarts/month'
-  import brokenLine from '@/components/echarts/brokenLine'
-  import Bullet from '@/components/echarts/bullet'
-
-  import earthVideo from '@/components/earthVideo/earthVideo'
-  import zyTitle from '@/components/title/index'
-
-  import 'video.js/dist/video-js.css'
-
-  import {videoPlayer} from 'vue-video-player'
-
-  import 'videojs-flash'
-
-  import SWF_URL from 'videojs-swf/dist/video-js.swf'
-
-
-  export default {
-    name: 'situationMap',
-    data() {
-      return {
-        nowDate: '',
-        timer: null,
-        intnum: null,
-        videoType: true,
-        camp: this.$store.state.camp,
-        campList: [
-          {name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056},
-          {name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611},
-          {name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833}
-        ],
-        campShow: false, // 下拉
-        videoShow: false,
-        temp: 10,
-        vedioNum: 4,
-        isLeft: false,
-        watchMsg: '',
-        videoOptions: {
-          live: false,
-          autoplay: true,
-          fluid: true,
-          notSupportedMessage: '暂时无法播放',
-          controlBar: false,
-          // controlBar: {
-          //   timeDivider: false,
-          //   durationDisplay: false,
-          //   remainingTimeDisplay: false,
-          //   fullscreenToggle: false // 全屏按钮
-          // },
-          techOrder: ['flash'],
-          flash: {
-            hls: {withCredentials: false},
-            swf: SWF_URL // 引入静态文件swf
-          },
-          sources: [{ // 流配置，数组形式，会根据兼容顺序自动切换
-            type: 'rtmp/mp4',
-            src: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc' // 这是芒果TV现场直播视频，地址是可以用的，最后需要替换成后端给的项目地址
-          }]
-        }
-      }
-    },
-    computed: {
-      campName: {
-        get() {
-          return `${this.camp}营区`
-        },
-        set(val) {
-          this.camp = val
-        }
-
-
-      }
-    },
-    components: {
-      Plain,
-      Pie,
-      brokenLine,
-      Month,
-      Bullet,
-      earthVideo,
-      zyTitle,
-      videoPlayer
-    },
-
-    created() {
-      this.getDate()
-    },
-
-    mounted() {
-      this.drawPie1()
-      this.drawPie2()
-    },
-    beforeDestroy() {
-      clearInterval(this.timer)
-      this.timer = null
-    },
-    methods: {
-      getDate() {
-        this.timer = setInterval(() => { // 创建定时器
-          var date = new Date()
-          this.nowDate = TimeFormat(date)
-        }, 1000)
+import { TimeFormat } from '@/utils/utils'
+import Plain from '@/components/echarts/plain'
+import Pie from '@/components/echarts/pie'
+import Month from '@/components/echarts/month'
+import brokenLine from '@/components/echarts/brokenLine'
+import Bullet from '@/components/echarts/bullet'
+import earthVideo from '@/components/earthVideo/earthVideo'
+import zyTitle from '@/components/title/index'
+import onTimeVideo from '@/components/onTimeVideo/index'
+export default {
+  name: 'situationMap',
+  data () {
+    return {
+      width: '404px',
+      height: '220px',
+      width2: '832px',
+      height2: '464px',
+      onlineVideo: null,
+      onLine: [],
+      historyMp4: [],
+      srcA: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc',
+      srcB: '/video/AB.mp4',
+      nowDate: '',
+      timer: null,
+      intnum: null,
+      videoType: 1,
+      camp: this.$store.state.camp,
+      campList: [
+        { name: 'A', zoom: 16, lng: 115.750556, lat: 39.603056 },
+        { name: 'B', zoom: 17, lng: 115.764722, lat: 39.603611 },
+        { name: 'C', zoom: 17, lng: 115.766111, lat: 39.605833 }
+      ],
+      campShow: false, // 下拉
+      videoShow: false,
+      temp: 10,
+      vedioNum: 4,
+      isLeft: false,
+      watchMsg: ''
+    }
+  },
+  computed: {
+    campName: {
+      get () {
+        return `${this.camp}营区`
       },
-      chooseCamp(val) {
-        // this.videoSrc = `/video/${this.camp}${val}.mp4`
-        this.$store.commit('updateCamp', val)
-        // this.videoShow = true
+      set (val) {
         this.camp = val
-        // this.campShow = false
-      },
-      drawPie1() {
-        var myChart = this.$echarts.init(this.$refs.myChart_pie1)
-        var scale = 1
-        var echartData = [{
-          value: parseInt(120),
-          name: '摄像机'
-        },
-          {
-            value: parseInt(8),
-            name: '车行道闸'
-          },
-          {
-            value: parseInt(32),
-            name: '人行道闸'
-          }
-        ]
-
-        var option = {
-          // backgroundColor: 'rgba(0,0,0,0)',
-
-          title: [{
-            text: '160台',
-            left: '24%',
-            top: '20%',
-            padding: [14, 0],
-            textStyle: {
-              color: '#fff',
-              fontSize: 20 * scale,
-              align: 'center'
-            }
-          }, {
-            text: '设备总数',
-            left: '22%',
-            top: '42%',
-            padding: [15, 0],
-            textStyle: {
-              color: '#fff',
-              fontSize: 14 * scale,
-              align: 'center'
-            }
-          }],
-          series: [{
-            //						name: '设备总数',
-            type: 'pie', // 环形图的type和饼图相同
-            // center: ['30%', '50%'],
-            radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
-            avoidLabelOverlap: false,
-            hoverAnimation: false,
-            color: ['rgba(0, 255, 252, 1)', 'rgba(15, 113, 234, 1)', 'rgba(15, 234, 138, 1)'],
-            label: {
-              normal: { // 正常的样式
-                show: false,
-                position: 'center',
-                textStyle: {
-                  color: '#fff',
-                  fontSize: 20 * scale,
-                  //									align: 'center',
-                  fontWeight: 'bold',
-                  margin: [0, 0, 0, 5]
-                },
-                formatter: function (name) {
-                  var target = 0
-                  for (var j = 0; j < echartData.length; j++) {
-                    target += echartData[j].value
-                  }
-                  // console.log(target)
-                  var arr = target + '台'
-                  return arr
-                }
-              }
-            }, // 提示文字
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            itemStyle: {
-              borderWidth: 7,
-              borderColor: '#050e28'
-            },
-            data: echartData
-          }]
-        }
-        myChart.setOption(option)
-      },
-      drawPie2() {
-        var myChart = this.$echarts.init(this.$refs.myChart_pie2)
-        var scale = 1
-        var echartData = [{
-          value: parseInt(18),
-          name: '摄像机'
-        },
-          {
-            value: parseInt(4),
-            name: '车行道闸'
-          },
-          {
-            value: parseInt(10),
-            name: '人行道闸'
-          }
-        ]
-
-        var option = {
-          // backgroundColor: 'rgba(0,0,0,0)',
-
-          title: [{
-            text: '32台',
-            left: '28%',
-            top: '20%',
-            padding: [14, 0],
-            textStyle: {
-              color: '#fff',
-              fontSize: 20 * scale,
-              align: 'center'
-            }
-          }, {
-            text: '故障总数',
-            left: '22%',
-            top: '42%',
-            padding: [15, 0],
-            textStyle: {
-              color: '#fff',
-              fontSize: 14 * scale,
-              align: 'center'
-            }
-          }],
-          series: [{
-            //						name: '设备总数',
-            type: 'pie', // 环形图的type和饼图相同
-            // center: ['30%', '50%'],
-            radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
-            avoidLabelOverlap: false,
-            hoverAnimation: false,
-            color: ['rgba(249,65,55, 1)', 'rgba(232,17,104, 1)', 'rgba(255,140,0, 1)'],
-            label: {
-              normal: { // 正常的样式
-                show: false,
-                position: 'center',
-                textStyle: {
-                  color: '#fff',
-                  fontSize: 20 * scale,
-                  //									align: 'center',
-                  fontWeight: 'bold',
-                  margin: [0, 0, 0, 5]
-                },
-                formatter: function (name) {
-                  var target = 0
-                  for (var j = 0; j < echartData.length; j++) {
-                    target += echartData[j].value
-                  }
-                  // console.log(target)
-                  var arr = target + '台'
-                  return arr
-                }
-              }
-            }, // 提示文字
-            labelLine: {
-              normal: {
-                show: false
-              }
-            },
-            itemStyle: {
-              borderWidth: 7,
-              borderColor: '#050e28'
-            },
-            data: echartData
-          }]
-        }
-        myChart.setOption(option)
-      },
-      videoPre(status) {
-        this.videoType = status
-        this.vedioNum = 4
       }
+
+    }
+  },
+  components: {
+    Plain,
+    Pie,
+    brokenLine,
+    Month,
+    Bullet,
+    earthVideo,
+    zyTitle,
+    onTimeVideo
+  },
+  created () {
+    this.getDate()
+    this.onLine = mapId.onLine
+    this.historyMp4 = mapId.historyMp4
+  },
+
+  mounted () {
+    this.drawPie1()
+    this.drawPie2()
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
+    this.timer = null
+  },
+  methods: {
+    getDate () {
+      this.timer = setInterval(() => { // 创建定时器
+        var date = new Date()
+        this.nowDate = TimeFormat(date)
+      }, 1000)
+    },
+    chooseCamp (val) {
+      // this.videoSrc = `/video/${this.camp}${val}.mp4`
+      this.$store.commit('updateCamp', val)
+      // this.videoShow = true
+      this.camp = val
+      // this.campShow = false
+    },
+    drawPie1 () {
+      var myChart = this.$echarts.init(this.$refs.myChart_pie1)
+      var scale = 1
+      var echartData = [{
+        value: parseInt(120),
+        name: '摄像机'
+      },
+      {
+        value: parseInt(48),
+        name: '道闸'
+      },
+      {
+        value: parseInt(32),
+        name: '传感器'
+      }
+      ]
+
+      var option = {
+        // backgroundColor: 'rgba(0,0,0,0)',
+
+        title: [{
+          text: '200台',
+          left: '24%',
+          top: '20%',
+          padding: [14, 0],
+          textStyle: {
+            color: '#fff',
+            fontSize: 20 * scale,
+            align: 'center'
+          }
+        }, {
+          text: '设备总数',
+          left: '22%',
+          top: '42%',
+          padding: [15, 0],
+          textStyle: {
+            color: '#fff',
+            fontSize: 14 * scale,
+            align: 'center'
+          }
+        }],
+        series: [{
+          //						name: '设备总数',
+          type: 'pie', // 环形图的type和饼图相同
+          // center: ['30%', '50%'],
+          radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
+          avoidLabelOverlap: false,
+          hoverAnimation: false,
+          color: ['rgba(0, 255, 252, 1)', 'rgba(15, 113, 234, 1)', 'rgba(15, 234, 138, 1)'],
+          label: {
+            normal: { // 正常的样式
+              show: false,
+              position: 'center',
+              textStyle: {
+                color: '#fff',
+                fontSize: 20 * scale,
+                //									align: 'center',
+                fontWeight: 'bold',
+                margin: [0, 0, 0, 5]
+              },
+              formatter: function (name) {
+                var target = 0
+                for (var j = 0; j < echartData.length; j++) {
+                  target += echartData[j].value
+                }
+                // console.log(target)
+                var arr = target + '台'
+                return arr
+              }
+            }
+          }, // 提示文字
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          itemStyle: {
+            borderWidth: 7,
+            borderColor: '#050e28'
+          },
+          data: echartData
+        }]
+      }
+      myChart.setOption(option)
+    },
+    drawPie2 () {
+      var myChart = this.$echarts.init(this.$refs.myChart_pie2)
+      var scale = 1
+      var echartData = [{
+        value: parseInt(18),
+        name: '摄像机'
+      },
+      {
+        value: parseInt(4),
+        name: '车行道闸'
+      },
+      {
+        value: parseInt(10),
+        name: '人行道闸'
+      }
+      ]
+
+      var option = {
+        // backgroundColor: 'rgba(0,0,0,0)',
+
+        title: [{
+          text: '32台',
+          left: '28%',
+          top: '20%',
+          padding: [14, 0],
+          textStyle: {
+            color: '#fff',
+            fontSize: 20 * scale,
+            align: 'center'
+          }
+        }, {
+          text: '故障总数',
+          left: '22%',
+          top: '42%',
+          padding: [15, 0],
+          textStyle: {
+            color: '#fff',
+            fontSize: 14 * scale,
+            align: 'center'
+          }
+        }],
+        series: [{
+          //						name: '设备总数',
+          type: 'pie', // 环形图的type和饼图相同
+          // center: ['30%', '50%'],
+          radius: ['66%', '100%'], // 饼图的半径，第一个为内半径，第二个为外半径
+          avoidLabelOverlap: false,
+          hoverAnimation: false,
+          color: ['rgba(249,65,55, 1)', 'rgba(232,17,104, 1)', 'rgba(255,140,0, 1)'],
+          label: {
+            normal: { // 正常的样式
+              show: false,
+              position: 'center',
+              textStyle: {
+                color: '#fff',
+                fontSize: 20 * scale,
+                //									align: 'center',
+                fontWeight: 'bold',
+                margin: [0, 0, 0, 5]
+              },
+              formatter: function (name) {
+                var target = 0
+                for (var j = 0; j < echartData.length; j++) {
+                  target += echartData[j].value
+                }
+                // console.log(target)
+                var arr = target + '台'
+                return arr
+              }
+            }
+          }, // 提示文字
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          itemStyle: {
+            borderWidth: 7,
+            borderColor: '#050e28'
+          },
+          data: echartData
+        }]
+      }
+      myChart.setOption(option)
+    },
+    videoPre (status) {
+      if (this.videoType === status) {
+        return
+      }
+      this.videoType = status
+      this.vedioNum = 4
     }
   }
+}
 </script>
 
 <style lang="scss" scoped type="text/scss">
@@ -1052,7 +1074,6 @@
     border-radius: 2px;
     cursor: pointer;
   }
-
 
 </style>
 <style>

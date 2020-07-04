@@ -8,29 +8,30 @@ export default {
   data () {
     return {
       roundOption: {
-        title: [{
-          text: '共出入',
-          left: '48.5%',
-          top: '35%',
-          padding: [14, 0],
-          textStyle: {
-            color: '#fff',
-            fontSize: 18,
-            align: 'center',
-            fontWeight: 'normal'
-          }
-        }, {
-          text: '143人',
-          left: '46.5%',
-          top: '44%',
-          padding: [15, 0],
-          textStyle: {
-            color: '#fff',
-            fontSize: 26,
-            align: 'center',
-            fontWeight: 'normal'
-          }
-        }],
+        title: [
+          {
+            text: '共出入',
+            left: '48.5%',
+            top: '35%',
+            padding: [14, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 18,
+              align: 'center',
+              fontWeight: 'normal'
+            }
+          }, {
+            text: '143人',
+            left: '46.5%',
+            top: '44%',
+            padding: [15, 0],
+            textStyle: {
+              color: '#fff',
+              fontSize: 26,
+              align: 'center',
+              fontWeight: 'normal'
+            }
+          }],
         tooltip: {
           trigger: 'item',
           formatter: ' {b}：{c} '
@@ -62,12 +63,12 @@ export default {
           {
             name: '访问来源',
             type: 'pie',
-            radius: ['40%', '65%'],
+            radius: ['45%', '60%'],
             center: ['55%', '50%'],
             labelLine: {
               normal: {
-                length: 20,
-                length2: 90
+                length: 0,
+                length2: 30
               }
 
             },
@@ -81,15 +82,15 @@ export default {
                 //  {b}  代表显示的内容标题
                 // {c}代表数据
                 formatter: '{b|{b}}{c|{c}人}',
-                borderWidth: 25,
+                borderWidth: 5,
                 borderRadius: 4,
-                padding: [0, -100, 30, -100],
+
                 rich: {
                   c: {
                     fontSize: 14,
                     lineHeight: 18,
                     color: '#fff',
-                    padding: [0,5]
+                    padding: [0, 5]
                   },
                   b: {
                     fontSize: 14
@@ -102,7 +103,6 @@ export default {
               { value: 3, name: '黑名单' },
               { value: 15, name: '其他' },
               { value: 40, name: '军人' },
-
 
               { value: 60, name: '内部人员' }
             ]

@@ -1,22 +1,27 @@
 <template>
   <div class="zy-common-header" :class="[type==2?'big':'']">
-    <div class="title">
-      {{text}}
+    <div class="title flex-x-between">
+      <span>{{text}}</span>
+      <span>{{leftTitle}}</span>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "",
-    props: {
-      text: String,
-      type: {
-        type: Number,
-        default: 1
-      }
+export default {
+  name: '',
+  props: {
+    text: String,
+    type: {
+      type: Number,
+      default: 1
+    },
+    leftTitle: {
+      type: String,
+      default: ''
     }
   }
+}
 </script>
 
 <style lang="scss" scoped type="text/scss">
@@ -35,6 +40,11 @@
       padding: 0 25px;
       color: #ffffff;
       opacity: 1;
+      span:last-child {
+        font-size: 18px;
+        letter-spacing: 0.15em;
+      }
+
     }
   }
 </style>
