@@ -41,13 +41,13 @@
       <div class="EquBody">
         <div class="divs flex-xy-center" >
           <span class="flex-y-center" style="width: 100px"><span style="color: red;font-size: 24px">*</span>设备类型:</span>
-          <el-select v-model="EquObj.type" placeholder="请选择类型" style="width: 332px" :popper-append-to-body="false">
-            <el-option value='1' label="哨兵">哨兵</el-option>
-            <el-option value='2' label="摄像机">摄像机</el-option>
-            <el-option value='3' label="传感器">传感器</el-option>
-            <el-option value='4' label="道闸">道闸</el-option>
-            <el-option value='5' label="要素">要素</el-option>
-          </el-select>
+          <el-cascader
+            v-model="EquObj.sb" style="width: 332px"
+            placeholder="请选择关联设备"
+            :popper-append-to-body="false"
+            :options="options"
+            :props="{ expandTrigger: 'hover' }"
+            @change="handleChange"></el-cascader>
         </div>
 
         <div class="flex-y-center">
@@ -57,14 +57,13 @@
 
         <div class="flex-xy-center">
           <span class="flex-y-center" style="width: 100px"><span style="color: red;font-size: 24px">*</span>关联设备:</span>
-          <el-cascader
-            :disabled="this.EquObj.type!=='2'"
-            v-model="EquObj.con" style="width: 332px"
-            placeholder="请选择关联设备"
-            :popper-append-to-body="false"
-            :options="options"
-            :props="{ expandTrigger: 'hover' }"
-            @change="handleChange"></el-cascader>
+          <el-select v-model="EquObj.con" placeholder="请选择类型" style="width: 332px" :popper-append-to-body="false">
+            <el-option value='1' label="周界1">周界1</el-option>
+            <el-option value='2' label="周界2">周界2</el-option>
+            <el-option value='3' label="周界3">周界3</el-option>
+            <el-option value='4' label="周界4">周界4</el-option>
+            <el-option value='5' label="周界5">周界5</el-option>
+          </el-select>
         </div>
         <div class="btn">
           <div class="flex-xy-center" @click="showEqu=false">取消</div>
@@ -140,69 +139,62 @@ export default {
       selectList: [],
       options: [
         {
-          value: 1,
-          label: '人脸采集摄像头',
-          children: [{
-            value: 11,
-            label: '周界1'
-          }, {
-            value: 12,
-            label: '周界2'
-          }, {
-            value: 13,
-            label: '周界3'
-          }, {
-            value: 14,
-            label: '周界4'
-          }, {
-            value: 15,
-            label: '周界5'
-          }, {
-            value: 16,
-            label: '周界6'
-          }, {
-            value: 17,
-            label: '周界7'
-          }, {
-            value: 18,
-            label: '周界8'
-          }]
+          value: '1',
+          label: '哨兵'
         }, {
-          value: 2,
-          label: '监控半球（室内+公桌）'
+          value: '2',
+          label: '摄像机',
+          children: [
+            {
+              value: '21',
+              label: '人脸采集摄像头'
+            }, {
+              value: '22',
+              label: '监控半球（室内+公桌）'
+            }, {
+              value: '23',
+              label: '夜市网络球型摄像机'
+            }, {
+              value: '24',
+              label: '热成像监测摄像机'
+            }, {
+              value: '25',
+              label: '防爆摄像机'
+            }, {
+              value: '26',
+              label: '防油污摄像机'
+            }, {
+              value: '27',
+              label: '全景抓拍网络摄像机'
+            }, {
+              value: '28',
+              label: '180度AR全景摄像机'
+            }, {
+              value: '29',
+              label: '360度AR全景摄像机'
+            }, {
+              value: '210',
+              label: '高清卡口抓拍机'
+            }, {
+              value: '211',
+              label: '智能网络摄像机'
+            }, {
+              value: '212',
+              label: '180度全景摄像机（近距离、无球机）'
+            }, {
+              value: '213',
+              label: '人脸抓拍摄像机'
+            }
+          ]
         }, {
-          value: 3,
-          label: '夜市网络球型摄像机'
+          value: '3',
+          label: '传感器'
         }, {
-          value: 4,
-          label: '热成像监测摄像机'
+          value: '4',
+          label: '道闸'
         }, {
-          value: 5,
-          label: '防爆摄像机'
-        }, {
-          value: 6,
-          label: '防油污摄像机'
-        }, {
-          value: 7,
-          label: '全景抓拍网络摄像机'
-        }, {
-          value: 8,
-          label: '180度AR全景摄像机'
-        }, {
-          value: 9,
-          label: '360度AR全景摄像机'
-        }, {
-          value: 10,
-          label: '高清卡口抓拍机'
-        }, {
-          value: 11,
-          label: '智能网络摄像机'
-        }, {
-          value: 12,
-          label: '180度全景摄像机（近距离、无球机）'
-        }, {
-          value: 13,
-          label: '人脸抓拍摄像机'
+          value: '5',
+          label: '要素'
         }
       ],
       // layers: [
@@ -215,7 +207,8 @@ export default {
       EquObj: {
         type: '',
         name: '',
-        con: ''
+        con: '',
+        sb: null
       },
       mList: [],
       sbList: [],
@@ -464,7 +457,12 @@ export default {
       }
     },
     handleChange () {
-
+      console.log(this.EquObj.sb.length)
+      if (this.EquObj.sb.length === 2) {
+        this.EquObj.type = this.EquObj.sb[1]
+      } else {
+        this.EquObj.type = this.EquObj.sb[0]
+      }
     },
     addEqu () {
       const that = this
@@ -486,6 +484,7 @@ export default {
     starOk () {
       this.marker.remove()
       let obj = null
+      console.log(this.EquObj.type)
       switch (this.EquObj.type) {
         case '1':
           obj = {
@@ -535,15 +534,172 @@ export default {
         case '5':
           obj = {
             type: 5,
-            lng: 115.770516, // 经度
-            lat: 39.605005, // 纬度
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
             imgUrl: require('../../assets/i/ys.png'),
             isShow: true,
             tkImg: require('../../assets/img/ystk.png'),
             tkImgDetail: require('../../assets/img/ystkxq.png')
           }
           break
+        case '21':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt1.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[3]
+          }
+          break
+        case '22':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt2.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[4]
+          }
+          break
+        case '23':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt3.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[5]
+          }
+          break
+        case '24':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt4.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[6]
+          }
+          break
+        case '25':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt5.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[7]
+          }
+          break
+        case '26':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt6.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[8]
+          }
+          break
+        case '27':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt7.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[9]
+          }
+          break
+        case '28':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt8.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[10]
+          }
+          break
+        case '29':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt9.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[11]
+          }
+          break
+        case '210':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt10.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[12]
+          }
+          break
+        case '211':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt11.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[13]
+          }
+          break
+        case '212':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt12.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[14]
+          }
+          break
+        case '213':
+          obj = {
+            type: 2,
+            lng: this.latlng.lng, // 经度
+            lat: this.latlng.lat, // 纬度
+            imgUrl: require('../../assets/images/sxt13.png'),
+            isShow: true,
+            tkImg: require('../../assets/img/sxttk.png'),
+            tkImgDetail: require('../../assets/img/sxttkxq.png'),
+            mapMovie: mapId.mapMovie[15]
+          }
+          break
       }
+      console.log(obj)
       this.list.push(obj)
       this.showEqu = false
       this.EquObj.type = ''
@@ -631,7 +787,7 @@ export default {
       z-index:300
     }
     .openSearch {
-      width: 82px;
+      width: 72px;
       height: 56px;
       background: #003ACB;
       position: absolute;

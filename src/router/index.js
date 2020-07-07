@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/campScreen',
     name: 'campScreen',
     component: () => import('../views/campScreen.vue'),
     meta: { title: '首页', keepAlive: true, auth: false }
@@ -15,6 +15,12 @@ const routes = [
     name: 'situationMap',
     component: () => import('../views/situationMap.vue'),
     meta: { title: '首页', keepAlive: false, auth: false }
+  },
+  {
+    path: '/',
+    name: 'login',
+    component: () => import('../views/login.vue'),
+    meta: { title: '登录页', keepAlive: false, auth: false }
   },
   {
     path: '/historyHead',
